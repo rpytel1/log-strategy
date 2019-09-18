@@ -35,11 +35,11 @@ public class JavaCompilationUnit {
 	}
 
 	/**
-	 * Get the body and the content of all methdds.
+	 * Get the body and the content of all methods.
 	 */
 	public List<String> getMethods() {
 		return compilationUnit.findAll(MethodDeclaration.class).stream()
-				.map(method -> method.getNameAsString() + method.getBody())
+				.map(method -> new MethodRepresentation(method.getNameAsString(), method.getSignature().toString(), method.getBody().toString()).toString())
 				.collect(Collectors.toList());
 	}
 
