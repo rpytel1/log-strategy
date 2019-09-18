@@ -1,0 +1,6 @@
+clusterUpOptional[{finalConfigurationconf=newHdfsConfiguration();cluster=newMiniDFSCluster.Builder(conf).numDataNodes(3).build();cluster.waitActive();}]
+0
+simpleReadAfterWriteOptional[{finalPathpath=newPath(TEST_PATH,FILENAME);if(!fs.mkdirs(path.getParent())){thrownewIOException("Mkdirsfailedtocreate"+TEST_PATH);}try(FSDataOutputStreamout=fs.create(path)){out.writeUTF(TEXT);}try(FSDataInputStreamin=fs.open(path)){finalStringresult=in.readUTF();Assert.assertEquals("Didn'treadbacktextwewrote.",TEXT,result);}}]
+1
+clusterDownOptional[{if(cluster!=null){cluster.close();}}]
+0
