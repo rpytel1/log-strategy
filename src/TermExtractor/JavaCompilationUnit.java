@@ -39,7 +39,8 @@ public class JavaCompilationUnit {
 	 */
 	public List<String> getMethods() {
 		return compilationUnit.findAll(MethodDeclaration.class).stream()
-				.map(method -> new MethodRepresentation(method.getNameAsString(), method.getSignature().toString(), method.getBody().toString()).toString())
+				.map(method ->
+						method.getBody().isPresent()? new MethodRepresentation(method.getNameAsString(), method.getDeclarationAsString(), method.getBody().get().toString()).toString() : "")
 				.collect(Collectors.toList());
 	}
 
@@ -50,8 +51,11 @@ public class JavaCompilationUnit {
 	}
 
 	public List<String> getMethodBodies() {
+
+
 		return compilationUnit.findAll(MethodDeclaration.class).stream()
-				.map(method -> method.getBody().get().toString())
+				.map(
+						method -> method.getBody().get().toString())
 				.collect(Collectors.toList());
 	}
 	

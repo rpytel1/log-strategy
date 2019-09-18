@@ -1,5 +1,7 @@
 package TermExtractor;
 
+import java.util.Optional;
+
 public final class MethodRepresentation {
     public String methodName;
     public String signature;
