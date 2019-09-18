@@ -10,16 +10,14 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Objects;
 import java.util.stream.Collectors;
-
 import org.apache.commons.io.FileUtils;
-
 
 public final class Repository {
 	
 	private static final String CSV_DELIMITER = ",";
 	
-	private final Path path;
-	private final String name;
+	public final Path path;
+	public final String name;
 	
 	public Repository (Path path) {
 		this.path = path;
@@ -52,12 +50,11 @@ public final class Repository {
 				.collect(Collectors.toList());
 	}
 	
-	public String getCsvRepresentation() {
+	public String getRepresentation() {
 		System.out.println(this.name + " is beeing parsed.");
-		String name = this.name + CSV_DELIMITER;
 		List<String> terms = getAllTerms();
 		System.out.println("Found " + terms.size() + " functions for " + this.name + ".");
-		return name + String.join(CSV_DELIMITER, terms);
+		return String.join("\n", terms);
 	}
 	
 	public Map<String, Long> getTermOccurances() {

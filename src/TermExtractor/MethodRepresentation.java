@@ -1,7 +1,5 @@
 package TermExtractor;
 
-import java.util.Optional;
-
 public final class MethodRepresentation {
     public String methodName;
     public String signature;
@@ -13,10 +11,6 @@ public final class MethodRepresentation {
 
         //remove all line breaks for exporting it to txt
         this.body = Preprocessor.removeLineBreaks(body);
-
-        System.out.println("--------------------------------");
-        System.out.println(this);
-        System.out.println("--------------------------------");
     }
 
     @Override

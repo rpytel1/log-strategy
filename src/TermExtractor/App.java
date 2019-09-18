@@ -1,6 +1,5 @@
 package TermExtractor;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
@@ -18,28 +17,28 @@ public class App {
 	 * VM Arguments: -Xmx4g -Xmx8g -XX:+UseG1GC
 	 */
 	public static void main(String[] args) throws IOException {
-		String repoDir = "C:/Users/Jan/Desktop/Repositories/";
-
-		generateCsv(getAllRepositories(repoDir));
+		if(args.length == 1){
+			Path repoDir = Paths.get(args[0]);
+			generateOutput(getAllRepositories(repoDir));
+		} else {
+					throw new IllegalArgumentException("The first argument is the directory containing all the java repositories to parse.");
+		}
 	}
 	
-	private static void generateCsv(List<Repository> repositories) {
+	private static void generateOutput(List<Repository> repositories) throws IOException{
 		for (Repository repository: repositories) {
-			List<String> repoCsv = Stream.of(repository.getCsvRepresentation())
+			List<String> repoRepresentation = Stream.of(repository.getRepresentation())
 					.collect(Collectors.toList());
-			try {
-				String fileName = repository.toString();
-				writeOutputFile("result/" + fileName + ".txt", repoCsv);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+
+			String fileName = repository.name;
+			writeOutputFile("result/" + fileName + ".txt", repoRepresentation);
 		}
 	}
 
-	public static List<Repository> getAllRepositories(String repoDir) throws IOException {
+	public static List<Repository> getAllRepositories(Path repoDir) throws IOException {
 		List<Repository> repositories = new ArrayList<>();
 
-		Files.list(new File(repoDir).toPath())
+		Files.list(repoDir)
 				.limit(100)
 				.forEach(path -> {
 					repositories.addAll(getRepository(path));
