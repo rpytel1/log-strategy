@@ -1,6 +1,11 @@
 package TermExtractor;
 
+/*
+This class contains all information tom represent a method.
+ */
 public final class MethodRepresentation {
+    private static final String DELIMITER = "\n";
+
     public String methodName;
     public String signature;
     public String body;
@@ -15,6 +20,6 @@ public final class MethodRepresentation {
 
     @Override
     public String toString(){
-        return methodName + "\n" + signature + "\n" + body;
+        return methodName + DELIMITER + signature + DELIMITER + body;
     }
 }
