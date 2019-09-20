@@ -1,15 +1,17 @@
 import re;
+import codecs;
 
-filename = 'kafka';
 
-f = open(filename + '.txt', "r")
+filename = 'camel';
+
+f = open(filename + '.txt', "r", encoding='utf-8')
 lines = f.readlines();
 f.close()
 
 #REGEX FAILS IF LOG STATEMENT CONTAINS ; IN STRING
 regex = re.compile('(((log)|(logger))[.]((debug)|(info)|(warn)|(fatal)|(error))[^;]*;)', flags=re.I)
 
-f = open( filename + "_filtered.txt", "w")
+f = codecs.open( filename + "_filtered.txt", "w", "utf-8")
 
 logcount = 0;
 nologcount = 0;
@@ -47,6 +49,7 @@ for l in lines:
 
 f.close()
 
+print(filename)
 print("Functions with log: ", logcount)
 print("Functions without log: ", nologcount)
 
