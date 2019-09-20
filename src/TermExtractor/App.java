@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-
 public class App {
 	/*
 	 * This has to be run with the G1 Garbage Collector
@@ -56,8 +55,14 @@ public class App {
 	
 	private static void writeOutputFile(String path, List<String> rows) throws IOException {
 		Path outputPath = Paths.get(path);
+
+		List<String> output = new ArrayList<>();
+		for (String row : rows) {
+			output.add(Preprocessor.removeEmptyLines(row));
+		}
+
 		System.out.println("Writing to " + path);
-		Files.write(outputPath, rows, Charset.forName("UTF-8"));
+		Files.write(outputPath, output, Charset.forName("UTF-8"));
 		System.out.println("Wrote to " + path);
 		System.out.println("-----------------------------------------------------------");
 	}

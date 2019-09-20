@@ -1,16 +1,18 @@
 package TermExtractor;
 
 public final class MethodRepresentation {
-    public String methodName;
-    public String signature;
-    public String body;
+    public String methodName = "";
+    public String signature = "";
+    public String body = "";
 
-    MethodRepresentation(String name, String signature, String body){
-        this.methodName = name;
-        this.signature = signature;
+    MethodRepresentation(String name, String signature, String body) {
+        if(Preprocessor.syntaxValidator(signature + body)){
+            this.methodName = name;
+            this.signature = signature;
 
-        //remove all line breaks for exporting it to txt
-        this.body = Preprocessor.removeLineBreaks(body);
+            //remove all line breaks for exporting it to txt
+            this.body = Preprocessor.removeLineBreaks(body);
+        }
     }
 
     @Override
