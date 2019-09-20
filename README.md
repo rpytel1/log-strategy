@@ -1,4 +1,15 @@
+## Java Parser
+
+Run the app.java class in src/TermExtractor to extract all functions from java classes.
+
+Run the Parser with "-Xmx4g -Xmx8g -XX:+UseG1GC" compiler options and a path to a directory containing all java classes as an argument.
+
+
+
+
+
 # PyTorch Template Project
+
 PyTorch deep learning project made easy.
 
 <!-- @import "[TOC]" {cmd="toc" depthFrom=1 depthTo=6 orderedList=false} -->
@@ -296,7 +307,7 @@ If you have additional information to be logged, in `_train_epoch()` of your tra
   log = log.update(additional_log)
   return log
   ```
-  
+
 ### Testing
 You can test trained model by running `test.py` passing path to the trained checkpoint by `--resume` argument.
 
