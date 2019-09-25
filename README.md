@@ -1,406 +1,337 @@
-# PyTorch Template Project
-PyTorch deep learning project made easy.
+# Code2vec
+A neural network for learning distributed representations of code.
+This is an official implementation of the model described in:
 
-<!-- @import "[TOC]" {cmd="toc" depthFrom=1 depthTo=6 orderedList=false} -->
+[Uri Alon](http://urialon.cswp.cs.technion.ac.il), [Meital Zilberstein](http://www.cs.technion.ac.il/~mbs/), [Omer Levy](https://levyomer.wordpress.com) and [Eran Yahav](http://www.cs.technion.ac.il/~yahave/),
+"code2vec: Learning Distributed Representations of Code", POPL'2019 [[PDF]](https://urialon.cswp.cs.technion.ac.il/wp-content/uploads/sites/83/2018/12/code2vec-popl19.pdf)
 
-<!-- code_chunk_output -->
+_**October 2018** - The paper was accepted to [POPL'2019](https://popl19.sigplan.org)_!
 
-* [PyTorch Template Project](#pytorch-template-project)
-	* [Requirements](#requirements)
-	* [Features](#features)
-	* [Folder Structure](#folder-structure)
-	* [Usage](#usage)
-		* [Config file format](#config-file-format)
-		* [Using config files](#using-config-files)
-		* [Resuming from checkpoints](#resuming-from-checkpoints)
-    * [Using Multiple GPU](#using-multiple-gpu)
-	* [Customization](#customization)
-		* [Custom CLI options](#custom-cli-options)
-		* [Data Loader](#data-loader)
-		* [Trainer](#trainer)
-		* [Model](#model)
-		* [Loss and metrics](#loss-and-metrics)
-			* [Multiple metrics](#multiple-metrics)
-		* [Additional logging](#additional-logging)
-		* [Validation data](#validation-data)
-		* [Checkpoints](#checkpoints)
-    * [Tensorboard Visualization](#tensorboard-visualization)
-	* [Contributing](#contributing)
-	* [TODOs](#todos)
-	* [License](#license)
-	* [Acknowledgments](#acknowledgments)
+_**April 2019** - The talk video is available [here](https://www.youtube.com/watch?v=EJ8okcxL2Iw)_.
 
-<!-- /code_chunk_output -->
+_**July 2019** - Add `tf.keras` model implementation (see [here](#choosing-implementation-to-use))._
+
+An **online demo** is available at [https://code2vec.org/](https://code2vec.org/).
+
+This is a TensorFlow implementation, designed to be easy and useful in research, 
+and for experimenting with new ideas in machine learning for code tasks.
+By default, it learns Java source code and predicts Java method names, but it can be easily extended to other languages, 
+since the TensorFlow network is agnostic to the input programming language (see [Extending to other languages](#extending-to-other-languages).
+Contributions are welcome.
+This repo actually contains two model implementations. The 1st uses pure TensorFlow and the 2nd uses TensorFlow's Keras ([more details](#choosing-implementation-to-use)). 
+
+<center style="padding: 40px"><img width="70%" src="https://github.com/tech-srl/code2vec/raw/master/images/network.png" /></center>
+
+Table of Contents
+=================
+  * [Requirements](#requirements)
+  * [Quickstart](#quickstart)
+  * [Configuration](#configuration)
+  * [Features](#features)
+  * [Extending to other languages](#extending-to-other-languages)
+  * [Additional datasets](#additional-datasets)
+  * [Citation](#citation)
 
 ## Requirements
-* Python >= 3.5 (3.6 recommended)
-* PyTorch >= 0.4
-* tqdm (Optional for `test.py`)
-* tensorboard >= 1.7.0 (Optional for TensorboardX) or tensorboard >= 1.14 (Optional for pytorch.utils.tensorboard)
-* tensorboardX >= 1.2 (Optional for TensorboardX), see [Tensorboard Visualization][#tensorboardx-visualization]
+On Ubuntu:
+  * [Python3](https://www.linuxbabe.com/ubuntu/install-python-3-6-ubuntu-16-04-16-10-17-04). To check if you have it:
+> python3 --version
+  * TensorFlow - version 2.0.0-beta1 ([install](https://www.tensorflow.org/install/install_linux)).
+  To check TensorFlow version:
+> python3 -c 'import tensorflow as tf; print(tf.\_\_version\_\_)'
+  * If you are using a GPU, you will need CUDA 10.0
+  ([download](https://developer.nvidia.com/cuda-10.0-download-archive-base)) 
+  as this is the version that is currently supported by TensorFlow. To check CUDA version:
+> nvcc --version
+  * For GPU: cuDNN (>=7.5) ([download](http://developer.nvidia.com/cudnn)) To check cuDNN version:
+> cat /usr/include/cudnn.h | grep CUDNN_MAJOR -A 2
+  * For [creating a new dataset](#creating-and-preprocessing-a-new-java-dataset)
+  or [manually examining a trained model](#step-4-manual-examination-of-a-trained-model)
+  (any operation that requires parsing of a new code example) - [Java JDK](https://openjdk.java.net/install/)
 
-## Features
-* Clear folder structure which is suitable for many deep learning projects.
-* `.json` config file support for convenient parameter tuning.
-* Customizable command line options for more convenient parameter tuning.
-* Checkpoint saving and resuming.
-* Abstract base classes for faster development:
-  * `BaseTrainer` handles checkpoint saving/resuming, training process logging, and more.
-  * `BaseDataLoader` handles batch generation, data shuffling, and validation data splitting.
-  * `BaseModel` provides basic model summary.
-
-## Folder Structure
-  ```
-  pytorch-template/
-  │
-  ├── train.py - main script to start training
-  ├── test.py - evaluation of trained model
-  │
-  ├── config.json - holds configuration for training
-  ├── parse_config.py - class to handle config file and cli options
-  │
-  ├── new_project.py - initialize new project with template files
-  │
-  ├── base/ - abstract base classes
-  │   ├── base_data_loader.py
-  │   ├── base_model.py
-  │   └── base_trainer.py
-  │
-  ├── data_loader/ - anything about data loading goes here
-  │   └── data_loaders.py
-  │
-  ├── data/ - default directory for storing input data
-  │
-  ├── model/ - models, losses, and metrics
-  │   ├── model.py
-  │   ├── metric.py
-  │   └── loss.py
-  │
-  ├── saved/
-  │   ├── models/ - trained models are saved here
-  │   └── log/ - default logdir for tensorboardX and logging output
-  │
-  ├── trainer/ - trainers
-  │   └── trainer.py
-  │
-  ├── logger/ - module for tensorboardX visualization and logging
-  │   ├── visualization.py
-  │   ├── logger.py
-  │   └── logger_config.json
-  │  
-  └── utils/ - small utility functions
-      ├── util.py
-      └── ...
-  ```
-
-## Usage
-The code in this repo is an MNIST example of the template.
-Try `python train.py -c config.json` to run code.
-
-### Config file format
-Config files are in `.json` format:
-```javascript
-{
-  "name": "Mnist_LeNet",        // training session name
-  "n_gpu": 1,                   // number of GPUs to use for training.
-  
-  "arch": {
-    "type": "MnistModel",       // name of model architecture to train
-    "args": {
-
-    }                
-  },
-  "data_loader": {
-    "type": "MnistDataLoader",         // selecting data loader
-    "args":{
-      "data_dir": "data/",             // dataset path
-      "batch_size": 64,                // batch size
-      "shuffle": true,                 // shuffle training data before splitting
-      "validation_split": 0.1          // size of validation dataset. float(portion) or int(number of samples)
-      "num_workers": 2,                // number of cpu processes to be used for data loading
-    }
-  },
-  "optimizer": {
-    "type": "Adam",
-    "args":{
-      "lr": 0.001,                     // learning rate
-      "weight_decay": 0,               // (optional) weight decay
-      "amsgrad": true
-    }
-  },
-  "loss": "nll_loss",                  // loss
-  "metrics": [
-    "my_metric", "my_metric2"          // list of metrics to evaluate
-  ],                         
-  "lr_scheduler": {
-    "type": "StepLR",                   // learning rate scheduler
-    "args":{
-      "step_size": 50,          
-      "gamma": 0.1
-    }
-  },
-  "trainer": {
-    "epochs": 100,                     // number of training epochs
-    "save_dir": "saved/",              // checkpoints are saved in save_dir/models/name
-    "save_freq": 1,                    // save checkpoints every save_freq epochs
-    "verbosity": 2,                    // 0: quiet, 1: per epoch, 2: full
-  
-    "monitor": "min val_loss"          // mode and metric for model performance monitoring. set 'off' to disable.
-    "early_stop": 10	                 // number of epochs to wait before early stop. set 0 to disable.
-  
-    "tensorboardX": true,              // enable tensorboardX visualization
-  }
-}
+## Quickstart
+### Step 0: Cloning this repository
+```
+git clone https://github.com/tech-srl/code2vec
+cd code2vec
 ```
 
-Add addional configurations if you need.
-
-### Using config files
-Modify the configurations in `.json` config files, then run:
-
-  ```
-  python train.py --config config.json
-  ```
-
-### Resuming from checkpoints
-You can resume from a previously saved checkpoint by:
-
-  ```
-  python train.py --resume path/to/checkpoint
-  ```
-
-### Using Multiple GPU
-You can enable multi-GPU training by setting `n_gpu` argument of the config file to larger number.
-If configured to use smaller number of gpu than available, first n devices will be used by default.
-Specify indices of available GPUs by cuda environmental variable.
-  ```
-  python train.py --device 2,3 -c config.json
-  ```
-  This is equivalent to
-  ```
-  CUDA_VISIBLE_DEVICES=2,3 python train.py -c config.py
-  ```
-
-## Customization
-
-### Project initialization
-Use the `new_project.py` script to make your new project directory with template files.
-`python new_project.py ../NewProject` then a new project folder named 'NewProject' will be made.
-This script will filter out unneccessary files like cache, git files or readme file. 
-
-### Custom CLI options
-
-Changing values of config file is a clean, safe and easy way of tuning hyperparameters. However, sometimes
-it is better to have command line options if some values need to be changed too often or quickly.
-
-This template uses the configurations stored in the json file by default, but by registering custom options as follows
-you can change some of them using CLI flags.
-
-  ```python
-  # simple class-like object having 3 attributes, `flags`, `type`, `target`.
-  CustomArgs = collections.namedtuple('CustomArgs', 'flags type target')
-  options = [
-      CustomArgs(['--lr', '--learning_rate'], type=float, target=('optimizer', 'args', 'lr')),
-      CustomArgs(['--bs', '--batch_size'], type=int, target=('data_loader', 'args', 'batch_size'))
-      # options added here can be modified by command line flags.
-  ]
-  ```
-`target` argument should be sequence of keys, which are used to access that option in the config dict. In this example, `target` 
-for the learning rate option is `('optimizer', 'args', 'lr')` because `config['optimizer']['args']['lr']` points to the learning rate.
-`python train.py -c config.json --bs 256` runs training with options given in `config.json` except for the `batch size`
-which is increased to 256 by command line options.
-
-
-### Data Loader
-* **Writing your own data loader**
-
-1. **Inherit ```BaseDataLoader```**
-
-    `BaseDataLoader` is a subclass of `torch.utils.data.DataLoader`, you can use either of them.
-
-    `BaseDataLoader` handles:
-    * Generating next batch
-    * Data shuffling
-    * Generating validation data loader by calling
-    `BaseDataLoader.split_validation()`
-
-* **DataLoader Usage**
-
-  `BaseDataLoader` is an iterator, to iterate through batches:
-  ```python
-  for batch_idx, (x_batch, y_batch) in data_loader:
-      pass
-  ```
-* **Example**
-
-  Please refer to `data_loader/data_loaders.py` for an MNIST data loading example.
-
-### Trainer
-* **Writing your own trainer**
-
-1. **Inherit ```BaseTrainer```**
-
-    `BaseTrainer` handles:
-    * Training process logging
-    * Checkpoint saving
-    * Checkpoint resuming
-    * Reconfigurable performance monitoring for saving current best model, and early stop training.
-      * If config `monitor` is set to `max val_accuracy`, which means then the trainer will save a checkpoint `model_best.pth` when `validation accuracy` of epoch replaces current `maximum`.
-      * If config `early_stop` is set, training will be automatically terminated when model performance does not improve for given number of epochs. This feature can be turned off by passing 0 to the `early_stop` option, or just deleting the line of config.
-
-2. **Implementing abstract methods**
-
-    You need to implement `_train_epoch()` for your training process, if you need validation then you can implement `_valid_epoch()` as in `trainer/trainer.py`
-
-* **Example**
-
-  Please refer to `trainer/trainer.py` for MNIST training.
-
-* **Iteration-based training**
-
-  `Trainer.__init__` takes an optional argument, `len_epoch` which controls number of batches(steps) in each epoch.
-
-### Model
-* **Writing your own model**
-
-1. **Inherit `BaseModel`**
-
-    `BaseModel` handles:
-    * Inherited from `torch.nn.Module`
-    * `__str__`: Modify native `print` function to prints the number of trainable parameters.
-
-2. **Implementing abstract methods**
-
-    Implement the foward pass method `forward()`
-
-* **Example**
-
-  Please refer to `model/model.py` for a LeNet example.
-
-### Loss
-Custom loss functions can be implemented in 'model/loss.py'. Use them by changing the name given in "loss" in config file, to corresponding name.
-
-#### Metrics
-Metric functions are located in 'model/metric.py'.
-
-You can monitor multiple metrics by providing a list in the configuration file, e.g.:
-  ```json
-  "metrics": ["my_metric", "my_metric2"],
-  ```
-
-### Additional logging
-If you have additional information to be logged, in `_train_epoch()` of your trainer class, merge them with `log` as shown below before returning:
-
-  ```python
-  additional_log = {"gradient_norm": g, "sensitivity": s}
-  log = log.update(additional_log)
-  return log
-  ```
-  
-### Testing
-You can test trained model by running `test.py` passing path to the trained checkpoint by `--resume` argument.
-
-### Validation data
-To split validation data from a data loader, call `BaseDataLoader.split_validation()`, then it will return a data loader for validation of size specified in your config file.
-The `validation_split` can be a ratio of validation set per total data(0.0 <= float < 1.0), or the number of samples (0 <= int < `n_total_samples`).
-
-**Note**: the `split_validation()` method will modify the original data loader
-**Note**: `split_validation()` will return `None` if `"validation_split"` is set to `0`
-
-### Checkpoints
-You can specify the name of the training session in config files:
-  ```json
-  "name": "MNIST_LeNet",
-  ```
-
-The checkpoints will be saved in `save_dir/name/timestamp/checkpoint_epoch_n`, with timestamp in mmdd_HHMMSS format.
-
-A copy of config file will be saved in the same folder.
-
-**Note**: checkpoints contain:
-  ```python
-  {
-    'arch': arch,
-    'epoch': epoch,
-    'state_dict': self.model.state_dict(),
-    'optimizer': self.optimizer.state_dict(),
-    'monitor_best': self.mnt_best,
-    'config': self.config
-  }
-  ```
-
-### Tensorboard Visualization
-This template supports Tensorboard visualization using either Pytorch 1.1's `torch.utils.tensorboard` capabilities or [TensorboardX](https://github.com/lanpa/tensorboardX).
-
-The template attempts to choose a writing module from a list of modules specified in the config file under "tensorboard.modules". It load the modules in the order specified, only moving on to the next one if the previous one failed.
-
-* **TensorboardX Usage**
-
-1. **Install**
-
-    Follow installation guide in [TensorboardX](https://github.com/lanpa/tensorboardX).
-
-2. **Run training** 
-
-    Set `tensorboard` option in config file to:
-    Set the "tensorboard" entry in the config to:
-    ```
-     "tensorboard" :{
-        "enabled": true,
-        "modules": ["tensorboardX", "torch.utils.tensorboard"]
-    }
-    ```
-
-3. **Open Tensorboard server** 
-
-    Type `tensorboard --logdir saved/log/` at the project root, then server will open at `http://localhost:6006`
-
-* **Pytorch 1.1 torch.utils.tensorboard Usage**
-
-1. **Install**
-
-    Must have Pytorch 1.1 installed and `tensorboard >= 1.14` (`pip install tb-nightly`).
-
-2. **Run training** 
-
-    Set the "tensorboard" entry in the config to:
-    ```
-     "tensorboard" :{
-        "enabled": true,
-        "modules": ["torch.utils.tensorboard", "tensorboardX"]
-    }
-    ```
-
-3. **Open Tensorboard server** 
-
-    Same as above.
-
-By default, values of loss and metrics specified in config file, input images, and histogram of model parameters will be logged.
-If you need more visualizations, use `add_scalar('tag', data)`, `add_image('tag', image)`, etc in the `trainer._train_epoch` method.
-`add_something()` methods in this template are basically wrappers for those of `tensorboardX.SummaryWriter` and `torch.utils.tensorboard.SummaryWriter` modules. 
-
-**Note**: You don't have to specify current steps, since `WriterTensorboard` class defined at `logger/visualization.py` will track current steps.
-
-## Contributing
-Feel free to contribute any kind of function or enhancement, here the coding style follows PEP8
-
-Code should pass the [Flake8](http://flake8.pycqa.org/en/latest/) check before committing.
-
-## TODOs
-
-- [ ] Using fixed random seed
-- [ ] Check pytorch 1.1
-- [ ] Multiple optimizers
-- [ ] Support pytorch native tensorboard
-- [ ] Support more tensorboard functions
-- [x] `tensorboardX` logger support
-- [x] Configurable logging layout, checkpoint naming
-- [x] Iteration-based training (instead of epoch-based)
-- [x] Adding command line option for fine-tuning
-- [x] Multi-GPU support
-
-## License
-This project is licensed under the MIT License. See  LICENSE for more details
-
-## Acknowledgments
-This project is inspired by the project [Tensorflow-Project-Template](https://github.com/MrGemy95/Tensorflow-Project-Template) by [Mahmoud Gemy](https://github.com/MrGemy95)
+### Step 1: Creating a new dataset from java sources
+In order to have a preprocessed dataset to train a network on, you can either download our
+preprocessed dataset, or create a new dataset of your own.
+
+#### Download our preprocessed dataset of ~14M examples (compressed: 6.3GB, extracted 32GB)
+```
+wget https://s3.amazonaws.com/code2vec/data/java14m_data.tar.gz
+tar -xvzf java14m_data.tar.gz
+```
+This will create a data/java14m/ sub-directory, containing the files that hold that training, test and validation sets,
+and a vocabulary file for various dataset properties.
+
+#### Creating and preprocessing a new Java dataset
+In order to create and preprocess a new dataset (for example, to compare code2vec to another model on another dataset):
+  * Edit the file [preprocess.sh](preprocess.sh) using the instructions there, pointing it to the correct training, validation and test directories.
+  * Run the preprocess.sh file:
+> source preprocess.sh
+
+### Step 2: Training a model
+You can either download an already-trained model, or train a new model using a preprocessed dataset.
+
+#### Downloading a trained model (1.4 GB)
+We already trained a model for 8 epochs on the data that was preprocessed in the previous step.
+The number of epochs was chosen using [early stopping](https://en.wikipedia.org/wiki/Early_stopping), as the version that maximized the F1 score on the validation set. This model can be downloaded [here](https://s3.amazonaws.com/code2vec/model/java14m_model.tar.gz) or using:
+```
+wget https://s3.amazonaws.com/code2vec/model/java14m_model.tar.gz
+tar -xvzf java14m_model.tar.gz
+```
+
+##### Note:
+This trained model is in a "released" state, which means that we stripped it from its training parameters and can thus be used for inference, but cannot be further trained. If you use this trained model in the next steps, use 'saved_model_iter8.release' instead of 'saved_model_iter8' in every command line example that loads the model such as: '--load models/java14_model/saved_model_iter8'. To read how to release a model, see [Releasing the model](#releasing-the-model).
+
+#### Downloading a trained model (3.5 GB) _which can be further trained_
+
+A non-stripped trained model can be obtained [here](https://s3.amazonaws.com/code2vec/model/java14m_model_trainable.tar.gz) or using:
+
+```
+wget https://s3.amazonaws.com/code2vec/model/java14m_model_trainable.tar.gz
+tar -xvzf java14m_model_trainable.tar
+```  
+
+This model weights more than twice than the stripped version, and it is recommended only if you wish to continue training a model which is already trained. To continue training this trained model, use the `--load` flag to load the trained model; the `--data` flag to point to the new dataset to train on; and the `--save` flag to provide a new save path.
+
+#### Training a model from scratch
+To train a model from scratch:
+  * Edit the file [train.sh](train.sh) to point it to the right preprocessed data. By default, 
+  it points to our "java14m" dataset that was preprocessed in the previous step.
+  * Before training, you can edit the configuration hyper-parameters in the file [config.py](config.py),
+  as explained in [Configuration](#configuration).
+  * Run the [train.sh](train.sh) script:
+```
+source train.sh
+```
+
+##### Notes:
+  1. By default, the network is evaluated on the validation set after every training epoch.
+  2. The newest 10 versions are kept (older are deleted automatically). This can be changed, but will be more space consuming.
+  3. By default, the network is training for 20 epochs.
+These settings can be changed by simply editing the file [config.py](config.py).
+Training on a Tesla v100 GPU takes about 50 minutes per epoch. 
+Training on Tesla K80 takes about 4 hours per epoch.
+
+### Step 3: Evaluating a trained model
+Once the score on the validation set stops improving over time, you can stop the training process (by killing it)
+and pick the iteration that performed the best on the validation set.
+Suppose that iteration #8 is our chosen model, run:
+```
+python3 code2vec.py --load models/java14_model/saved_model_iter8 --test data/java14m/java14m.test.c2v
+```
+While evaluating, a file named "log.txt" is written with each test example name and the model's prediction.
+
+### Step 4: Manual examination of a trained model
+To manually examine a trained model, run:
+```
+python3 code2vec.py --load models/java14_model/saved_model_iter8 --predict
+```
+After the model loads, follow the instructions and edit the file [Input.java](Input.java) and enter a Java 
+method or code snippet, and examine the model's predictions and attention scores.
+
+## Configuration
+Changing hyper-parameters is possible by editing the file
+[config.py](config.py).
+
+Here are some of the parameters and their description:
+#### config.NUM_TRAIN_EPOCHS = 20
+The max number of epochs to train the model. Stopping earlier must be done manually (kill).
+#### config.SAVE_EVERY_EPOCHS = 1
+After how many training iterations a model should be saved.
+#### config.TRAIN_BATCH_SIZE = 1024 
+Batch size in training.
+#### config.TEST_BATCH_SIZE = config.TRAIN_BATCH_SIZE
+Batch size in evaluating. Affects only the evaluation speed and memory consumption, does not affect the results.
+#### config.TOP_K_WORDS_CONSIDERED_DURING_PREDICTION = 10
+Number of words with highest scores in $ y_hat $ to consider during prediction and evaluation.
+#### config.NUM_BATCHES_TO_LOG_PROGRESS = 100
+Number of batches (during training / evaluating) to complete between two progress-logging records.
+#### config.NUM_TRAIN_BATCHES_TO_EVALUATE = 100
+Number of training batches to complete between model evaluations on the test set.
+#### config.READER_NUM_PARALLEL_BATCHES = 4
+The number of threads enqueuing examples to the reader queue.
+#### config.SHUFFLE_BUFFER_SIZE = 10000
+Size of buffer in reader to shuffle example within during training.
+Bigger buffer allows better randomness, but requires more amount of memory and may harm training throughput.
+#### config.CSV_BUFFER_SIZE = 100 * 1024 * 1024  # 100 MB
+The buffer size (in bytes) of the CSV dataset reader.
+
+#### config.MAX_CONTEXTS = 200
+The number of contexts to use in each example.
+#### config.MAX_TOKEN_VOCAB_SIZE = 1301136
+The max size of the token vocabulary.
+#### config.MAX_TARGET_VOCAB_SIZE = 261245
+The max size of the target words vocabulary.
+#### config.MAX_PATH_VOCAB_SIZE = 911417
+The max size of the path vocabulary.
+#### config.DEFAULT_EMBEDDINGS_SIZE = 128
+Default embedding size to be used for token and path if not specified otherwise.
+#### config.TOKEN_EMBEDDINGS_SIZE = config.EMBEDDINGS_SIZE
+Embedding size for tokens.
+#### config.PATH_EMBEDDINGS_SIZE = config.EMBEDDINGS_SIZE
+Embedding size for paths.
+#### config.CODE_VECTOR_SIZE = config.PATH_EMBEDDINGS_SIZE + 2 * config.TOKEN_EMBEDDINGS_SIZE
+Size of code vectors.
+#### config.TARGET_EMBEDDINGS_SIZE = config.CODE_VECTOR_SIZE
+Embedding size for target words.
+#### config.MAX_TO_KEEP = 10
+Keep this number of newest trained versions during training.
+#### config.DROPOUT_KEEP_RATE = 0.75
+Dropout rate used during training.
+#### config.SEPARATE_OOV_AND_PAD = False
+Whether to treat `<OOV>` and `<PAD>` as two different special tokens whenever possible.
+
+## Features
+Code2vec supports the following features: 
+
+### Choosing implementation to use
+This repo comes with two model implementations:
+(i) uses pure TensorFlow (written in [tensorflow_model.py](tensorflow_model.py));
+(ii) uses TensorFlow's Keras (written in [keras_model.py](keras_model.py)).
+The default implementation used by `code2vec.py` is the pure TensorFlow.
+To explicitly choose the desired implementation to use, specify `--framework tensorflow` or `--framework keras`
+as an additional argument when executing the script `code2vec.py`.
+Particularly, this argument can be added to each one of the usage examples (of `code2vec.py`) detailed in this file.
+Note that in order to load a trained model (from file), one should use the same implementation used during its training.
+
+### Releasing the model
+If you wish to keep a trained model for inference only (without the ability to continue training it) you can
+release the model using:
+```
+python3 code2vec.py --load models/java14_model/saved_model_iter8 --release
+```
+This will save a copy of the trained model with the '.release' suffix.
+A "released" model usually takes 3x less disk space.
+
+### Exporting the trained token vectors and target vectors
+Token and target embeddings are available to download: 
+
+[[Token vectors]](https://s3.amazonaws.com/code2vec/model/token_vecs.tar.gz) [[Method name vectors]](https://s3.amazonaws.com/code2vec/model/target_vecs.tar.gz)
+
+These saved embeddings are saved without subtoken-delimiters ("*toLower*" is saved as "*tolower*").
+
+In order to export embeddings from a trained model, use the "--save_w2v" and "--save_t2v" flags:
+
+Exporting the trained *token* embeddings:
+```
+python3 code2vec.py --load models/java14_model/saved_model_iter8 --save_w2v models/java14_model/tokens.txt
+```
+Exporting the trained *target* (method name) embeddings:
+```
+python3 code2vec.py --load models/java14_model/saved_model_iter8 --save_t2v models/java14_model/targets.txt
+```
+This saves the tokens/targets embedding matrices in word2vec format to the specified text file, in which:
+the first line is: \<vocab_size\> \<dimension\>
+and each of the following lines contains: \<word\> \<float_1\> \<float_2\> ... \<float_dimension\>
+
+These word2vec files can be manually parsed or easily loaded and inspected using the [gensim](https://radimrehurek.com/gensim/models/word2vec.html) python package:
+```python
+python3
+>>> from gensim.models import KeyedVectors as word2vec
+>>> vectors_text_path = 'models/java14_model/targets.txt' # or: `models/java14_model/tokens.txt'
+>>> model = word2vec.load_word2vec_format(vectors_text_path, binary=False)
+>>> model.most_similar(positive=['equals', 'to|lower']) # or: 'tolower', if using the downloaded embeddings
+>>> model.most_similar(positive=['download', 'send'], negative=['receive'])
+```
+The above python commands will result in the closest name to both "equals" and "to|lower", which is "equals|ignore|case".
+Note: In embeddings that were exported manually using the "--save_w2v" or "--save_t2v" flags, the input token and target words are saved using the symbol "|" as a subtokens delimiter ("*toLower*" is saved as: "*to|lower*"). In the embeddings that are available to download (which are the same as in the paper), the "|" symbol is not used, thus "*toLower*" is saved as "*tolower*".
+
+### Exporting the code vectors for the given code examples
+The flag `--export_code_vectors` allows to export the code vectors for the given examples. 
+
+If used with the `--test <TEST_FILE>` flag,
+a file named `<TEST_FILE>.vectors` will be saved in the same directory as `<TEST_FILE>`. 
+Each row in the saved file is the code vector of the code snipped in the corresponding row in `<TEST_FILE>`.
+ 
+If used with the `--predict` flag, the code vector will be printed to console.
+
+
+## Extending to other languages  
+
+This project currently supports Java and C\# as the input languages.
+
+_**June 2019** - an extractor for **C** that is compatible with our model was developed by [CMU SEI team](https://github.com/cmu-sei/code2vec-c)._
+
+_**June 2019** - an extractor for **Python** is available here: [PathMiner](https://github.com/vovak/astminer)._
+
+In order to extend code2vec to work with other languages, a new extractor (similar to the [JavaExtractor](JavaExtractor))
+should be implemented, and be called by [preprocess.sh](preprocess.sh).
+Basically, an extractor should be able to output for each directory containing source files:
+  * A single text file, where each row is an example.
+  * Each example is a space-delimited list of fields, where:
+  1. The first "word" is the target label, internally delimited by the "|" character.
+  2. Each of the following words are contexts, where each context has three components separated by commas (","). Each of these components cannot include spaces nor commas.
+  We refer to these three components as a token, a path, and another token, but in general other types of ternary contexts can be considered.  
+
+For example, a possible novel Java context extraction for the following code example:
+```java
+void fooBar() {
+	System.out.println("Hello World");
+}
+```
+Might be (in a new context extraction algorithm, which is different than ours since it doesn't use paths in the AST):
+> foo|Bar System,FIELD_ACCESS,out System.out,FIELD_ACCESS,println THE_METHOD,returns,void THE_METHOD,prints,"hello_world" 
+
+Consider the first example context "System,FIELD_ACCESS,out". 
+In the current implementation, the 1st ("System") and 3rd ("out") components of a context are taken from the same "tokens" vocabulary, 
+and the 2nd component ("FIELD_ACCESS") is taken from a separate "paths" vocabulary. 
+
+## Additional datasets
+We preprocessed additional three datasets used by the [code2seq](https://arxiv.org/pdf/1808.01400) paper, using the code2vec preprocessing.
+These datasets are available in raw format (i.e., .java files) at [http://urialon.cswp.cs.technion.ac.il/publications/](http://urialon.cswp.cs.technion.ac.il/publications/),
+and are also available to download in a preprocessed format (i.e., ready to train a code2vec model on) here:
+
+### Java-small (compressed: 366MB, extracted 1.9GB)
+```
+wget https://s3.amazonaws.com/code2vec/data/java-small_data.tar.gz
+```
+This dataset is based on the dataset of [Allamanis et al. (ICML'2016)](http://groups.inf.ed.ac.uk/cup/codeattention/), with the difference that training/validation/test are split by-project rather than by-file.
+This dataset contains 9 Java projects for training, 1 for validation and 1 testing. Overall, it contains about 700K examples.
+
+### Java-med (compressed: 1.8GB, extracted 9.3GB)
+```
+wget https://s3.amazonaws.com/code2vec/data/java-med_data.tar.gz
+```
+A dataset of the 1000 top-starred Java projects from GitHub. It contains
+800 projects for training, 100 for validation and 100 for testing. Overall, it contains about 4M examples.
+
+### Java-large (compressed: 7.2GB, extracted 37GB)
+```
+wget https://s3.amazonaws.com/code2vec/data/java-large_data.tar.gz
+```
+A dataset of the 9500 top-starred Java projects from GitHub that were created
+since January 2007. It contains 9000 projects for training, 200 for validation and 300 for
+testing. Overall, it contains about 16M examples.
+
+## Citation
+
+[code2vec: Learning Distributed Representations of Code](https://urialon.cswp.cs.technion.ac.il/wp-content/uploads/sites/83/2018/12/code2vec-popl19.pdf)
+
+```
+@article{alon2019code2vec,
+ author = {Alon, Uri and Zilberstein, Meital and Levy, Omer and Yahav, Eran},
+ title = {Code2Vec: Learning Distributed Representations of Code},
+ journal = {Proc. ACM Program. Lang.},
+ issue_date = {January 2019},
+ volume = {3},
+ number = {POPL},
+ month = jan,
+ year = {2019},
+ issn = {2475-1421},
+ pages = {40:1--40:29},
+ articleno = {40},
+ numpages = {29},
+ url = {http://doi.acm.org/10.1145/3290353},
+ doi = {10.1145/3290353},
+ acmid = {3290353},
+ publisher = {ACM},
+ address = {New York, NY, USA},
+ keywords = {Big Code, Distributed Representations, Machine Learning},
+}
+```
