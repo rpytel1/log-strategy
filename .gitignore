@@ -224,3 +224,6 @@ dmypy.json
 data/MNIST/
 
 saved/models/
+
+JackTheLogger/term-extractor.iml
+JackTheLoggerNet/DeepJackTheLogger.iml
