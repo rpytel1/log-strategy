@@ -221,3 +221,6 @@ dmypy.json
 .idea/
 
 # End of https://www.gitignore.io/api/python,intellij,jupyternotebooks
+data/MNIST/
+
+saved/models/

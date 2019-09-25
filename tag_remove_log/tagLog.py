@@ -2,7 +2,7 @@ import re;
 import codecs;
 
 
-filename = 'camel';
+filename = 'Hadoop';
 
 f = open(filename + '.txt', "r", encoding='utf-8')
 lines = f.readlines();
@@ -11,7 +11,7 @@ f.close()
 #REGEX FAILS IF LOG STATEMENT CONTAINS ; IN STRING
 regex = re.compile('(((log)|(logger))[.]((debug)|(info)|(warn)|(fatal)|(error))[^;]*;)', flags=re.I)
 
-f = codecs.open( filename + "_filtered.txt", "w", "utf-8")
+f = open( filename + "_filtered.txt", "w", "utf-8")
 
 logcount = 0;
 nologcount = 0;
