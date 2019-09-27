@@ -48,8 +48,6 @@ public class JavaCompilationUnit {
 	}
 
 	public List<String> getMethodBodies() {
-
-
 		return compilationUnit.findAll(MethodDeclaration.class).stream()
 				.map(
 						method -> method.getBody().get().toString())
