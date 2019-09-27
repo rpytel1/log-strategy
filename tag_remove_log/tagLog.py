@@ -5,7 +5,7 @@ from py4j.java_gateway import JavaGateway, GatewayParameters
 gateway = JavaGateway(gateway_parameters=GatewayParameters(port=25335))
 syntaxChecker = gateway.entry_point
 
-filename = 'kafkatest';
+filename = 'camel';
 
 f = open(filename + '.txt', "r", encoding='utf-8')
 lines = f.readlines();
@@ -19,7 +19,8 @@ f = open( filename + "_filtered.txt", "w", encoding="utf-8")
 logcount = 0;
 nologcount = 0;
 
-index = 0;
+index = -1;
+funchash = '';
 funcname = '';
 funcsig = '';
 funcbody = '';
@@ -27,7 +28,10 @@ funcbody = '';
 funccounter = 0;
 
 for l in lines:
-    if (index == 0):
+    if (index == -1):
+        funchash = l
+        index += 1
+    elif (index == 0):
         funcname = l
         if (l.strip()):
             index += 1
@@ -61,7 +65,7 @@ for l in lines:
                 print("Syntax incorrect for UNCHANGED function: " + funcsig + funcbody)
 
         funccounter += 1;
-        index = 0;
+        index = -1;
 
 f.close()
 
