@@ -32,7 +32,7 @@ if __name__ == '__main__':
         if eval_results is not None:
             config.log(
                 str(eval_results).replace('topk', 'top{}'.format(config.TOP_K_WORDS_CONSIDERED_DURING_PREDICTION)))
-    if Config.REPRESENTATION:
+    if config.REPRESENTATION:
         predictor = InteractivePredictor(config, model)
         predictor.extractRepresentation()
     if config.PREDICT:

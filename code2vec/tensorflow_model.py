@@ -325,11 +325,6 @@ class Code2VecModel(Code2VecModelBase):
             self.saver = tf.compat.v1.train.Saver()
             self._load_inner_model(sess=self.sess)
 
-<<<<<<< HEAD:tensorflow_model.py
-        fileDir = os.path.dirname(os.path.realpath('results'))
-        print (fileDir)
-        f = open(os.path.join(fileDir, "results/codevector.txt"),"a")
-=======
         prediction_results: List[ModelPredictionResults] = []
         for line in predict_data_lines:
             batch_top_words, batch_top_scores, batch_original_name, batch_attention_weights, batch_path_source_strings, \
@@ -389,7 +384,6 @@ class Code2VecModel(Code2VecModelBase):
             self.saver = tf.compat.v1.train.Saver()
             self._load_inner_model(sess=self.sess)
         f = open("codevectors.txt","a")
->>>>>>> 117b1af5f3f01a5c506243c6b165cb92b252b109:code2vec/tensorflow_model.py
 
         for line in predict_data_lines:
             print(line+"\n")

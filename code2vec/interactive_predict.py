@@ -56,7 +56,7 @@ class InteractivePredictor:
                     print('Code vector:')
                     print(' '.join(map(str, raw_prediction.code_vector)))
 
-	def extractRepresentation(self):
+    def extractRepresentation(self):
         input_filename = 'Input.java'
         print('Starting code2vec representation extraction...')
         while True:
