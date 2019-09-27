@@ -55,3 +55,20 @@ class InteractivePredictor:
                 if self.config.EXPORT_CODE_VECTORS:
                     print('Code vector:')
                     print(' '.join(map(str, raw_prediction.code_vector)))
+
+	def extractRepresentation(self):
+        input_filename = 'Input.java'
+        print('Starting code2vec representation extraction...')
+        while True:
+            print(
+                'Modify the file: "%s" and press any key when ready, or "q" / "quit" / "exit" to exit' % input_filename)
+            user_input = input()
+            if user_input.lower() in self.exit_keywords:
+                print('Exiting...')
+                return
+            try:
+                predict_lines, hash_to_string_dict = self.path_extractor.extract_paths(input_filename)
+            except ValueError as e:
+                print(e)
+                continue
+            self.model.extractRepresentation(predict_lines)
