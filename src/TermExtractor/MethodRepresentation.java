@@ -15,8 +15,8 @@ public final class MethodRepresentation {
             this.methodName = name;
             this.signature = signature;
 
-            //remove all line breaks for exporting it to txt
             this.body = Preprocessor.removeLineBreaks(body);
+            this.body = Preprocessor.removeComments(this.body);
         }
     }
 

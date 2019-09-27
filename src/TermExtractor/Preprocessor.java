@@ -12,6 +12,8 @@ public class Preprocessor {
         return text.replaceAll("(?m)^\r?\n", "");
     }
 
+    public static String removeComments(String text) { return text.replaceAll("/\\*(?:.|[\\n\\r])*?\\*/","");}
+
     public static Boolean syntaxValidator(String code) {
         try {
             StaticJavaParser.parse("class test{" + code + "}");
