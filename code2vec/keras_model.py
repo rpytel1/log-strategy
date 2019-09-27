@@ -230,7 +230,7 @@ class Code2VecModel(Code2VecModelBase):
 
         return all_model_prediction_results
 
-    def extractRepresentation(self, predict_data_lines: Iterable[str]) -> List[ModelPredictionResults]:
+    def extractRepresentation(self, predict_data_lines: Iterable[str]):
         return None
 
     def _save_inner_model(self, path):

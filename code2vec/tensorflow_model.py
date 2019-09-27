@@ -366,7 +366,7 @@ class Code2VecModel(Code2VecModelBase):
             ))
         return prediction_results
 
-    def extractRepresentation(self, predict_data_lines: Iterable[str]) -> List[ModelPredictionResults]:
+    def extractRepresentation(self, predict_data_lines: Iterable[str]):
         if self.predict_reader is None:
             self.predict_reader = PathContextReader(vocabs=self.vocabs,
                                                     model_input_tensors_former=_TFEvaluateModelInputTensorsFormer(),
@@ -382,7 +382,7 @@ class Code2VecModel(Code2VecModelBase):
             self._initialize_session_variables()
             self.saver = tf.compat.v1.train.Saver()
             self._load_inner_model(sess=self.sess)
-        f = open("codevector.txt","a")
+        f = open("codevectors.txt","a")
 
         for line in predict_data_lines:
             print(line+"\n")
@@ -392,8 +392,6 @@ class Code2VecModel(Code2VecModelBase):
             code_vectors= np.squeeze(batch_code_vectors,axis=0)
             f.write(np.array2string(code_vectors))
         f.close()
-
-        return None
 
     def _save_inner_model(self, path: str):
         self.saver.save(self.sess, path)

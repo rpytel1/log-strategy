@@ -145,7 +145,7 @@ class Code2VecModelBase(abc.ABC):
         ...
 
     @abc.abstractmethod
-    def extractRepresentation(self, predict_data_lines: Iterable[str]) -> List[ModelPredictionResults]:
+    def extractRepresentation(self, predict_data_lines: Iterable[str]):
         ...
 
     @abc.abstractmethod
