@@ -24,6 +24,7 @@ funcname = '';
 funcsig = '';
 funcbody = '';
 
+funccounter = 0;
 
 for l in lines:
     if (index == 0):
@@ -39,9 +40,9 @@ for l in lines:
             funcbody = re.sub('(((log)|(logger))[.]((debug)|(info)|(warn)|(fatal)|(error))[^;]*;)', '', funcbody, flags=re.I)
             if (syntaxChecker.validateMethod(funcsig + funcbody)):
                 f.write(funcname)
+                funcsig = re.sub('( ([^\( ]*\())', 'f' + str(funccounter) + '_1', funcsig)
                 f.write(funcsig)
                 f.write(funcbody)
-                f.write('1\n')
                 logcount += 1
                 #tag with 1
             else:
@@ -52,13 +53,14 @@ for l in lines:
 
             if (syntaxChecker.validateMethod(funcsig + funcbody)):
                 f.write(funcname)
+                funcsig = re.sub('( ([^\( ]*\())', ' ' + filename + '_f' + str(funccounter) + '_0(', funcsig)
                 f.write(funcsig)
                 f.write(funcbody)
-                f.write('0\n')
                 nologcount += 1
             else:
                 print("Syntax incorrect for UNCHANGED function: " + funcsig + funcbody)
 
+        funccounter += 1;
         index = 0;
 
 f.close()
