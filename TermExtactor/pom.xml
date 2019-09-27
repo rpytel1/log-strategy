@@ -46,5 +46,10 @@
 			<artifactId>javaparser-symbol-solver-core</artifactId>
 			<version>3.14.3</version>
 		</dependency>
+		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+			<version>20.0</version>
+		</dependency>
 	</dependencies>
 </project>

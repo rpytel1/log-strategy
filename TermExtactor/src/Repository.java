@@ -22,21 +22,11 @@ public final class Repository {
 		this.name = path.getName(path.getNameCount()-1).toString();
 	}
 
-	public Map<String, Long> termCount() {
-		Map<String, Long> counterMap = getAllTerms().stream().
-				collect(Collectors.groupingBy(e -> e.toString().toLowerCase(), Collectors.counting()));
-
-		return counterMap.entrySet().stream()
-				.sorted(Entry.comparingByValue(Comparator.reverseOrder()))
-				.collect(Collectors.toMap(Entry::getKey, Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
-	}
-	
 	public Collection<File> getAllJavaFilePaths() {
 		File repoDirectory = new File(this.path.toUri());
 		String[] filterExtensions = {"java"};
 		Collection<File> javaFiles = FileUtils.listFiles(repoDirectory, filterExtensions, true);
 
-		System.out.println("Found " + javaFiles.size() + " java classes.");
 		return javaFiles;
 	}
 	
@@ -56,7 +46,7 @@ public final class Repository {
 	public String getRepresentation() {
 		System.out.println(this.name + " is beeing parsed.");
 		List<String> terms = getAllTerms();
-		System.out.println("Found " + termCount() + " functions for " + this.name + ".");
+		System.out.println("Found " + terms.size() + " functions for " + this.name + ".");
 		return String.join(DELIMITER, terms);
 	}
 

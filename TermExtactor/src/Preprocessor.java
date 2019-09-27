@@ -1,5 +1,7 @@
 import com.github.javaparser.ParseProblemException;
 import com.github.javaparser.StaticJavaParser;
+import com.google.common.hash.Hashing;
+import java.nio.charset.StandardCharsets;
 
 public class Preprocessor {
     public static String removeLineBreaks(String text){
@@ -10,7 +12,9 @@ public class Preprocessor {
         return text.replaceAll("(?m)^\r?\n", "");
     }
 
-    public static String removeComments(String text) { return text;}
+    public static String removeComments(String text) { return text.replaceAll("/\\*(?:.|[\\n\\r])*?\\*/","");}
+
+    public static String generateId(String name) {return Hashing.sha256().hashString(name, StandardCharsets.UTF_8).toString();}
 
     public static Boolean syntaxValidator(String code) {
         try {
