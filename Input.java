@@ -5,14 +5,14 @@ int f(int n) {
         return n * f(n-1);
     }
 }
-int f(int n) {
+int yourmomma(int n) {
     if (n == 0) {
         return 1; 
     } else {
         return n * f(n-1);
     }
 }
-int f(int n) {
+int FATALITY(int n) {
     if (n == 0) {
         return 1; 
     } else {

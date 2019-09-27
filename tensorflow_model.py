@@ -1,6 +1,7 @@
 import tensorflow as tf
 import numpy as np
 import time
+import os
 from typing import Dict, Optional, List, Iterable
 from collections import Counter
 from functools import partial
@@ -323,7 +324,10 @@ class Code2VecModel(Code2VecModelBase):
             self._initialize_session_variables()
             self.saver = tf.compat.v1.train.Saver()
             self._load_inner_model(sess=self.sess)
-        f = open("codevector.txt","a")
+
+        fileDir = os.path.dirname(os.path.realpath('results'))
+        print (fileDir)
+        f = open(os.path.join(fileDir, "results/codevector.txt"),"a")
 
         for line in predict_data_lines:
             print(line+"\n")
