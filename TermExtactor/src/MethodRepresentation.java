@@ -1,5 +1,3 @@
-package TermExtractor;
-
 /*
 This class contains all information tom represent a method.
  */

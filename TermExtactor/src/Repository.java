@@ -1,5 +1,3 @@
-package TermExtractor;
-
 import java.io.File;
 import java.nio.file.Path;
 import java.util.Collection;
@@ -32,17 +30,13 @@ public final class Repository {
 				.sorted(Entry.comparingByValue(Comparator.reverseOrder()))
 				.collect(Collectors.toMap(Entry::getKey, Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
 	}
-
-	public int javaClassCount() {
-		return getAllJavaFilePaths().size();
-	}
 	
 	public Collection<File> getAllJavaFilePaths() {
 		File repoDirectory = new File(this.path.toUri());
 		String[] filterExtensions = {"java"};
 		Collection<File> javaFiles = FileUtils.listFiles(repoDirectory, filterExtensions, true);
 
-		System.out.println("Found " + javaClassCount() + " java classes.");
+		System.out.println("Found " + javaFiles.size() + " java classes.");
 		return javaFiles;
 	}
 	

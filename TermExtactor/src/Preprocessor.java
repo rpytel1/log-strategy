@@ -1,5 +1,3 @@
-package TermExtractor;
-
 import com.github.javaparser.ParseProblemException;
 import com.github.javaparser.StaticJavaParser;
 
@@ -12,7 +10,7 @@ public class Preprocessor {
         return text.replaceAll("(?m)^\r?\n", "");
     }
 
-    public static String removeComments(String text) { return text.replaceAll("/\\*(?:.|[\\n\\r])*?\\*/","");}
+    public static String removeComments(String text) { return text;}
 
     public static Boolean syntaxValidator(String code) {
         try {
