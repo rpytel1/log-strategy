@@ -123,7 +123,7 @@ class Code2VecModel(Code2VecModelBase):
             input_tensors = input_iterator.get_next()
 
             self.eval_top_words_op, self.eval_top_values_op, self.eval_original_names_op, _, _, _, _, \
-            self.eval_code_vectors = self._build_tf_test_graph(input_tensors)
+                self.eval_code_vectors = self._build_tf_test_graph(input_tensors)
             self.saver = tf.compat.v1.train.Saver()
 
         if self.config.MODEL_LOAD_PATH and not self.config.TRAIN_DATA_PATH_PREFIX:
@@ -185,7 +185,7 @@ class Code2VecModel(Code2VecModelBase):
             log_output_file.write(str(topk_accuracy_evaluation_metric.topk_correct_predictions) + '\n')
         if self.config.EXPORT_CODE_VECTORS:
             code_vectors_file.close()
-
+        
         elapsed = int(time.time() - eval_start_time)
         self.log("Evaluation time: %sH:%sM:%sS" % ((elapsed // 60 // 60), (elapsed // 60) % 60, elapsed % 60))
         return ModelEvaluationResults(
@@ -324,12 +324,11 @@ class Code2VecModel(Code2VecModelBase):
             self._initialize_session_variables()
             self.saver = tf.compat.v1.train.Saver()
             self._load_inner_model(sess=self.sess)
-
-<<<<<<< HEAD:tensorflow_model.py
+        
         fileDir = os.path.dirname(os.path.realpath('results'))
         print (fileDir)
         f = open(os.path.join(fileDir, "results/codevector.txt"),"a")
-=======
+
         prediction_results: List[ModelPredictionResults] = []
         for line in predict_data_lines:
             batch_top_words, batch_top_scores, batch_original_name, batch_attention_weights, batch_path_source_strings, \
@@ -388,17 +387,17 @@ class Code2VecModel(Code2VecModelBase):
             self._initialize_session_variables()
             self.saver = tf.compat.v1.train.Saver()
             self._load_inner_model(sess=self.sess)
-        f = open("codevectors.txt","a")
->>>>>>> 117b1af5f3f01a5c506243c6b165cb92b252b109:code2vec/tensorflow_model.py
 
         for line in predict_data_lines:
             print(line+"\n")
             batch_code_vectors = self.sess.run(
-                [self.predict_code_vectors],
-                feed_dict={self.predict_placeholder: line})
+                    [self.predict_code_vectors],
+                    feed_dict={self.predict_placeholder: line})
             code_vectors= np.squeeze(batch_code_vectors,axis=0)
             f.write(np.array2string(code_vectors))
         f.close()
+            
+        return None
 
     def _save_inner_model(self, path: str):
         self.saver.save(self.sess, path)

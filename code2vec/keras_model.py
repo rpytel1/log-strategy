@@ -20,7 +20,7 @@ from keras_words_subtoken_metrics import WordsSubtokenPrecisionMetric, WordsSubt
 from config import Config
 from common import common
 from model_base import Code2VecModelBase, ModelEvaluationResults, ModelPredictionResults
-from keras_checkpoint_saver_callback import ModelTrainingStatus, ModelTrainingStatusTrackerCallback, \
+from keras_checkpoint_saver_callback import ModelTrainingStatus, ModelTrainingStatusTrackerCallback,\
     ModelCheckpointSaverCallback, MultiBatchCallback, ModelTrainingProgressLoggerCallback
 
 
@@ -229,9 +229,6 @@ class Code2VecModel(Code2VecModelBase):
             all_model_prediction_results.append(model_prediction_results)
 
         return all_model_prediction_results
-
-    def extractRepresentation(self, predict_data_lines: Iterable[str]):
-        return None
 
     def _save_inner_model(self, path):
         if self.config.RELEASE:

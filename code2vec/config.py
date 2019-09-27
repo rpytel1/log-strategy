@@ -33,8 +33,6 @@ class Config:
                                  'size.')
         parser.add_argument('--predict', action='store_true',
                             help='execute the interactive prediction shell')
-        parser.add_argument('--representation', action='store_true',
-                            help='extract the code2vec representation of the source code')
         parser.add_argument("-fw", "--framework", dest="dl_framework", choices=['keras', 'tensorflow'],
                             default='tensorflow', help="deep learning framework to use.")
         parser.add_argument("-v", "--verbose", dest="verbose_mode", type=int, required=False, default=1,
@@ -75,7 +73,6 @@ class Config:
         args = self.arguments_parser().parse_args()
         # Automatically filled, do not edit:
         self.PREDICT = args.predict
-        self.REPRESENTATION = args.representation
         self.MODEL_SAVE_PATH = args.save_path
         self.MODEL_LOAD_PATH = args.load_path
         self.TRAIN_DATA_PATH_PREFIX = args.data_path
@@ -117,7 +114,6 @@ class Config:
 
         # Automatically filled by `args`.
         self.PREDICT: bool = False   # TODO: update README;
-        self.REPRESENTATION: bool = False
         self.MODEL_SAVE_PATH: Optional[str] = None
         self.MODEL_LOAD_PATH: Optional[str] = None
         self.TRAIN_DATA_PATH_PREFIX: Optional[str] = None
