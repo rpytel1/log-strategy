@@ -26,6 +26,7 @@ public final class Repository {
 		File repoDirectory = new File(this.path.toUri());
 		String[] filterExtensions = {"java"};
 		Collection<File> javaFiles = FileUtils.listFiles(repoDirectory, filterExtensions, true);
+		System.out.println("Found " + javaFiles.size() + " java classes.");
 
 		return javaFiles;
 	}
@@ -44,7 +45,7 @@ public final class Repository {
 	}
 	
 	public String getRepresentation() {
-		System.out.println(this.name + " is beeing parsed.");
+		System.out.println(this.name + " is being parsed.");
 		List<String> terms = getAllTerms();
 		System.out.println("Found " + terms.size() + " functions for " + this.name + ".");
 		return String.join(DELIMITER, terms);

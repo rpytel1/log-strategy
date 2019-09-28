@@ -35,6 +35,7 @@ public class App {
 	public static List<Repository> getAllRepositories(Path repoDir) throws IOException {
 		List<Repository> repositories = new ArrayList<>();
 
+		System.out.println("-----------------------------------------------------------");
 		Files.list(repoDir)
 				.limit(100)
 				.forEach(path -> {
@@ -46,7 +47,6 @@ public class App {
 	
 	public static List<Repository> getRepository(Path path) {
 		List<Repository> repositories = new ArrayList<>();
-		System.out.println("-----------------------------------------------------------");
 		repositories.add(new Repository(path));
 		return repositories;
 	}

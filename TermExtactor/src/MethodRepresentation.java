@@ -10,13 +10,14 @@ public final class MethodRepresentation {
     private static final String DELIMITER = "\n";
 
     MethodRepresentation(String name, String signature, String body) {
-        if(Preprocessor.syntaxValidator(signature + body)){
+        String processedBody = Preprocessor.removeLineBreaks(Preprocessor.removeComments(body));
+
+        if(Preprocessor.syntaxValidator(signature + processedBody)){
             this.id = Preprocessor.generateId(signature);
             this.methodName = name;
             this.signature = signature;
 
-            this.body = Preprocessor.removeComments(body);
-            this.body = Preprocessor.removeLineBreaks(this.body);
+            this.body = processedBody;
         }
     }
 

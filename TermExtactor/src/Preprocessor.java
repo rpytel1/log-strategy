@@ -12,7 +12,16 @@ public class Preprocessor {
         return text.replaceAll("(?m)^\r?\n", "");
     }
 
-    public static String removeComments(String text) { return text.replaceAll("/\\*(?:.|[\\n\\r])*?\\*/","");}
+    public static String removeComments(String text) { return removeSingleLineComments(text); }
+
+    private static String removeSingleLineComments(String text){
+        return text.replaceAll("//\\s((.*)|[\n\r])", "");
+    }
+
+    private static String removeBlockComments(String text) {
+        //ToDo: Fix performance
+        return text.replaceAll("/\\*([^*]|[\\r\\n]|(\\*+([^*/]|[\\r\\n])))*\\*+/", "");
+    }
 
     public static String generateId(String name) {return Hashing.sha256().hashString(name, StandardCharsets.UTF_8).toString();}
 
