@@ -15,8 +15,8 @@ public final class MethodRepresentation {
             this.methodName = name;
             this.signature = signature;
 
-            this.body = Preprocessor.removeLineBreaks(body);
-            this.body = Preprocessor.removeComments(this.body);
+            this.body = Preprocessor.removeComments(body);
+            this.body = Preprocessor.removeLineBreaks(this.body);
         }
     }
 
