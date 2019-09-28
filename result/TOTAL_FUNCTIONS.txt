@@ -1,0 +1,54 @@
+beam
+Functions with log:  791
+Functions without log:  33495
+Functions with syntax errors filtered:  10
+
+camel
+Functions with log:  4892
+Functions without log:  129810
+Functions with syntax errors filtered:  37
+
+cassandra
+Functions with log:  692
+Functions without log:  28487
+Functions with syntax errors filtered:  123
+
+flink
+Functions with log:  1499
+Functions without log:  59983
+Functions with syntax errors filtered:  36
+
+hadoop
+Functions with log:  9254
+Functions without log:  115625
+Functions with syntax errors filtered:  509
+
+hive
+Functions with log:  4425
+Functions without log:  96042
+Functions with syntax errors filtered:  268
+
+jmeter
+Functions with log:  948
+Functions without log:  10323
+Functions with syntax errors filtered:  59
+
+kafka
+Functions with log:  794
+Functions without log:  20103
+Functions with syntax errors filtered:  99
+
+maven
+Functions with log:  126
+Functions without log:  5676
+Functions with syntax errors filtered:  15
+
+tomcat
+Functions with log:  1002
+Functions without log:  25305
+Functions with syntax errors filtered:  156
+
+zookeeper
+Functions with log:  863
+Functions without log:  5953
+Functions with syntax errors filtered:  16

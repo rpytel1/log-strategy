@@ -5,7 +5,7 @@ from py4j.java_gateway import JavaGateway, GatewayParameters
 gateway = JavaGateway(gateway_parameters=GatewayParameters(port=25335))
 syntaxChecker = gateway.entry_point
 
-filename = 'camel';
+filename = 'zookeeper';
 
 f = open(filename + '.txt', "r", encoding='utf-8')
 lines = f.readlines();
@@ -24,6 +24,8 @@ funchash = '';
 funcname = '';
 funcsig = '';
 funcbody = '';
+
+syntaxerrorcount = 0;
 
 funccounter = 0;
 
@@ -50,6 +52,7 @@ for l in lines:
                 logcount += 1
                 #tag with 1
             else:
+                syntaxerrorcount += 1;
                 print("Syntax incorrect for function: " + funcsig + funcbody)
         else:
             #tag with 0
@@ -62,6 +65,7 @@ for l in lines:
                 f.write(funcbody)
                 nologcount += 1
             else:
+                syntaxerrorcount += 1
                 print("Syntax incorrect for UNCHANGED function: " + funcsig + funcbody)
 
         funccounter += 1;
@@ -72,6 +76,7 @@ f.close()
 print(filename)
 print("Functions with log: ", logcount)
 print("Functions without log: ", nologcount)
+print("Functions with syntax errors filtered: ", syntaxerrorcount)
 
          
 #Select log lines:
