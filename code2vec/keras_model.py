@@ -227,6 +227,9 @@ class Code2VecModel(Code2VecModelBase):
 
         return all_model_prediction_results
 
+    def extractCode2Vec(self, predict_data_lines: Iterable[str]):
+        return
+
     def _save_inner_model(self, path):
         if self.config.RELEASE:
             self.keras_train_model.save_weights(self.config.get_model_weights_path(path))

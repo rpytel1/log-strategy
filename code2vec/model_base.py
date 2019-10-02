@@ -145,6 +145,10 @@ class Code2VecModelBase(abc.ABC):
         ...
 
     @abc.abstractmethod
+    def extractCode2Vec(self, predict_data_lines: Iterable[str]):
+        ...
+
+    @abc.abstractmethod
     def _save_inner_model(self, path):
         ...
 
