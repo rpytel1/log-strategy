@@ -1,7 +1,6 @@
 import tensorflow as tf
 import numpy as np
 import time
-import os
 from typing import Dict, Optional, List, Iterable
 from collections import Counter
 from functools import partial
@@ -123,7 +122,7 @@ class Code2VecModel(Code2VecModelBase):
             input_tensors = input_iterator.get_next()
 
             self.eval_top_words_op, self.eval_top_values_op, self.eval_original_names_op, _, _, _, _, \
-                self.eval_code_vectors = self._build_tf_test_graph(input_tensors)
+            self.eval_code_vectors = self._build_tf_test_graph(input_tensors)
             self.saver = tf.compat.v1.train.Saver()
 
         if self.config.MODEL_LOAD_PATH and not self.config.TRAIN_DATA_PATH_PREFIX:
@@ -185,7 +184,7 @@ class Code2VecModel(Code2VecModelBase):
             log_output_file.write(str(topk_accuracy_evaluation_metric.topk_correct_predictions) + '\n')
         if self.config.EXPORT_CODE_VECTORS:
             code_vectors_file.close()
-        
+
         elapsed = int(time.time() - eval_start_time)
         self.log("Evaluation time: %sH:%sM:%sS" % ((elapsed // 60 // 60), (elapsed // 60) % 60, elapsed % 60))
         return ModelEvaluationResults(
@@ -324,10 +323,6 @@ class Code2VecModel(Code2VecModelBase):
             self._initialize_session_variables()
             self.saver = tf.compat.v1.train.Saver()
             self._load_inner_model(sess=self.sess)
-        
-        fileDir = os.path.dirname(os.path.realpath('results'))
-        print (fileDir)
-        f = open(os.path.join(fileDir, "results/codevector.txt"),"a")
 
         prediction_results: List[ModelPredictionResults] = []
         for line in predict_data_lines:

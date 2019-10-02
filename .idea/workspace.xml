@@ -64,32 +64,7 @@
     <option name="isMigrated" value="true" />
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/code2vec/code2vec.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="63">
-              <caret line="14" selection-start-line="14" selection-end-line="14" />
-              <folding>
-                <element signature="e#0#34#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/code2vec/interactive_predict.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="301">
-              <caret line="93" column="69" selection-start-line="93" selection-start-column="69" selection-end-line="93" selection-end-column="69" />
-              <folding>
-                <element signature="e#0#16#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300" />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -136,10 +111,10 @@
         <option value="$PROJECT_DIR$/keras_model.py" />
         <option value="$PROJECT_DIR$/code2vec/code2vec.py" />
         <option value="$PROJECT_DIR$/pom.xml" />
+        <option value="$PROJECT_DIR$/code2vec/interactive_predict.py" />
         <option value="$PROJECT_DIR$/code2vec/keras_model.py" />
         <option value="$PROJECT_DIR$/code2vec/tensorflow_model.py" />
         <option value="$PROJECT_DIR$/code2vec/model_base.py" />
-        <option value="$PROJECT_DIR$/code2vec/interactive_predict.py" />
       </list>
     </option>
   </component>
@@ -162,7 +137,17 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="ProjectPane" />
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="syntax-validator" type="b2602c69:ProjectViewProjectNode" />
+              <item name="code2vec" type="462c0819:PsiDirectoryNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
       <pane id="PackagesPane" />
       <pane id="Scope" />
     </panes>
@@ -267,7 +252,6 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.19932885" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -407,20 +391,20 @@
     <entry file="file://$PROJECT_DIR$/src/META-INF/MANIFEST.MF">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/code2vec/keras_model.py">
+    <entry file="file://$PROJECT_DIR$/code2vec/interactive_predict.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17">
-          <caret line="163" column="32" selection-start-line="163" selection-start-column="32" selection-end-line="163" selection-end-column="32" />
+        <state relative-caret-position="1836">
+          <caret line="108" column="50" selection-start-line="108" selection-start-column="50" selection-end-line="108" selection-end-column="50" />
           <folding>
-            <element signature="e#0#23#0" expanded="true" />
+            <element signature="e#0#16#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/code2vec/tensorflow_model.py">
+    <entry file="file://$PROJECT_DIR$/code2vec/keras_model.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="566">
-          <caret line="388" column="42" selection-start-line="388" selection-start-column="42" selection-end-line="388" selection-end-column="42" />
+        <state relative-caret-position="556">
+          <caret line="414" column="80" selection-start-line="414" selection-start-column="80" selection-end-line="414" selection-end-column="80" />
           <folding>
             <element signature="e#0#23#0" expanded="true" />
           </folding>
@@ -429,7 +413,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/code2vec/code2vec.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="63">
+        <state relative-caret-position="238">
           <caret line="14" selection-start-line="14" selection-end-line="14" />
           <folding>
             <element signature="e#0#34#0" expanded="true" />
@@ -439,20 +423,20 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/code2vec/model_base.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1819">
-          <caret line="107" column="47" selection-start-line="107" selection-start-column="47" selection-end-line="107" selection-end-column="47" />
+        <state relative-caret-position="3060">
+          <caret line="180" column="88" selection-start-line="180" selection-start-column="88" selection-end-line="180" selection-end-column="88" />
           <folding>
             <element signature="e#0#18#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/code2vec/interactive_predict.py">
+    <entry file="file://$PROJECT_DIR$/code2vec/tensorflow_model.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="301">
-          <caret line="93" column="69" selection-start-line="93" selection-start-column="69" selection-end-line="93" selection-end-column="69" />
+        <state relative-caret-position="556">
+          <caret line="530" column="9" selection-start-line="530" selection-start-column="9" selection-end-line="530" selection-end-column="9" />
           <folding>
-            <element signature="e#0#16#0" expanded="true" />
+            <element signature="e#0#23#0" expanded="true" />
           </folding>
         </state>
       </provider>

@@ -20,7 +20,7 @@ from keras_words_subtoken_metrics import WordsSubtokenPrecisionMetric, WordsSubt
 from config import Config
 from common import common
 from model_base import Code2VecModelBase, ModelEvaluationResults, ModelPredictionResults
-from keras_checkpoint_saver_callback import ModelTrainingStatus, ModelTrainingStatusTrackerCallback,\
+from keras_checkpoint_saver_callback import ModelTrainingStatus, ModelTrainingStatusTrackerCallback, \
     ModelCheckpointSaverCallback, MultiBatchCallback, ModelTrainingProgressLoggerCallback
 
 
@@ -33,9 +33,6 @@ class Code2VecModel(Code2VecModelBase):
         self._checkpoint: Optional[tf.train.Checkpoint] = None
         self._checkpoint_manager: Optional[tf.train.CheckpointManager] = None
         super(Code2VecModel, self).__init__(config)
-
-    def getKerasModel(self):
-        return self.karas_eval_model
 
     def _create_keras_model(self):
         # Each input sample consists of a bag of x`MAX_CONTEXTS` tuples (source_terminal, path, target_terminal).
