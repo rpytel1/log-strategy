@@ -51,7 +51,7 @@ for l in lines:
                 #f.write(funcname)
                 f2.write(funcsig + funcbody)
                 f2.write('1\n')
-                funcsig = re.sub('( ([^\( ]*\())', 'f' + str(funccounter) + '_1', funcsig)
+                funcsig = re.sub('( ([^\( ]*\())', ' ' + filename + '_f' + str(funccounter) + '_1(', funcsig)
                 f.write(funcsig)
                 f.write(funcbody)
 
