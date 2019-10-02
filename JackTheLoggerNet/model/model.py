@@ -36,12 +36,9 @@ class CodeRNN(nn.Module):
 
         n = [X[i, n, :]for i, n in enumerate(list(lengths))]
 
-
         k = torch.cat(n).view(batch_size,-1)
-        print(k.size())
         X = self.linear(k)
         Y_hat = X
-        print(Y_hat.size())
 
         return Y_hat
 

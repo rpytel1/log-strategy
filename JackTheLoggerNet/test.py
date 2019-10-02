@@ -1,10 +1,10 @@
 import argparse
 import torch
 from tqdm import tqdm
-import JackTheLoggerNet.data_loader.data_loaders as module_data
-import JackTheLoggerNet.model.loss as module_loss
-import JackTheLoggerNet.model.metric as module_metric
-from JackTheLoggerNet.model import model as module_arch
+import data_loader.data_loaders as module_data
+import model.loss as module_loss
+import model.metric as module_metric
+from model import model as module_arch
 from parse_config import ConfigParser
 
 

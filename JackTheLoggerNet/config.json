@@ -6,13 +6,14 @@
         "type": "CodeRNN",
         "args": {
             "n_features": 105,
-            "batch_size": 4
+            "batch_size": 4,
+            "use_cuda": true
         }
     },
     "data_loader": {
         "type": "CodeDataLoader",
         "args":{
-            "filename": "test.txt",
+            "filename": "beam_filteredCode2Vec.txt",
             "batch_size": 10,
             "shuffle": true,
             "validation_split": 0.2,

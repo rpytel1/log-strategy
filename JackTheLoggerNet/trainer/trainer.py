@@ -58,7 +58,7 @@ class Trainer(BaseTrainer):
         total_loss = 0
         total_metrics = np.zeros(len(self.metrics))
         for batch_idx, (data, target, lengths) in enumerate(self.data_loader):
-            data, target = data.to(self.device), target.to(self.device)
+            data, target,lengths = data.to(self.device), target.to(self.device),lengths.to(self.device)
 
             self.optimizer.zero_grad()
             output = self.model(data, lengths)
@@ -109,7 +109,7 @@ class Trainer(BaseTrainer):
         total_val_metrics = np.zeros(len(self.metrics))
         with torch.no_grad():
             for batch_idx, (data, target, length) in enumerate(self.valid_data_loader):
-                data, target = data.to(self.device), target.to(self.device)
+                data, target,length = data.to(self.device), target.to(self.device), length.to(self.device)
 
                 output = self.model(data, length)
                 loss = self.loss(output, target)
