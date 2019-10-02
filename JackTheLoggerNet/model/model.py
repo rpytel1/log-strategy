@@ -1,22 +1,47 @@
+import torch
 import torch.nn as nn
-import torch.nn.functional as F
-from base import BaseModel
+from torch.autograd import Variable
 
 
-class MnistModel(BaseModel):
-    def __init__(self, num_classes=10):
-        super().__init__()
-        self.conv1 = nn.Conv2d(1, 10, kernel_size=5)
-        self.conv2 = nn.Conv2d(10, 20, kernel_size=5)
-        self.conv2_drop = nn.Dropout2d()
-        self.fc1 = nn.Linear(320, 50)
-        self.fc2 = nn.Linear(50, num_classes)
+class CodeRNN(nn.Module):
+    def __init__(self, n_features, batch_size, output_size=2, use_cuda=False):
+        super(CodeRNN, self).__init__()
 
-    def forward(self, x):
-        x = F.relu(F.max_pool2d(self.conv1(x), 2))
-        x = F.relu(F.max_pool2d(self.conv2_drop(self.conv2(x)), 2))
-        x = x.view(-1, 320)
-        x = F.relu(self.fc1(x))
-        x = F.dropout(x, training=self.training)
-        x = self.fc2(x)
-        return F.log_softmax(x, dim=1)
+        self.use_cuda = use_cuda
+        self.nb_lstm_layers = 1
+        self.nb_lstm_units = 512
+        self.n_features = n_features
+        self.batch_size = batch_size
+
+        # design LSTM
+        self.lstm = nn.LSTM(
+            input_size=self.n_features,
+            hidden_size=self.nb_lstm_units,
+            num_layers=self.nb_lstm_layers,
+            batch_first=True
+        )
+        self.linear = nn.Linear(self.nb_lstm_units, output_size)
+
+    def forward(self, X):
+        batch_size, seq_len, _ = X.size()
+        self.hidden = self.init_hidden(batch_size)
+        X, self.hidden = self.lstm(X, self.hidden)
+
+        X = X[:, -1, :]
+        X = self.linear(X)
+        Y_hat = X
+
+        return Y_hat
+
+    def init_hidden(self, batch_size):
+        h0 = torch.zeros(self.nb_lstm_layers, batch_size, self.nb_lstm_units)
+        c0 = torch.zeros(self.nb_lstm_layers, batch_size, self.nb_lstm_units)
+
+        if self.use_cuda and torch.cuda.is_available():
+            h0 = h0.cuda()
+            c0 = c0.cuda()
+
+        h0 = Variable(h0)
+        c0 = Variable(c0)
+
+        return (h0, c0)

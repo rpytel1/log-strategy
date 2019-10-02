@@ -27,38 +27,35 @@ class CodeDataLoader(BaseDataLoader):
 
 
 class CodeDataset(Dataset):
-    CODE_DIR = "./data/"
-    all_letters = string.ascii_letters + " .,;'"
+    CODE_DIR = "../result/"
+    all_letters = string.printable + " .,;'"
     n_letters = len(all_letters)
+    max_chars = 0
 
     def __init__(self, filename):
-        d = self.read_local_file(filename)
         self.data = []
         self.labels = []
+        functions = []
         signature = ""
-        d = open(self.CODE_DIR + "beam_filteredRNN.txt", "r", encoding="utf-8")
+        d = open(self.CODE_DIR + filename, "r", encoding="utf-8")
         for ind, elem in enumerate(d):
             if ind % 3 == 0:
                 signature = elem
             elif ind % 3 == 1:
-                self.data.append(self.line_to_tensor(signature + elem))
+                functions.append(signature + elem)
             else:
                 self.labels.append(torch.tensor(int(elem)))
 
+        self.max_chars = len(max(functions, key=len))
+
+        for elem in functions:
+            self.data.append(self.line_to_tensor(elem))
+
     def __getitem__(self, index):
-        print("__getitem__")
-        print(self.data[index])
-        print(self.labels[index])
-        return self.letter_to_tensor(self.data[index]), torch.tensor(self.labels[index])
+        return self.data[index], self.labels[index]
 
     def __len__(self):
         return len(self.data)
-
-    def read_local_file(self, filename):
-        # TODO: repair later to accomodate multiple names from config file
-        with open(self.CODE_DIR + "beam_filteredRNN.txt", 'rb') as f:
-            d = f.readline()
-        return d
 
     def letter_to_index(self, letter):
         return self.all_letters.find(letter)
@@ -72,7 +69,7 @@ class CodeDataset(Dataset):
     # Turn a line into a <line_length x 1 x n_letters>,
     # or an array of one-hot letter vectors
     def line_to_tensor(self, line):
-        tensor = torch.zeros(len(line), 1, self.n_letters)
+        tensor = torch.zeros(self.max_chars, self.n_letters)
         for li, letter in enumerate(line):
-            tensor[li][0][self.letter_to_index(letter)] = 1
+            tensor[li][self.letter_to_index(letter)] = 1
         return tensor
