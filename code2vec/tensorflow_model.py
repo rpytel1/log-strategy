@@ -327,7 +327,7 @@ class Code2VecModel(Code2VecModelBase):
         
         fileDir = os.path.dirname(os.path.realpath('results'))
         print (fileDir)
-        f = open(os.path.join(fileDir, "results/codevector.txt"),"a")
+        f = open(os.path.join(fileDir, "results/codevector.txt"),"a+")
 
         prediction_results: List[ModelPredictionResults] = []
         for line in predict_data_lines:

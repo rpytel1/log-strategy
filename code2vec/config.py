@@ -114,6 +114,7 @@ class Config:
 
         # Automatically filled by `args`.
         self.PREDICT: bool = False   # TODO: update README;
+        self.REPRESENTATION: bool = None
         self.MODEL_SAVE_PATH: Optional[str] = None
         self.MODEL_LOAD_PATH: Optional[str] = None
         self.TRAIN_DATA_PATH_PREFIX: Optional[str] = None
