@@ -18,7 +18,6 @@ if __name__ == '__main__':
 
     model = load_model_dynamically(config)
     config.log('Done creating code2vec model')
-    print(config.TEST_DATA_PATH) 
     if config.is_training:
         model.train()
     if config.SAVE_W2V is not None:
