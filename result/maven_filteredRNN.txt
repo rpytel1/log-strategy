@@ -17358,3 +17358,49 @@ private void assertContains(String msg, String substring)
 0
 public void testValidate()
 {    Settings model = new Settings();    Profile prof = new Profile();    prof.setId("xxx");    model.addProfile(prof);    SimpleProblemCollector problems = new SimpleProblemCollector();    validator.validate(model, problems);    assertEquals(0, problems.messages.size());    Repository repo = new Repository();    prof.addRepository(repo);    problems = new SimpleProblemCollector();    validator.validate(model, problems);    assertEquals(2, problems.messages.size());    repo.setUrl("http://xxx.xxx.com");    problems = new SimpleProblemCollector();    validator.validate(model, problems);    assertEquals(1, problems.messages.size());    repo.setId("xxx");    problems = new SimpleProblemCollector();    validator.validate(model, problems);    assertEquals(0, problems.messages.size());}
+0
+public void testValidateMirror() throws Exception
+{    Settings settings = new Settings();    Mirror mirror = new Mirror();    mirror.setId("local");    settings.addMirror(mirror);    mirror = new Mirror();    mirror.setId("illegal\\:/chars");    mirror.setUrl("http://void");    mirror.setMirrorOf("void");    settings.addMirror(mirror);    SimpleProblemCollector problems = new SimpleProblemCollector();    validator.validate(settings, problems);    assertEquals(4, problems.messages.size());    assertContains(problems.messages.get(0), "'mirrors.mirror.id' must not be 'local'");    assertContains(problems.messages.get(1), "'mirrors.mirror.url' for local is missing");    assertContains(problems.messages.get(2), "'mirrors.mirror.mirrorOf' for local is missing");    assertContains(problems.messages.get(3), "'mirrors.mirror.id' must not contain any of these characters");}
+0
+public void testValidateRepository() throws Exception
+{    Profile profile = new Profile();    Repository repo = new Repository();    repo.setId("local");    profile.addRepository(repo);    repo = new Repository();    repo.setId("illegal\\:/chars");    repo.setUrl("http://void");    profile.addRepository(repo);    Settings settings = new Settings();    settings.addProfile(profile);    SimpleProblemCollector problems = new SimpleProblemCollector();    validator.validate(settings, problems);    assertEquals(3, problems.messages.size());    assertContains(problems.messages.get(0), "'profiles.profile[default].repositories.repository.id' must not be 'local'");    assertContains(problems.messages.get(1), "'profiles.profile[default].repositories.repository.url' for local is missing");    assertContains(problems.messages.get(2), "'profiles.profile[default].repositories.repository.id' must not contain any of these characters");}
+0
+public void testValidateUniqueServerId() throws Exception
+{    Settings settings = new Settings();    Server server1 = new Server();    server1.setId("test");    settings.addServer(server1);    Server server2 = new Server();    server2.setId("test");    settings.addServer(server2);    SimpleProblemCollector problems = new SimpleProblemCollector();    validator.validate(settings, problems);    assertEquals(1, problems.messages.size());    assertContains(problems.messages.get(0), "'servers.server.id' must be unique but found duplicate server with id test");}
+0
+public void testValidateUniqueProfileId() throws Exception
+{    Settings settings = new Settings();    Profile profile1 = new Profile();    profile1.setId("test");    settings.addProfile(profile1);    Profile profile2 = new Profile();    profile2.setId("test");    settings.addProfile(profile2);    SimpleProblemCollector problems = new SimpleProblemCollector();    validator.validate(settings, problems);    assertEquals(1, problems.messages.size());    assertContains(problems.messages.get(0), "'profiles.profile.id' must be unique but found duplicate profile with id test");}
+0
+public void testValidateUniqueRepositoryId() throws Exception
+{    Settings settings = new Settings();    Profile profile = new Profile();    profile.setId("pro");    settings.addProfile(profile);    Repository repo1 = new Repository();    repo1.setUrl("http://apache.org/");    repo1.setId("test");    profile.addRepository(repo1);    Repository repo2 = new Repository();    repo2.setUrl("http://apache.org/");    repo2.setId("test");    profile.addRepository(repo2);    SimpleProblemCollector problems = new SimpleProblemCollector();    validator.validate(settings, problems);    assertEquals(1, problems.messages.size());    assertContains(problems.messages.get(0), "'profiles.profile[pro].repositories.repository.id' must be unique" + " but found duplicate repository with id test");}
+0
+public void testValidateUniqueProxyId() throws Exception
+{    Settings settings = new Settings();    Proxy proxy = new Proxy();    String id = null;    proxy.setId(id);    proxy.setHost("www.example.com");    settings.addProxy(proxy);    settings.addProxy(proxy);    SimpleProblemCollector problems = new SimpleProblemCollector();    validator.validate(settings, problems);    assertEquals(1, problems.messages.size());    assertContains(problems.messages.get(0), "'proxies.proxy.id' must be unique" + " but found duplicate proxy with id " + id);}
+0
+public void testValidateProxy() throws Exception
+{    Settings settings = new Settings();    Proxy proxy1 = new Proxy();    settings.addProxy(proxy1);    SimpleProblemCollector problems = new SimpleProblemCollector();    validator.validate(settings, problems);    assertEquals(1, problems.messages.size());    assertContains(problems.messages.get(0), "'proxies.proxy.host' for default is missing");}
+0
+public void add(Severity severity, String message, int line, int column, Exception cause)
+{    messages.add(message);}
+0
+protected String renderLevel(int level)
+{    switch(level) {        case LOG_LEVEL_TRACE:            return level().debug("TRACE").toString();        case LOG_LEVEL_DEBUG:            return level().debug("DEBUG").toString();        case LOG_LEVEL_INFO:            return level().info("INFO").toString();        case LOG_LEVEL_WARN:            return level().warning("WARNING").toString();        case LOG_LEVEL_ERROR:        default:            return level().error("ERROR").toString();    }}
+0
+protected void writeThrowable(Throwable t, PrintStream stream)
+{    if (t == null) {        return;    }    stream.print(buffer().failure(t.getClass().getName()));    if (t.getMessage() != null) {        stream.print(": ");        stream.print(buffer().failure(t.getMessage()));    }    stream.println();    while (t != null) {        for (StackTraceElement e : t.getStackTrace()) {            stream.print("    ");            stream.print(buffer().strong("at"));            stream.print(" " + e.getClassName() + "." + e.getMethodName());            stream.print(buffer().a(" (").strong(getLocation(e)).a(")"));            stream.println();        }        t = t.getCause();        if (t != null) {            stream.print(buffer().strong("Caused by").a(": ").a(t.getClass().getName()));            if (t.getMessage() != null) {                stream.print(": ");                stream.print(buffer().failure(t.getMessage()));            }            stream.println();        }    }}
+0
+protected String getLocation(final StackTraceElement e)
+{    assert e != null;    if (e.isNativeMethod()) {        return "Native Method";    } else if (e.getFileName() == null) {        return "Unknown Source";    } else if (e.getLineNumber() >= 0) {        return String.format("%s:%s", e.getFileName(), e.getLineNumber());    } else {        return e.getFileName();    }}
+0
+public Logger getLogger(String name)
+{    Logger simpleLogger = loggerMap.get(name);    if (simpleLogger != null) {        return simpleLogger;    } else {        Logger newInstance = new MavenSimpleLogger(name);        Logger oldInstance = loggerMap.putIfAbsent(name, newInstance);        return oldInstance == null ? newInstance : oldInstance;    }}
+0
+public static StaticLoggerBinder getSingleton()
+{    return SINGLETON;}
+0
+public ILoggerFactory getLoggerFactory()
+{    return loggerFactory;}
+0
+public String getLoggerFactoryClassStr()
+{    return LOGGER_FACTORY_CLASS_STR;}
+0

@@ -33762,3 +33762,52 @@ public void testIntToByteArray() throws Exception
 0
 public void testByteArrayToInt() throws Exception
 {    byte[] ba;    ba = new byte[] { 0, 0 };    assertEquals(0, TCPClientDecorator.byteArrayToInt(ba));    ba = new byte[] { 0, 15 };    assertEquals(15, TCPClientDecorator.byteArrayToInt(ba));    ba = new byte[] { 0, -1 };    assertEquals(255, TCPClientDecorator.byteArrayToInt(ba));    ba = new byte[] { 1, 0 };    assertEquals(256, TCPClientDecorator.byteArrayToInt(ba));    ba = new byte[] { -1, -1 };    assertEquals(-1, TCPClientDecorator.byteArrayToInt(ba));    ba = new byte[] { 0, 0, -1, -1 };    assertEquals(65535, TCPClientDecorator.byteArrayToInt(ba));    ba = new byte[] { 0, 1, 0, 0 };    assertEquals(65536, TCPClientDecorator.byteArrayToInt(ba));    ba = new byte[] { 0, 0, 0, 0 };    assertEquals(0, TCPClientDecorator.byteArrayToInt(ba));    ba = new byte[] { -128, 0, 0, 0 };    assertEquals(Integer.MIN_VALUE, TCPClientDecorator.byteArrayToInt(ba));    ba = new byte[] { 127, -1, -1, -1 };    assertEquals(Integer.MAX_VALUE, TCPClientDecorator.byteArrayToInt(ba));        try {        TCPClientDecorator.byteArrayToInt(null);        fail("Expected IllegalArgumentException");    } catch (IllegalArgumentException expected) {        }    try {        TCPClientDecorator.byteArrayToInt(new byte[] {});        fail("Expected IllegalArgumentException");    } catch (IllegalArgumentException expected) {        }    try {        TCPClientDecorator.byteArrayToInt(new byte[] { 0 });        fail("Expected IllegalArgumentException");    } catch (IllegalArgumentException expected) {        }    try {        TCPClientDecorator.byteArrayToInt(new byte[] { 0, 0, 0 });        fail("Expected IllegalArgumentException");    } catch (IllegalArgumentException expected) {        }    try {        TCPClientDecorator.byteArrayToInt(new byte[] { 0, 0, 0 });        fail("Expected IllegalArgumentException");    } catch (IllegalArgumentException expected) {        }}
+0
+public void testLoopBack() throws Exception
+{    assertEquals(Short.MIN_VALUE, TCPClientDecorator.byteArrayToInt(TCPClientDecorator.intToByteArray(Short.MIN_VALUE, 2)));    assertEquals(Short.MAX_VALUE, TCPClientDecorator.byteArrayToInt(TCPClientDecorator.intToByteArray(Short.MAX_VALUE, 2)));    assertEquals(Integer.MIN_VALUE, TCPClientDecorator.byteArrayToInt(TCPClientDecorator.intToByteArray(Integer.MIN_VALUE, 4)));    assertEquals(Integer.MAX_VALUE, TCPClientDecorator.byteArrayToInt(TCPClientDecorator.intToByteArray(Integer.MAX_VALUE, 4)));}
+0
+ String getResource(String path)
+{    return getResource(this, path);}
+0
+ String getResourcePath(String path)
+{    return getResource(this, path);}
+0
+ static String getResource(Object instance, String path)
+{    return getResource(instance.getClass(), path);}
+0
+ static String getResource(Class<?> basetype, String path)
+{    Path nioPath = getResourcePath(basetype, path);    if (nioPath == null) {        return null;    }    return nioPath.toString();}
+0
+ static Path getResourcePath(Object instance, String path)
+{    return getResourcePath(instance.getClass(), path);}
+0
+ static Path getResourcePath(Class<?> basetype, String path)
+{    URL url = basetype.getResource(path);    if (url == null) {        return null;    }    Path nioPath;    try {        nioPath = Paths.get(url.toURI());    } catch (URISyntaxException e) {        throw new IllegalStateException(e);    }    return nioPath;}
+0
+public String getName()
+{    return "countdown";}
+0
+public void doAction(ServeEvent serveEvent, Admin admin, Parameters parameters)
+{    CountDownLatch latch = (CountDownLatch) parameters.get("latch");    latch.countDown();}
+0
+public void beforeEach(ExtensionContext context)
+{    WireMockServer server = getServer(context);    if (server != null) {        server.resetAll();    }}
+0
+public boolean supportsParameter(ParameterContext parameterContext, ExtensionContext extensionContext) throws ParameterResolutionException
+{    return parameterContext.getParameter().getType() == WireMockServer.class;}
+0
+public Object resolveParameter(ParameterContext parameterContext, ExtensionContext extensionContext) throws ParameterResolutionException
+{    return getServer(extensionContext);}
+0
+private ExtensionContext.Store getStore(ExtensionContext context)
+{    return context.getStore(NAMESPACE);}
+0
+private WireMockServer getServer(ExtensionContext context)
+{    return getStore(context).get("server", WireMockServer.class);}
+0
+public void beforeAll(ExtensionContext context)
+{    WireMockServer server = new WireMockServer(WireMockConfiguration.wireMockConfig().dynamicPort().extensions(new RequestCountDown()));    server.start();    getStore(context).put("server", server);}
+0
+public void afterAll(ExtensionContext context)
+{    WireMockServer server = getServer(context);    if (server != null && server.isRunning()) {        server.stop();    }}
+0
