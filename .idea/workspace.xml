@@ -2,28 +2,54 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="39d49ec8-f879-4bc4-bd29-c7e99a64e358" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_github_javaparser_javaparser_core_3_14_3.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_github_javaparser_javaparser_symbol_solver_core_3_14_3.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_github_javaparser_javaparser_symbol_solver_logic_3_14_3.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_github_javaparser_javaparser_symbol_solver_model_3_14_3.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_google_code_findbugs_jsr305_3_0_2.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_google_errorprone_error_prone_annotations_2_2_0.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_google_guava_failureaccess_1_0.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_google_guava_guava_27_0_jre.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_google_guava_listenablefuture_9999_0_empty_to_avoid_conflict_with_guava.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_google_j2objc_j2objc_annotations_1_1.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__commons_io_commons_io_2_6.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__junit_junit_3_8_1.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_checkerframework_checker_qual_2_5_2.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_codehaus_mojo_animal_sniffer_annotations_1_17.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_javassist_javassist_3_24_0_GA.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/log-strategy.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/log-strategy.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/result/TOTAL_FUNCTIONS.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/result/beam.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/result/beam_filteredCode2Vec.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/result/beam_filteredRNN.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/result/camel.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/result/camel_filteredCode2Vec.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/result/camel_filteredRNN.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/result/cassandra.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/result/cassandra_filteredCode2Vec.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/result/cassandra_filteredRNN.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/result/fastText_java.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/result/flink.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/result/flink_filteredCode2Vec.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/result/flink_filteredRNN.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/result/hadoop.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/result/hadoop_filteredCode2Vec.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/result/hadoop_filteredRNN.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/result/hive.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/result/hive_filteredCode2Vec.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/result/hive_filteredRNN.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/result/jmeter.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/result/jmeter_filteredCode2Vec.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/result/jmeter_filteredRNN.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/result/kafka.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/result/kafka_filteredCode2Vec.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/result/kafka_filteredRNN.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/result/maven.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/result/maven_filteredCode2Vec.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/result/maven_filteredRNN.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/result/tomcat.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/result/tomcat_filteredCode2Vec.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/result/tomcat_filteredRNN.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/result/zookeeper.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/result/zookeeper_filteredCode2Vec.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/result/zookeeper_filteredRNN.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SyntaxValidator/SyntaxValidator.iml" beforeDir="false" afterPath="$PROJECT_DIR$/TermExtactor/term-extractor.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SyntaxValidator/syntax-validator.iml" beforeDir="false" afterPath="$PROJECT_DIR$/SyntaxValidator/syntax-validator.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/code2vec/interactive_predict.py" beforeDir="false" afterPath="$PROJECT_DIR$/code2vec/interactive_predict.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/code2vec/tensorflow_model.py" beforeDir="false" afterPath="$PROJECT_DIR$/code2vec/tensorflow_model.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TermExtactor/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/TermExtactor/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/META-INF/MANIFEST.MF" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/TermExtractor/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/TermExtactor/src/App.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/TermExtractor/JavaCompilationUnit.java" beforeDir="false" afterPath="$PROJECT_DIR$/TermExtactor/src/JavaCompilationUnit.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/TermExtractor/MethodRepresentation.java" beforeDir="false" afterPath="$PROJECT_DIR$/TermExtactor/src/MethodRepresentation.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/TermExtractor/Preprocessor.java" beforeDir="false" afterPath="$PROJECT_DIR$/TermExtactor/src/Preprocessor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/TermExtractor/Repository.java" beforeDir="false" afterPath="$PROJECT_DIR$/TermExtactor/src/Repository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/script/selected_repositories.sh" beforeDir="false" afterPath="$PROJECT_DIR$/TermExtactor/script/selected_repositories.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tag_remove_log/kafkatest_filtered.txt" beforeDir="false" afterPath="$PROJECT_DIR$/tag_remove_log/kafkatest_filtered.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tag_remove_log/tagLog.py" beforeDir="false" afterPath="$PROJECT_DIR$/tag_remove_log/tagLog.py" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/JackTheLogger/target/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -39,11 +65,26 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/code2vec/code2vec.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="63">
+              <caret line="14" selection-start-line="14" selection-end-line="14" />
+              <folding>
+                <element signature="e#0#34#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/code2vec/interactive_predict.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="461">
-              <caret line="97" column="44" lean-forward="true" selection-start-line="97" selection-start-column="44" selection-end-line="97" selection-end-column="44" />
+            <state relative-caret-position="301">
+              <caret line="93" column="69" selection-start-line="93" selection-start-column="69" selection-end-line="93" selection-end-column="69" />
+              <folding>
+                <element signature="e#0#16#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -121,22 +162,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="ProjectPane">
-        <subPane>
-          <expand>
-            <path>
-              <item name="syntax-validator" type="b2602c69:ProjectViewProjectNode" />
-              <item name="log-strategy" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="syntax-validator" type="b2602c69:ProjectViewProjectNode" />
-              <item name="log-strategy" type="462c0819:PsiDirectoryNode" />
-              <item name="code2vec" type="462c0819:PsiDirectoryNode" />
-            </path>
-          </expand>
-          <select />
-        </subPane>
-      </pane>
+      <pane id="ProjectPane" />
       <pane id="PackagesPane" />
       <pane id="Scope" />
     </panes>
@@ -144,11 +170,11 @@
   <component name="PropertiesComponent">
     <property name="ASKED_SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/SyntaxValidator" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/code2vec" />
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
-    <property name="settings.editor.selected.configurable" value="reference.projectsettings.compiler.javacompiler" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
@@ -391,26 +417,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/code2vec/model_base.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="129">
-          <caret line="107" column="47" selection-start-line="107" selection-start-column="47" selection-end-line="107" selection-end-column="47" />
-          <folding>
-            <element signature="e#0#18#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/code2vec/code2vec.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="478">
-          <caret line="38" lean-forward="true" selection-start-line="38" selection-end-line="38" />
-          <folding>
-            <element signature="e#0#34#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/code2vec/tensorflow_model.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="566">
@@ -421,10 +427,33 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/code2vec/code2vec.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="63">
+          <caret line="14" selection-start-line="14" selection-end-line="14" />
+          <folding>
+            <element signature="e#0#34#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/code2vec/model_base.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1819">
+          <caret line="107" column="47" selection-start-line="107" selection-start-column="47" selection-end-line="107" selection-end-column="47" />
+          <folding>
+            <element signature="e#0#18#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/code2vec/interactive_predict.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="461">
-          <caret line="97" column="44" lean-forward="true" selection-start-line="97" selection-start-column="44" selection-end-line="97" selection-end-column="44" />
+        <state relative-caret-position="301">
+          <caret line="93" column="69" selection-start-line="93" selection-start-column="69" selection-end-line="93" selection-end-column="69" />
+          <folding>
+            <element signature="e#0#16#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -468,7 +497,7 @@
       </state>
       <state key="JdkListConfigurable.UI">
         <settings>
-          <last-edited>1.8.0_201</last-edited>
+          <last-edited>Python 3.7 (log-strategy)</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>
@@ -480,12 +509,11 @@
       </state>
       <state key="ModuleStructureConfigurable.UI">
         <settings>
-          <last-edited>log-strategy</last-edited>
+          <last-edited>code2vec</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>
                 <option value="0.2" />
-                <option value="0.6" />
               </list>
             </option>
           </splitter-proportions>

@@ -3,7 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/SyntaxValidator/SyntaxValidator.iml" filepath="$PROJECT_DIR$/SyntaxValidator/SyntaxValidator.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/log-strategy.iml" filepath="$PROJECT_DIR$/.idea/log-strategy.iml" />
+      <module fileurl="file://$PROJECT_DIR$/code2vec/code2vec.iml" filepath="$PROJECT_DIR$/code2vec/code2vec.iml" />
       <module fileurl="file://$PROJECT_DIR$/SyntaxValidator/syntax-validator.iml" filepath="$PROJECT_DIR$/SyntaxValidator/syntax-validator.iml" />
     </modules>
   </component>
