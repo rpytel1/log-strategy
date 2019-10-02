@@ -52,7 +52,7 @@ class CodeDataset(Dataset):
             self.data.append(self.line_to_tensor(elem))
 
     def __getitem__(self, index):
-        return self.data[index], self.labels[index]
+        return self.data[index][0], self.labels[index], self.data[index][1]
 
     def __len__(self):
         return len(self.data)
@@ -72,4 +72,4 @@ class CodeDataset(Dataset):
         tensor = torch.zeros(self.max_chars, self.n_letters)
         for li, letter in enumerate(line):
             tensor[li][self.letter_to_index(letter)] = 1
-        return tensor
+        return tensor, len(line)-1

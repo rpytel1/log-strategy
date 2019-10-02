@@ -12,6 +12,7 @@ class Trainer(BaseTrainer):
     Note:
         Inherited from BaseTrainer.
     """
+
     def __init__(self, model, loss, metrics, optimizer, config, data_loader,
                  valid_data_loader=None, lr_scheduler=None, len_epoch=None):
         super().__init__(model, loss, metrics, optimizer, config)
@@ -56,11 +57,11 @@ class Trainer(BaseTrainer):
 
         total_loss = 0
         total_metrics = np.zeros(len(self.metrics))
-        for batch_idx, (data, target) in enumerate(self.data_loader):
+        for batch_idx, (data, target, lengths) in enumerate(self.data_loader):
             data, target = data.to(self.device), target.to(self.device)
 
             self.optimizer.zero_grad()
-            output = self.model(data)
+            output = self.model(data, lengths)
             loss = self.loss(output, target)
             loss.backward()
             self.optimizer.step()
@@ -107,10 +108,10 @@ class Trainer(BaseTrainer):
         total_val_loss = 0
         total_val_metrics = np.zeros(len(self.metrics))
         with torch.no_grad():
-            for batch_idx, (data, target) in enumerate(self.valid_data_loader):
+            for batch_idx, (data, target, length) in enumerate(self.valid_data_loader):
                 data, target = data.to(self.device), target.to(self.device)
 
-                output = self.model(data)
+                output = self.model(data, length)
                 loss = self.loss(output, target)
 
                 # self.writer.set_step((epoch - 1) * len(self.valid_data_loader) + batch_idx, 'valid')
@@ -121,7 +122,7 @@ class Trainer(BaseTrainer):
 
         # add histogram of model parameters to the tensorboard
         # for name, p in self.model.named_parameters():
-            # self.writer.add_histogram(name, p, bins='auto')
+        # self.writer.add_histogram(name, p, bins='auto')
 
         return {
             'val_loss': total_val_loss / len(self.valid_data_loader),

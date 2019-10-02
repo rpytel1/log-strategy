@@ -22,14 +22,26 @@ class CodeRNN(nn.Module):
         )
         self.linear = nn.Linear(self.nb_lstm_units, output_size)
 
-    def forward(self, X):
+    def forward(self, X, lengths):
         batch_size, seq_len, _ = X.size()
         self.hidden = self.init_hidden(batch_size)
-        X, self.hidden = self.lstm(X, self.hidden)
 
-        X = X[:, -1, :]
-        X = self.linear(X)
+        total_length = X.shape[1]
+
+        X = torch.nn.utils.rnn.pack_padded_sequence(X, lengths, batch_first=True, enforce_sorted=False)
+        # now run through LSTM
+        X, self.hidden = self.lstm(X, self.hidden)
+        # undo the packing operation
+        X, _ = torch.nn.utils.rnn.pad_packed_sequence(X, batch_first=True, total_length=total_length)
+
+        n = [X[i, n, :]for i, n in enumerate(list(lengths))]
+
+
+        k = torch.cat(n).view(batch_size,-1)
+        print(k.size())
+        X = self.linear(k)
         Y_hat = X
+        print(Y_hat.size())
 
         return Y_hat
 
