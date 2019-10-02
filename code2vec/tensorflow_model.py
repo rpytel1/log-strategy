@@ -4,6 +4,7 @@ import time
 from typing import Dict, Optional, List, Iterable
 from collections import Counter
 from functools import partial
+import os
 
 from path_context_reader import PathContextReader, ModelInputTensorsFormer, ReaderInputTensors, EstimatorAction
 from common import common
@@ -388,14 +389,13 @@ class Code2VecModel(Code2VecModelBase):
         file = open(os.path.join(fileDir, "result/codevectors_labeled.txt"),"a")
 
         for line in predict_data_lines:
-            print(line)
-            methodName, methodId, methodLabel = 'A_f1hsdf_0'.split('_')
-
-            batch_code_vectors = self.sess.run(
-                [self.predict_code_vectors],
+            batch_original_name, batch_code_vectors = self.sess.run(
+                [self.predict_original_names_op, self.predict_code_vectors],
                 feed_dict={self.predict_placeholder: line})
             code_vectors= np.squeeze(batch_code_vectors,axis=0)
 
+            print(batch_original_name)
+            methodName, methodId, methodLabel = np.array2string(batch_original_name).split('_')
             output = methodId + '\n' + methodLabel + '\n' + np.array2string(code_vectors) + '\n'
             file.write(output)
 
