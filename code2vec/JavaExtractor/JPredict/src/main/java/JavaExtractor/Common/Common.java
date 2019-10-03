@@ -35,11 +35,11 @@ public final class Common {
 
 	public static String normalizeName(String original, String defaultString) {
 		original = original.toLowerCase().replaceAll("\\\\n", "") // escaped new
-																	// lines
+				// lines
 				.replaceAll("//s+", "") // whitespaces
 				.replaceAll("[\"',]", "") // quotes, apostrophies, commas
 				.replaceAll("\\P{Print}", ""); // unicode weird characters
-		String stripped = original.replaceAll("[^A-Za-z_0-9]", "");
+		String stripped = original.replaceAll("[^A-Za-z]", "");
 		if (stripped.length() == 0) {
 			String carefulStripped = original.replaceAll(" ", "_");
 			if (carefulStripped.length() == 0) {
