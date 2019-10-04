@@ -27,7 +27,7 @@ class InteractivePredictor:
             return file.readlines()
 
     def predict(self):
-        input_filename = 'Input.java'
+        input_filename = '/Inputs'
         print('Starting interactive prediction...')
         while True:
             print(
@@ -58,7 +58,7 @@ class InteractivePredictor:
                     print(' '.join(map(str, raw_prediction.code_vector)))
 
     def extractRepresentation(self):
-        input_filename = 'Input.java'
+        input_filename = 'Inputs'
         print('Starting code2vec representation extraction...')
         while True:
             print(
