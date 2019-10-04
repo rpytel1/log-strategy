@@ -34,9 +34,9 @@ if __name__ == '__main__':
 
     if config.REPRESENTATION:
         predictor = InteractivePredictor(config, model)
-        predictor.extractRepresentation()
+        predictor.extractRepresentation(config.input_data_type, config.INPUT_DATA_PATH)
 
     if config.PREDICT:
         predictor = InteractivePredictor(config, model)
-        predictor.predict()
+        predictor.predict(config.input_data_type, config.INPUT_DATA_PATH)
     model.close_session()

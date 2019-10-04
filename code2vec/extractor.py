@@ -8,9 +8,9 @@ class Extractor:
         self.max_path_width = max_path_width
         self.jar_path = jar_path
 
-    def extract_paths(self, path):
+    def extract_paths(self, inputType, path):
         command = ['java', '-cp', self.jar_path, 'JavaExtractor.App', '--max_path_length',
-                   str(self.max_path_length), '--max_path_width', str(self.max_path_width), '--dir', path, '--no_hash']
+                   str(self.max_path_length), '--max_path_width', str(self.max_path_width), inputType, path, '--no_hash']
         process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         out, err = process.communicate()
         output = out.decode().splitlines()

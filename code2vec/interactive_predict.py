@@ -26,18 +26,17 @@ class InteractivePredictor:
         with open(input_filename, 'r') as file:
             return file.readlines()
 
-    def predict(self):
-        input_filename = '/Inputs'
+    def predict(self, inputType, inputPath):
         print('Starting interactive prediction...')
         while True:
             print(
-                'Modify the file: "%s" and press any key when ready, or "q" / "quit" / "exit" to exit' % input_filename)
+                'Modify the file: "%s" and press any key when ready, or "q" / "quit" / "exit" to exit' % inputPath)
             user_input = input()
             if user_input.lower() in self.exit_keywords:
                 print('Exiting...')
                 return
             try:
-                predict_lines, hash_to_string_dict = self.path_extractor.extract_paths(input_filename)
+                predict_lines, hash_to_string_dict = self.path_extractor.extract_paths(inputType, inputPath)
             except ValueError as e:
                 print(e)
                 continue
@@ -57,18 +56,17 @@ class InteractivePredictor:
                     print('Code vector:')
                     print(' '.join(map(str, raw_prediction.code_vector)))
 
-    def extractRepresentation(self):
-        input_filename = 'Inputs'
+    def extractRepresentation(self, inputType, inputPath):
         print('Starting code2vec representation extraction...')
         while True:
             print(
-                'Modify the file: "%s" and press any key when ready, or "q" / "quit" / "exit" to exit' % input_filename)
+                'Modify the file: "%s" and press any key when ready, or "q" / "quit" / "exit" to exit' % inputPath)
             user_input = input()
             if user_input.lower() in self.exit_keywords:
                 print('Exiting...')
                 return
             try:
-                predict_lines, hash_to_string_dict = self.path_extractor.extract_paths(input_filename)
+                predict_lines, hash_to_string_dict = self.path_extractor.extract_paths(inputType, inputPath)
             except ValueError as e:
                 print(e)
                 continue
