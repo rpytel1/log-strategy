@@ -6,24 +6,36 @@ from torch.autograd import Variable
 
 
 class CodeRNN(nn.Module):
-    def __init__(self, batch_size, output_size=2, embedding_size=len(string.printable + " .,;'"),
+    def __init__(self, batch_size, output_size=2, nb_lstm_layers=1, nb_lstm_units=512, bidirectionality=False,
+                 embedding_size=len(string.printable + " .,;'"),
                  use_cuda=False):
         super(CodeRNN, self).__init__()
 
         self.use_cuda = use_cuda
-        self.nb_lstm_layers = 1
-        self.nb_lstm_units = 512
+        self.nb_lstm_layers = nb_lstm_layers
+        self.nb_lstm_units = nb_lstm_units
         self.batch_size = batch_size
         self.vocabulary = string.printable + " .,;'"
         self.embedding = nn.Embedding(len(self.vocabulary), embedding_size)
+
+        self.get_linear_input(bidirectionality)
         # design LSTM
         self.lstm = nn.LSTM(
             input_size=embedding_size,
             hidden_size=self.nb_lstm_units,
             num_layers=self.nb_lstm_layers,
-            batch_first=True
+            batch_first=True,
+            bidirectional=bidirectionality
         )
-        self.linear = nn.Linear(self.nb_lstm_units, output_size)
+
+        self.linear = nn.Linear(self.nb_lstm_units * self.linear_multiplier, output_size)
+
+    def get_linear_input(self, bidirectional):
+        self.multiplier = self.nb_lstm_layers
+        self.linear_multiplier = 1
+        if bidirectional:
+            self.multiplier *= 2
+            self.linear_multiplier = 2
 
     def forward(self, X, lengths):
         total_length = X.shape[1]
@@ -46,8 +58,8 @@ class CodeRNN(nn.Module):
         return Y_hat
 
     def init_hidden(self, batch_size):
-        h0 = torch.zeros(self.nb_lstm_layers, batch_size, self.nb_lstm_units)
-        c0 = torch.zeros(self.nb_lstm_layers, batch_size, self.nb_lstm_units)
+        h0 = torch.zeros(self.multiplier, batch_size, self.nb_lstm_units)
+        c0 = torch.zeros(self.multiplier, batch_size, self.nb_lstm_units)
 
         if self.use_cuda and torch.cuda.is_available():
             h0 = h0.cuda()
