@@ -8,7 +8,7 @@ class DataElem:
             self.function_id = function_id
 
     def __str__(self):
-        return self.function_name \
+        return self.function_name + '\n' \
                + self.signature \
                + self.body \
                + self.function_id + '\n' \
