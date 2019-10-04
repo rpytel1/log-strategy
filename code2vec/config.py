@@ -11,6 +11,8 @@ class Config:
         parser = ArgumentParser()
         parser.add_argument("-d", "--data", dest="data_path",
                             help="path to preprocessed dataset", required=False)
+        parser.add_argument("--inputData", dest="input_data_path",
+                            help="path to input dataset", metavar="FILE", required=False)
         parser.add_argument("-te", "--test", dest="test_path",
                             help="path to test file", metavar="FILE", required=False)
         parser.add_argument("-s", "--save", dest="save_path",
@@ -75,6 +77,7 @@ class Config:
         # Automatically filled, do not edit:
         self.PREDICT = args.predict
         self.REPRESENTATION = args.representation
+        self.INPUT_DATA_PATH = args.input_data_path
         self.MODEL_SAVE_PATH = args.save_path
         self.MODEL_LOAD_PATH = args.load_path
         self.TRAIN_DATA_PATH_PREFIX = args.data_path
@@ -117,6 +120,7 @@ class Config:
         # Automatically filled by `args`.
         self.PREDICT: bool = False   # TODO: update README;
         self.REPRESENTATION: bool = False
+        self.INPUT_DATA_PATH: Optional[str] = "Input.java"
         self.MODEL_SAVE_PATH: Optional[str] = None
         self.MODEL_LOAD_PATH: Optional[str] = None
         self.TRAIN_DATA_PATH_PREFIX: Optional[str] = None
@@ -152,6 +156,14 @@ class Config:
     @property
     def is_training(self) -> bool:
         return bool(self.TRAIN_DATA_PATH_PREFIX)
+
+    @property
+    def input_data_is_file(self) -> bool:
+        return self.INPUT_DATA_PATH and os.path.isfile(self.INPUT_DATA_PATH)
+
+    @property
+    def input_data_type(self) -> str:
+        return "--file" if  input_data_is_file(self) else "--dir"
 
     @property
     def is_loading(self) -> bool:
