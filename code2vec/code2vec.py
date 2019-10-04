@@ -34,9 +34,9 @@ if __name__ == '__main__':
 
     if config.REPRESENTATION:
         predictor = InteractivePredictor(config, model)
-        predictor.extractRepresentation()
+        predictor.extractRepresentation('--file', "Input.java")
 
     if config.PREDICT:
         predictor = InteractivePredictor(config, model)
-        predictor.predict()
+        predictor.predict('--file', "Input.java")
     model.close_session()
