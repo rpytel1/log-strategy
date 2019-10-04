@@ -5,7 +5,7 @@ import re
 import warnings
 
 
-CODE2VEC_PATH = "C:\\Users\\Jan\\Desktop\\log-strategy\\code2vec"
+CODE2VEC_PATH = "../code2vec"
 
 
 def readInput(path: str):
@@ -76,29 +76,60 @@ def createDirectories():
         print('Created output directory at: ' + os.path.abspath("test"))
 
 
-def writeInput(data):
+def writeInput(data, name):
     createDirectories()
 
-    f_train_feats = open("train/train.java", "w", encoding="utf-8")
-    f_train_labels = open("train_labeled.txt", "w", encoding="utf-8")
+    f_train_feats = open("train/train" + name + "0.java", "w", encoding="utf-8")
+    f_train_labels = open("train_labeled" + name + ".txt", "w", encoding="utf-8")
 
-    f_test_feats = open("test/test.java", "w", encoding="utf-8")
-    f_test_labels = open("test_labeled.txt", "w", encoding="utf-8")
+    f_train_counter = 0
+    f_train_file_counter = 0
 
-    f_val_feats = open("val/val.java", "w", encoding="utf-8")
-    f_val_labels = open("val_labeled.txt", "w", encoding="utf-8")
+    f_test_feats = open("test/test" + name + "0.java", "w", encoding="utf-8")
+    f_test_labels = open("test_labeled" + name + ".txt", "w", encoding="utf-8")
+
+    f_test_counter = 0
+    f_test_file_counter = 0
+
+    f_val_feats = open("val/val" + name + "0.java", "w", encoding="utf-8")
+    f_val_labels = open("val_labeled" + name + ".txt", "w", encoding="utf-8")
+
+    f_val_counter = 0
+    f_val_file_counter = 0
 
     # Organize Data into split 5/2/3
     for id, elem in enumerate(data):
         if id % 10 < 5:
+            if f_train_counter > 1000:
+                f_train_file_counter += 1
+                f_train_feats.close()
+                f_train_feats = open("train/train" + name + str(f_train_file_counter) + ".java", "w", encoding="utf-8")
+                f_train_counter = 0
+            
             f_train_feats.write(elem.getJavaRepresentation())
             f_train_labels.write(str(elem))
+            f_train_counter += 1
         elif id % 10 in range(5, 7, 1):
+            if f_test_counter > 1000:
+                f_test_file_counter += 1
+                f_test_feats.close()
+                f_test_feats = open("test/test" + name + str(f_test_file_counter) + ".java", "w", encoding="utf-8")
+                f_test_counter = 0
+                
             f_test_feats.write(elem.getJavaRepresentation())
             f_test_labels.write(str(elem))
+            f_test_counter += 1
         else:
+            if f_val_counter > 1000:
+                f_val_file_counter += 1
+                f_val_feats.close()
+                f_val_feats = open("val/val" + name + str(f_val_file_counter) + ".java", "w", encoding="utf-8")
+                f_val_counter = 0
+                
             f_val_feats.write(elem.getJavaRepresentation())
             f_val_labels.write(str(elem))
+            f_val_counter += 1
+
 
     print('Wrote ' + str(len(data)) + ' methods to disk.')
 
@@ -114,8 +145,10 @@ def writeInput(data):
 
 # pipeline
 def preprocess():
-    data = processInput('../result/beam_filteredCode2Vec.txt')
-    writeInput(data)
+    for (dirpath, dirnames, filenames) in os.walk("../result/filteredCode2Vec"):
+        for filename in filenames:
+            data = processInput(dirpath + "/" + filename)
+            writeInput(data, filename)
 
     os.chdir(CODE2VEC_PATH)
     subprocess.call('sh preprocess_code.sh', shell=True)
