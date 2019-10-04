@@ -163,7 +163,7 @@ class Config:
 
     @property
     def input_data_type(self) -> str:
-        return "--file" if  input_data_is_file(self) else "--dir"
+        return "--file" if self.input_data_is_file else "--dir"
 
     @property
     def is_loading(self) -> bool:
