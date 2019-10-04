@@ -84,10 +84,13 @@ def writeInput(data):
     # Organize Data into split 5/2/3
     for id, elem in enumerate(data):
         if id % 10 < 5:
+            f_train_feats.write(elem.getJavaRepresentation())
             f_train_labels.write(str(elem))
         elif id % 10 in range(5, 7, 1):
+            f_test_feats.write(elem.getJavaRepresentation())
             f_test_labels.write(str(elem))
         else:
+            f_val_feats.write(elem.getJavaRepresentation())
             f_val_labels.write(str(elem))
 
     print('Wrote ' + str(len(data)) + ' methods to disk.')

@@ -14,3 +14,7 @@ class DataElem:
                + self.function_id + '\n' \
                + self.label
 
+    def getJavaRepresentation(self):
+        return self.signature \
+               + self.body \
+
