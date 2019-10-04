@@ -12,9 +12,9 @@ class DataElem:
                + self.signature \
                + self.body \
                + self.function_id + '\n' \
-               + self.label
+               + self.label + '\n'
 
-    def getJavaRepresentation(self):
+    def getJavaRepresentation(self) -> str:
         return self.signature \
                + self.body \
 
