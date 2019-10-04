@@ -31,7 +31,6 @@ class CodeRNN(nn.Module):
         self.hidden = self.init_hidden(batch_size)
 
         X = self.embedding(X)
-        print(X.size())
         X = torch.nn.utils.rnn.pack_padded_sequence(X, lengths, batch_first=True, enforce_sorted=False)
         # now run through LSTM
         X, self.hidden = self.lstm(X, self.hidden)

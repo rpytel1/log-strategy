@@ -34,10 +34,15 @@ class CodeCharDataset(Dataset):
 
         self.max_chars = len(max(functions, key=len))
         print("Before one hot encoding")
-        with progressbar.ProgressBar(max_value=len(functions)) as bar:
-            for ind, elem in enumerate(functions):
-                self.data.append(self.line_to_tensor(elem))
-                bar.update(ind)
+
+        widgets = [progressbar.SimpleProgress(), ' ', progressbar.Bar(),
+                   ' ', progressbar.ETA()]
+
+        bar = progressbar.ProgressBar(widgets=widgets, maxval=len(functions)).start()
+        for ind, elem in enumerate(functions):
+            self.data.append(self.line_to_tensor(elem))
+            bar.update(ind)
+        bar.finish()
 
     def __getitem__(self, index):
         return self.data[index][0], self.labels[index], self.data[index][1]
