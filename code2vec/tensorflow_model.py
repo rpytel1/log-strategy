@@ -386,7 +386,7 @@ class Code2VecModel(Code2VecModelBase):
 
 
         fileDir = os.path.dirname(os.path.realpath('result'))
-        file = open(os.path.join(fileDir, "result/codevectors_labeled.txt"))
+        file = open(os.path.join(fileDir, "result/codevectors_labeled.txt"), "w")
 
         for line in predict_data_lines:
             batch_original_name, batch_code_vectors = self.sess.run(
@@ -394,9 +394,8 @@ class Code2VecModel(Code2VecModelBase):
                 feed_dict={self.predict_placeholder: line})
             code_vectors= np.squeeze(batch_code_vectors,axis=0)
 
-            print(batch_original_name)
             methodName, paddingf, methodId, methodLabel = np.array2string(batch_original_name).split('|')
-            output = methodName + methodId + '\n' + methodLabel[0] + '\n' + np.array2string(code_vectors) + '\n'
+            output = methodName[3:] + methodId + '\n' + methodLabel[0] + '\n' + np.array2string(code_vectors) + '\n'
             file.write(output)
 
         file.close()
