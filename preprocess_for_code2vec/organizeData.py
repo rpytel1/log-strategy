@@ -13,37 +13,44 @@ def readInput(path: str):
     lines = file.readlines()
     file.close()
 
-    print("Found and red " + str(int(len(lines) / 3)) + ' methods in ' + path + '.')
+    print("Found and red " + str(int(len(lines) / 2)) + ' methods in ' + path + '.')
     return lines
 
 
 def extractLabel(signature: str):
-    splitName = signature.split('_')
-    functionName = splitName[len(splitName) - 1]
+    splitSignature = signature.split('_')
+    functionName = splitSignature[len(splitSignature) - 1]
     logPattern = re.compile(r'[^0|1].*')
 
     return re.sub(logPattern, '', functionName)
 
 
 def extractFunctionId(signature: str):
-    splitName = signature.split('_')
-    return splitName[len(splitName) - 2]
+    splitSignature = signature.split('_')
+    return splitSignature[len(splitSignature) - 2]
+
+
+def extractFunctionName(signature: str):
+    pattern = re.compile(r'( [^\( ]+\()')
+    cleanedSignature = re.sub(r'\(', '', str(re.findall(pattern, signature)))
+    splitSignature = cleanedSignature.split(' ')
+    functionName = splitSignature[(len(splitSignature) - 1)]
+
+    return ''.join(functionName[: (len(functionName) - 2)])
 
 
 # CURRENT VERSION IS RANDOM SAMPLING
 # Read data to the DataElem structure
 def processInput(input: str):
     data = []
-    function_name = ""
     signature = ""
 
     for id, line in enumerate(readInput(input)):
         line.replace('\n', ' ').replace('\r', '')
-        if id % 3 == 0:
-            function_name = line
-        elif id % 3 == 1:
+        if id % 2 == 0:
             signature = line
-        elif id % 3 == 2:
+        elif id % 2 == 1:
+            function_name = extractFunctionName(signature)
             body = line
             if body.strip() != "{}":
                 methodDescription = DataElem(function_name, signature, body, extractFunctionId(signature), extractLabel(signature))
@@ -107,7 +114,7 @@ def writeInput(data):
 
 # pipeline
 def preprocess():
-    data = processInput('../tag_remove_log/kafkatest_filtered.txt')
+    data = processInput('../result/beam_filteredCode2Vec.txt')
     writeInput(data)
 
     os.chdir(CODE2VEC_PATH)
