@@ -1,32 +1,18 @@
 import string
+
+import progressbar
 import torch
-from torchvision import datasets, transforms
 from base import BaseDataLoader
 from torch.utils.data.dataset import Dataset
 
 
-class MnistDataLoader(BaseDataLoader):
-    """
-    MNIST data loading demo using BaseDataLoader
-    """
-
-    def __init__(self, data_dir, batch_size, shuffle=True, validation_split=0.0, num_workers=1, training=True):
-        trsfm = transforms.Compose([
-            transforms.ToTensor(),
-            transforms.Normalize((0.1307,), (0.3081,))
-        ])
-        self.data_dir = data_dir
-        self.dataset = datasets.MNIST(self.data_dir, train=training, download=True, transform=trsfm)
-        super().__init__(self.dataset, batch_size, shuffle, validation_split, num_workers)
-
-
-class CodeDataLoader(BaseDataLoader):
+class CodeCharDataLoader(BaseDataLoader):
     def __init__(self, filename, batch_size, shuffle=True, validation_split=0.0, num_workers=1, training=True):
-        self.dataset = CodeDataset(filename)
+        self.dataset = CodeCharDataset(filename)
         super().__init__(self.dataset, batch_size, shuffle, validation_split, num_workers)
 
 
-class CodeDataset(Dataset):
+class CodeCharDataset(Dataset):
     CODE_DIR = "../result/"
     all_letters = string.printable + " .,;'"
     n_letters = len(all_letters)
@@ -47,9 +33,11 @@ class CodeDataset(Dataset):
                 self.labels.append(torch.tensor(int(elem)))
 
         self.max_chars = len(max(functions, key=len))
-
-        for elem in functions:
-            self.data.append(self.line_to_tensor(elem))
+        print("Before one hot encoding")
+        with progressbar.ProgressBar(max_value=len(functions)) as bar:
+            for ind, elem in enumerate(functions):
+                self.data.append(self.line_to_tensor(elem))
+                bar.update(ind)
 
     def __getitem__(self, index):
         return self.data[index][0], self.labels[index], self.data[index][1]
@@ -57,19 +45,8 @@ class CodeDataset(Dataset):
     def __len__(self):
         return len(self.data)
 
-    def letter_to_index(self, letter):
-        return self.all_letters.find(letter)
-
-    # Just for demonstration, turn a letter into a <1 x n_letters> Tensor
-    def letter_to_tensor(self, letter):
-        tensor = torch.zeros(1, self.n_letters)
-        tensor[0][self.letter_to_index(letter)] = 1
-        return tensor
-
-    # Turn a line into a <line_length x 1 x n_letters>,
-    # or an array of one-hot letter vectors
     def line_to_tensor(self, line):
-        tensor = torch.zeros(self.max_chars, self.n_letters)
+        tensor = torch.zeros(self.max_chars, dtype=torch.long)
         for li, letter in enumerate(line):
-            tensor[li][self.letter_to_index(letter)] = 1
-        return tensor, len(line)-1
+            tensor[li] = self.all_letters.find(letter)
+        return tensor, len(line) - 1

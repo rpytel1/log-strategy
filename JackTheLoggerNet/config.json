@@ -5,15 +5,15 @@
     "arch": {
         "type": "CodeRNN",
         "args": {
-            "n_features": 105,
+            "embedding_size": 10,
             "batch_size": 4,
             "use_cuda": true
         }
     },
     "data_loader": {
-        "type": "CodeDataLoader",
+        "type": "CodeCharDataLoader",
         "args":{
-            "filename": "beam_filteredCode2Vec.txt",
+            "filename": "zookeeper_filteredRNN.txt",
             "batch_size": 10,
             "shuffle": true,
             "validation_split": 0.2,
