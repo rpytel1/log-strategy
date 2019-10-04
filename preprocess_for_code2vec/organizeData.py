@@ -5,7 +5,7 @@ import re
 import warnings
 
 
-CODE2VEC_PATH = "/Users/rafalpytel/code2vec"
+CODE2VEC_PATH = "C:\\Users\\Jan\\Desktop\\log-strategy\\code2vec"
 
 
 def readInput(path: str):
@@ -32,12 +32,12 @@ def extractFunctionId(signature: str):
 
 # CURRENT VERSION IS RANDOM SAMPLING
 # Read data to the DataElem structure
-def processInput():
+def processInput(input: str):
     data = []
     function_name = ""
     signature = ""
 
-    for id, line in enumerate(readInput('../tag_remove_log/kafkatest_filtered.txt')):
+    for id, line in enumerate(readInput(input)):
         line.replace('\n', ' ').replace('\r', '')
         if id % 3 == 0:
             function_name = line
@@ -107,7 +107,7 @@ def writeInput(data):
 
 # pipeline
 def preprocess():
-    data = processInput()
+    data = processInput('../tag_remove_log/kafkatest_filtered.txt')
     writeInput(data)
 
     os.chdir(CODE2VEC_PATH)
