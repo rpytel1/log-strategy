@@ -6,7 +6,7 @@ from torch.autograd import Variable
 
 
 class CodeRNN(nn.Module):
-    def __init__(self, batch_size, output_size=2, nb_lstm_layers=1, nb_lstm_units=512, bidirectionality=False,
+    def __init__(self, batch_size, output_size=2, nb_lstm_layers=1, nb_lstm_units=10, bidirectionality=False,
                  embedding_size=len(string.printable + " .,;'"),
                  use_cuda=False):
         super(CodeRNN, self).__init__()

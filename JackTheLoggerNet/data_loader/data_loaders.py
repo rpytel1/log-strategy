@@ -33,7 +33,7 @@ class CodeCharDataset(Dataset):
                 self.labels.append(torch.tensor(int(elem)))
 
         self.length = min(len(functions), len(self.labels))
-
+        print(self.length, len(functions), len(self.labels))
         self.max_chars = len(max(functions, key=len))
         print("Before one hot encoding")
 

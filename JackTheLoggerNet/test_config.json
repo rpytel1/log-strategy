@@ -6,15 +6,15 @@
         "type": "CodeRNN",
         "args": {
             "embedding_size": 10,
-            "batch_size": 30,
+            "batch_size": 4,
             "use_cuda": true
         }
     },
     "data_loader": {
         "type": "CodeCharDataLoader",
         "args":{
-            "filename": "zookeeper_filteredRNN.txt",
-            "batch_size": 30,
+            "filename": "test.txt",
+            "batch_size": 10,
             "shuffle": true,
             "validation_split": 0.2,
             "num_workers": 2
