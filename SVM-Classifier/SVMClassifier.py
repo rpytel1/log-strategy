@@ -1,28 +1,28 @@
 import numpy as np
 from Evaluation import JaccardIndex, Accuracy
 from sklearn import svm
+import re
 
 def readInput(path: str):
     file = open(path, "r")
     lines = file.readlines()
     file.close()
-    print("Found and red " + str(int(len(lines) / 2)) + ' methods in ' + path + '.')
+    print("Found and red " + str(int(len(lines) / 3)) + ' code vectors in ' + path + '.')
     return lines
 
 def extractVectors(data) -> [[int], [float]] :
     vectors = []
-    sampleSizes = []
-    for id, line in data:
+    for id, line in enumerate(data):
         if id % 3 == 2:
-            codeVector = np.fromstring(line, float)
+            line = re.sub(r'\[|\]', '', line)
+            codeVector = np.fromstring(line, float, sep=',').tolist()
             vectors.append(codeVector)
-            sampleSizes.append(codeVector.size)
 
-    return [sampleSizes, vectors]
+    return vectors
 
 def extractLabels(data) -> [int]:
     labels = []
-    for id, line in data:
+    for id, line in enumerate(data):
         if id % 3 == 1:
             labels.append(int(line))
 
@@ -41,12 +41,12 @@ def train(features, labels):
 
 
 if __name__ == '__main__':
-    data = readInput("")
+    data = readInput("C://Users//Jan//Desktop//log-strategy//SVM-Classifier//test.txt")
     codeVectors = extractVectors(data)
     labels = extractLabels(data)
     model = train(codeVectors, labels)
 
-    validation_data = readInput("")
+    validation_data = readInput("C://Users//Jan//Desktop//log-strategy//SVM-Classifier//test.txt")
     validation_codeVectors = extractVectors(data)
     validation_labels = extractLabels(data)
     prediction = model.predict(validation_codeVectors)
