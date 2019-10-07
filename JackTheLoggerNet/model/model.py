@@ -41,12 +41,14 @@ class CodeRNN(nn.Module):
         total_length = X.shape[1]
         batch_size, seq_len = X.size()
         self.hidden = self.init_hidden(batch_size)
-
+        print(X.size(),lengths)
         X = self.embedding(X)
+        print(X.size())
         X = torch.nn.utils.rnn.pack_padded_sequence(X, lengths, batch_first=True, enforce_sorted=False)
         # now run through LSTM
         X, self.hidden = self.lstm(X, self.hidden)
         # undo the packing operation
+        print(X.size())
         X, _ = torch.nn.utils.rnn.pad_packed_sequence(X, batch_first=True, total_length=total_length)
 
         n = [X[i, n, :] for i, n in enumerate(list(lengths))]
