@@ -1,5 +1,4 @@
-from sklearn.metrics import jaccard_score
-from sklearn.metrics import accuracy_score
+from sklearn.metrics import jaccard_score, accuracy_score, average_precision_score, recall_score, precision_score
 
 
 def JaccardIndex(predictions, labels) -> float:
@@ -7,4 +6,13 @@ def JaccardIndex(predictions, labels) -> float:
     return round(jaccard_index, 3)
 
 def Accuracy(predictions, labels) -> float:
-    return accuracy_score(labels, predictions)
+    return accuracy_score(y_true=labels, y_pred=predictions)
+
+def APrecision(predictions, labels) -> float:
+    return average_precision_score(y_true=labels, y_score=predictions)
+
+def Recall(predictions, labels):
+    return recall_score(y_true=labels, y_pred=predictions)
+
+def Precision(predictions, labels):
+    return precision_score(y_true=labels, y_pred=predictions, average='binary')
