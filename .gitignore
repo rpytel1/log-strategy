@@ -238,3 +238,7 @@ JackTheLoggerNet/DeepJackTheLogger.iml
 
 preprocess_for_code2vec/*.txt
 preprocess_for_code2vec/**/*.java
+
+code2vec/Inputs
+**/*.pyc
+code2vec/result
