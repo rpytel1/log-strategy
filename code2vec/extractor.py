@@ -46,6 +46,8 @@ class Extractor:
                     tmpResult, tmpHash_to_string_dict = self.extract_java(dirpath+filename)
                     result.append(tmpResult)
                     hash_to_string_dict.update(tmpHash_to_string_dict)
+                    print("Processed", filename, 'at', dirpath, '.')
+            print("Processed all java files at", dirpath, '.')
             return result, hash_to_string_dict
         else:
             return self.extract_java(path)

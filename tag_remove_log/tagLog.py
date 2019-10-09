@@ -11,9 +11,11 @@ DEBUG = False
 
 for (dirpath, dirnames, filenames) in os.walk(INPUT_PATH):
     for filename in filenames:
+        fileEnding = os.path.splitext(filename)[1]
         filename = os.path.splitext(filename)[0]
         if not (os.path.isfile(dirpath + '/filteredCode2Vec/' + filename + "_filteredCode2Vec.txt") and
-                os.path.isfile(dirpath + '/filteredRNN/' + filename + "_filteredRNN.txt")):
+                os.path.isfile(dirpath + '/filteredRNN/' + filename + "_filteredRNN.txt"))\
+                and fileEnding == ".txt":
             print("--------------------------", "Import", filename, "--------------------------")
             f = open(dirpath + "/" + filename + ".txt", "r", encoding='utf-8')
             lines = f.readlines();
@@ -23,11 +25,11 @@ for (dirpath, dirnames, filenames) in os.walk(INPUT_PATH):
             regex = re.compile('(((log)|(logger))[.]((debug)|(info)|(warn)|(fatal)|(error))[^;]*;)', flags=re.I)
 
             if not os.path.isdir(dirpath + '/filteredCode2Vec/'):
-                os.makedirs(dirpath + 'filteredCode2Vec')
+                os.makedirs(dirpath + '/filteredCode2Vec')
             f = open(dirpath + '/filteredCode2Vec/' + filename + "_filteredCode2Vec.txt", "w", encoding="utf-8")
 
             if not os.path.isdir(dirpath + '/filteredRNN/'):
-                os.makedirs(dirpath + 'filteredRNN')
+                os.makedirs(dirpath + '/filteredRNN')
             f2 = open(dirpath + '/filteredRNN/' + filename + "_filteredRNN.txt", "w", encoding="utf-8")
 
 
@@ -91,14 +93,15 @@ for (dirpath, dirnames, filenames) in os.walk(INPUT_PATH):
 
                     funccounter += 1;
                     index = -1;
-
             f.close()
+            if not os.path.isdir(dirpath + '/processed/'):
+                os.makedirs(dirpath + '/processed')
+            os.rename(dirpath + "/" + filename + ".txt", dirpath + "/processed/" + filename + ".txt")
 
-            information = filename + "\n" + "Functions with log: " + str(logcount) + "\n" + "Functions without log: " + str(nologcount) + "\n" + "Functions without log: " + str(nologcount)
+            information = "\n" + filename + "\n" + "Functions with log: " + str(logcount) + "\n" + "Functions without log: " + str(nologcount) + "\n" + "Functions without log: " + str(nologcount)
             print(information)
 
-            f = open(dirpath + "/FUNCTION_STATISTICS.txt", 'a')
-            f.write(filename)
+            f = open(dirpath + "/FUNCTION_STATISTICS", 'a')
             f.write(information)
             f.close()
             print("--------------------------", "Parsed", filename, "--------------------------")

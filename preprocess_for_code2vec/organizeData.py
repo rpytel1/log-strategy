@@ -148,7 +148,14 @@ def preprocess():
     for (dirpath, dirnames, filenames) in os.walk("../result/filteredCode2Vec"):
         for filename in filenames:
             data = processInput(dirpath + "/" + filename)
-            writeInput(data, filename)
+            writeInput(data, os.path.splitext(filename)[0])
+
+            if not os.path.isdir(dirpath + '/processed'):
+                os.makedirs(dirpath + '/processed')
+            os.rename(dirpath + "/" + filename, dirpath + "/processed/" + filename)
+
+        print("Extracted all files in: " + dirpath)
+        break
 
     os.chdir(CODE2VEC_PATH)
     subprocess.call('sh preprocess_code.sh', shell=True)
