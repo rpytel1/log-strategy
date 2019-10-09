@@ -137,6 +137,8 @@ def readFile(y, optype):
                 #print(result.vector)
                 if (optype == 'train'):
                     if (result.label == 0):
+
+                        ##CHANGE TO BALANCE DATA OR BALANCE DATA IN ORGANIZE
                         if (random.randint(1,100) < 5):
                             model.nologcount += 1
                             model.trainModel(result)
@@ -161,7 +163,9 @@ def readFile(y, optype):
 model = Network()
 
 result = Code2VecData()
-#TODO: change training to support epochs
+
+
+#TODO: change training to support epochs, shuffle in between
 
 
 readFile("code2vec/result/codevectors_labeled_train.txt", 'train')
