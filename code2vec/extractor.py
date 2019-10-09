@@ -1,5 +1,6 @@
 import subprocess
 from os import walk
+import time
 
 class Extractor:
     def __init__(self, config, jar_path, max_path_length, max_path_width):
@@ -43,10 +44,13 @@ class Extractor:
             hash_to_string_dict = {}
             for (dirpath, dirnames, filenames) in walk(path):
                 for filename in filenames:
+                    startTime = time.time()
                     tmpResult, tmpHash_to_string_dict = self.extract_java(dirpath+filename)
                     result.append(tmpResult)
                     hash_to_string_dict.update(tmpHash_to_string_dict)
-                    print("Processed", filename, 'at', dirpath, '.')
+                    endTime = time.time()
+                    executionTime = endTime - startTime
+                    print("Processing", filename, 'at', dirpath, 'took', executionTime, 'seconds.')
             print("Processed all java files at", dirpath, '.')
             return result, hash_to_string_dict
         else:
