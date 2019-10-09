@@ -28,16 +28,16 @@ public class FunctionVisitor extends VoidVisitorAdapter<Object> {
 		leavesCollectorVisitor.visitDepthFirst(node);
 		ArrayList<Node> leaves = leavesCollectorVisitor.getLeaves();
 
-		String normalizedMethodName = Common.normalizeName(node.getName(), Common.BlankWord);
-		ArrayList<String> splitNameParts = Common.splitToSubtokens(node.getName());
+		String normalizedMethodName = Common.normalizeName(node.getName().asString(), Common.BlankWord);
+		ArrayList<String> splitNameParts = Common.splitToSubtokens(node.getName().asString());
 
 		String splitName = normalizedMethodName;
 		if (splitNameParts.size() > 0) {
 			splitName = splitNameParts.stream().collect(Collectors.joining(Common.internalSeparator));
 		}
 
-		if (node.getBody() != null && isValidMethod(node.getName())) {
-            splitName += '|' + extractID(node.getName()) + '|' + extractLabel(node.getName());
+		if (node.getBody() != null && isValidMethod(node.getName().asString())) {
+            splitName += '|' + extractID(node.getName().asString()) + '|' + extractLabel(node.getName().asString());
             m_Methods.add(new MethodContent(leaves, splitName, getMethodLength(node.getBody().toString())));
 		}
 	}

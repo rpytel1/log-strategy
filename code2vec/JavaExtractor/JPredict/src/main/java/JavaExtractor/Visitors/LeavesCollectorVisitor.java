@@ -31,19 +31,19 @@ public class LeavesCollectorVisitor extends TreeVisitor {
 		}
 		
 		int childId = getChildId(node);
-		node.setUserData(Common.ChildId, childId);
+		node.setData(Common.ChildId, childId);
 		Property property = new Property(node, isLeaf, isGenericParent, currentId++);
-		node.setUserData(Common.PropertyKey, property);
+		node.setData(Common.PropertyKey, property);
 	}
 
 	private boolean isGenericParent(Node node) {
 		return (node instanceof ClassOrInterfaceType) 
-				&& ((ClassOrInterfaceType)node).getTypeArguments() != null 
-				&& ((ClassOrInterfaceType)node).getTypeArguments().size() > 0;
+				&& ((ClassOrInterfaceType)node).getTypeArguments().isPresent()
+				&& ((ClassOrInterfaceType)node).getTypeArguments().get().size() > 0;
 	}
 
 	private boolean hasNoChildren(Node node) {
-		return node.getChildrenNodes().size() == 0;
+		return node.getChildNodes().size() == 0;
 	}
 	
 	private boolean isNotComment(Node node) {
@@ -55,8 +55,14 @@ public class LeavesCollectorVisitor extends TreeVisitor {
 	}
 	
 	private int getChildId(Node node) {
-		Node parent = node.getParentNode();
-		List<Node> parentsChildren = parent.getChildrenNodes();
+		Node parent = null;
+		if (node.getParentNode().isPresent()){
+			parent = node.getParentNode().get();
+		}
+		if (parent == null){
+			return 0;
+		}
+		List<Node> parentsChildren = parent.getChildNodes();
 		int childId = 0;
 		for (Node child: parentsChildren) {
 			if (child.getRange().equals(node.getRange())) {
