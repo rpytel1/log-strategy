@@ -1,5 +1,5 @@
 import subprocess
-
+from os import walk
 
 class Extractor:
     def __init__(self, config, jar_path, max_path_length, max_path_width):
@@ -8,9 +8,9 @@ class Extractor:
         self.max_path_width = max_path_width
         self.jar_path = jar_path
 
-    def extract_paths(self, inputType, path):
+    def extract_java(self, path):
         command = ['java', '-cp', self.jar_path, 'JavaExtractor.App', '--max_path_length',
-                   str(self.max_path_length), '--max_path_width', str(self.max_path_width), inputType, path, '--no_hash']
+                   str(self.max_path_length), '--max_path_width', str(self.max_path_width), '--File', path, '--no_hash']
         process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         out, err = process.communicate()
         output = out.decode().splitlines()
@@ -36,6 +36,19 @@ class Extractor:
             result_line = ' '.join(current_result_line_parts) + space_padding
             result.append(result_line)
         return result, hash_to_string_dict
+
+    def extract_paths(self, inputType, path):
+        if inputType == '--Dir':
+            result = []
+            hash_to_string_dict = {}
+            for (dirpath, dirnames, filenames) in walk(path):
+                for filename in filenames:
+                    tmpResult, tmpHash_to_string_dict = self.extract_java(dirpath+filename)
+                    result.append(tmpResult)
+                    hash_to_string_dict.update(tmpHash_to_string_dict)
+            return result, hash_to_string_dict
+        else:
+            return self.extract_java(path)
 
     @staticmethod
     def java_string_hashcode(s):
