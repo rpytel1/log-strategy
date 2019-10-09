@@ -1,6 +1,7 @@
 from torch import nn
 import torch
 import numpy as np
+import random
 
 class Network(nn.Module):
     def __init__(self):
@@ -28,61 +29,80 @@ class Network(nn.Module):
 
         self.learning_rate = 0.1
 
-        self.correct = 0
-        self.incorrect = 0
+        self.logcorrect = 0
+        self.nologcorrect = 0
+        self.logincorrect = 0
+        self.nologincorrect = 0
 
-
-    def sigmoid_activation(x):
+        self.logcount = 0
+        self.nologcount = 0
+        
+    def sigmoid_activation(self, x):
         return 1 / (1 + torch.exp(-x))
 
-    def sigmoid_delta(x):
+    def sigmoid_delta(self, x):
         return x * (1 - x)
 
     def forward(self, x):
         ##activate hidden layer
-        self.z1 = torch.mm(x, self.w1) + self.b1
-        self.a1 = sigmoid_activation(self.z1)
+        self.z1 = torch.matmul(x, self.w1) + self.b1
+        self.a1 = self.sigmoid_activation(self.z1)
 
         ##activate output
-        self.z2 = torch.mm(self.a1, self.w2) + self.b2
-        output = sigmoid_activation(self.z2)
+        self.z2 = torch.matmul(self.a1, self.w2) + self.b2
+        output = self.sigmoid_activation(self.z2)
         
         return output
     
     def backward(self, x, label, output):
         loss = label - output
         
-        delta_output = sigmoid_delta(output)
-        delta_hidden = sigmoid_delta(self.a1)
+        delta_output = self.sigmoid_delta(output)
+        delta_hidden = self.sigmoid_delta(self.a1)
         
         ## backpass the changes to previous layers 
         d_outp = loss * delta_output
-        loss_h = torch.mm(d_outp, w2.t())
+        loss_h = torch.matmul(d_outp, self.w2.t())
         d_hidn = loss_h * delta_hidden
 
         ##update params
-        self.w2 += torch.mm(self.a1.t(), d_outp) * self.learning_rate
-        self.w1 += torch.mm(x.t(), d_hidn) * self.learning_rate
+        self.w2 += torch.matmul(self.a1.t(), d_outp) * self.learning_rate
+        self.w1 += torch.matmul(x.view(1,-1).t(), d_hidn) * self.learning_rate
 
         self.b2 += d_outp.sum() * self.learning_rate
         self.b1 += d_hidn.sum() * self.learning_rate
 
     def trainModel(self, result):
-        forwardout = model.forward(torch.tensor(result.vector, dtype=torch.float))
-        backward(torch.tensor(result.vector, dtype=torch.float), result.label, forwardout)
+        forwardout = self.forward(torch.tensor(result.vector, dtype=torch.float))
+        self.backward(torch.tensor(result.vector, dtype=torch.float), result.label, forwardout)
 
     def testModel(self, result):
-        output = model.forward(torch.tensor(result.vector, dtype=torch.float))
-        if (output == result.label):
-            self.correct += 1
+        output = self.forward(torch.tensor(result.vector, dtype=torch.float))
+
+        if (output > 0.5):
+            output = 1
         else:
-            self.incorrect += 1
+            output = 0
+        
+        if (output == result.label and output == 1):
+            self.logcorrect += 1
+        elif(output == result.label and output == 0):
+            self.nologcorrect += 1
+        elif(output != result.label and output == 1):
+            self.nologincorrect += 1
+        else:
+            self.logincorrect += 1
+            
         
 
 class Code2VecData:
     funcname = ''
     label = -1
     vector = []
+    def __init__(self):
+        funcname = ''
+        label = -1
+        vector = []
 
 def readFile(y, optype):
 
@@ -93,13 +113,12 @@ def readFile(y, optype):
     
     counter = 0
 
-    result = Code2VecData()
     for l in lines:
         if (counter == 0):
             result.funcname = l
             counter += 1
         elif (counter == 1):
-            result.label = int(l)
+            result.label = int(l)   
             counter += 1
         elif (counter == 2):
             l = l[1:]
@@ -117,7 +136,14 @@ def readFile(y, optype):
                 #Do nn logic here (then not everything needs to be in memory)
                 #print(result.vector)
                 if (optype == 'train'):
-                    model.trainModel(result)
+                    if (result.label == 0):
+                        if (random.randint(1,100) < 5):
+                            model.nologcount += 1
+                            model.trainModel(result)
+
+                    else:
+                        model.logcount += 1
+                        model.trainModel(result)
                 if (optype == 'test'):
                     model.testModel(result)
                     
@@ -129,16 +155,26 @@ def readFile(y, optype):
             else:
                 arr = np.array(l.split())
                 result.vector.extend(arr.astype(np.float))
-    print("Done " + optype + "ing")
 
 
 #init network
 model = Network()
+
+result = Code2VecData()
 #TODO: change training to support epochs
+
+
 readFile("code2vec/result/codevectors_labeled_train.txt", 'train')
+print("Done training")
+print(model.logcount)
+print(model.nologcount)
+
+result.vector = []
 readFile("code2vec/result/codevectors_labeled_test.txt", 'test')
-print("Correct: " + str(model.correct))
-print("Incorrect: " + str(model.incorrect))
+print("Log correct: " + str(model.logcorrect))
+print("Log incorrect: " + str(model.logincorrect))
+print("No log correct: " + str(model.nologcorrect))
+print("No log incorrect: " + str(model.nologincorrect))
 
 
     
