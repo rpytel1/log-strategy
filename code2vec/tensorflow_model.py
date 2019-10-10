@@ -371,7 +371,8 @@ class Code2VecModel(Code2VecModelBase):
         if self.predict_reader is None:
             self.predict_reader = PathContextReader(vocabs=self.vocabs,
                                                     model_input_tensors_former=_TFEvaluateModelInputTensorsFormer(),
-                                                    config=self.config, estimator_action=EstimatorAction.Predict)
+                                                    config=self.config,
+                                                    estimator_action=EstimatorAction.Predict)
             self.predict_placeholder = tf.compat.v1.placeholder(tf.string)
             reader_output = self.predict_reader.process_input_row(self.predict_placeholder)
 
@@ -385,7 +386,7 @@ class Code2VecModel(Code2VecModelBase):
             self._load_inner_model(sess=self.sess)
 
 
-        fileDir = os.path.dirname(os.path.realpath('result'))
+        fileDir = os.path.dirname(os.path.realpath('../result'))
         file = open(os.path.join(fileDir, "result/codevectors_labeled.txt"), "w")
 
         for line in predict_data_lines:
