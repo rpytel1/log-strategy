@@ -8,7 +8,7 @@ import java.util.StringJoiner;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import com.github.javaparser.JavaParser;
+import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ParseException;
 import com.github.javaparser.ParseProblemException;
 import com.github.javaparser.ast.CompilationUnit;
@@ -57,18 +57,17 @@ public class FeatureExtractor {
 		String originalContent = code;
 		String content = originalContent;
 		CompilationUnit parsed = null;
-		JavaParser.getStaticConfiguration().setPreprocessUnicodeEscapes(false);
 		try {
-			parsed = JavaParser.parse(content);
+			parsed = StaticJavaParser.parse(content);
 		} catch (ParseProblemException e1) {
 			// Wrap with a class and method
 			try {
 				content = classPrefix + methodPrefix + originalContent + methodSuffix + classSuffix;
-				parsed = JavaParser.parse(content);
+				parsed = StaticJavaParser.parse(content);
 			} catch (ParseProblemException e2) {
 				// Wrap with a class only
 				content = classPrefix + originalContent + classSuffix;
-				parsed = JavaParser.parse(content);
+				parsed = StaticJavaParser.parse(content);
 			}
 		}
 
