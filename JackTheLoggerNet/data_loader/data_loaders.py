@@ -55,5 +55,5 @@ class CodeCharDataset(Dataset):
     def line_to_tensor(self, line):
         tensor = torch.zeros(self.max_chars, dtype=torch.long)
         for li, letter in enumerate(line):
-            tensor[li] = self.all_letters.find(letter)
+            tensor[li] = self.all_letters.find(letter) + 1
         return tensor, torch.tensor(len(line) - 1)

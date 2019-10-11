@@ -16,7 +16,9 @@ class CodeRNN(nn.Module):
         self.nb_lstm_units = nb_lstm_units
         self.batch_size = batch_size
         self.vocabulary = string.printable + " .,;'"
-        self.embedding = nn.Embedding(len(self.vocabulary), embedding_size)
+
+        ## +1 bc of unkown sign
+        self.embedding = nn.Embedding(len(self.vocabulary) + 1, embedding_size)
 
         self.get_linear_input(bidirectionality)
         # design LSTM
