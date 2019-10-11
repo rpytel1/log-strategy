@@ -92,3 +92,57 @@ hadoop
 Functions with log: 9254
 Functions without log: 115625
 Functions without log: 115625
+activemq
+Functions with log: 3436
+Functions without log: 35841
+Functions without log: 35841
+
+ambari
+Functions with log: 1528
+Functions without log: 25569
+Functions without log: 25569
+
+calcite
+Functions with log: 59
+Functions without log: 22837
+Functions without log: 22837
+
+cloudstack
+Functions with log: 489
+Functions without log: 41170
+Functions without log: 41170
+
+drill
+Functions with log: 998
+Functions without log: 39451
+Functions without log: 39451
+
+flume
+Functions with log: 638
+Functions without log: 5837
+Functions without log: 5837
+
+geode
+Functions with log: 2980
+Functions without log: 94804
+Functions without log: 94804
+
+lucene-solr
+Functions with log: 1917
+Functions without log: 72586
+Functions without log: 72586
+
+mahout
+Functions with log: 286
+Functions without log: 7617
+Functions without log: 7617
+
+nifi
+Functions with log: 1625
+Functions without log: 36558
+Functions without log: 36558
+
+parquet-mr
+Functions with log: 239
+Functions without log: 7793
+Functions without log: 7793

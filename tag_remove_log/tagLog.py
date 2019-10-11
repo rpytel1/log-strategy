@@ -6,7 +6,7 @@ from py4j.java_gateway import JavaGateway, GatewayParameters
 gateway = JavaGateway(gateway_parameters=GatewayParameters(port=25335))
 syntaxChecker = gateway.entry_point
 
-INPUT_PATH = "C://Users//Jan//Desktop//log-strategy//result"
+INPUT_PATH = "..//result"
 DEBUG = False
 
 for (dirpath, dirnames, filenames) in os.walk(INPUT_PATH):
@@ -98,7 +98,7 @@ for (dirpath, dirnames, filenames) in os.walk(INPUT_PATH):
                 os.makedirs(dirpath + '/processed')
             os.rename(dirpath + "/" + filename + ".txt", dirpath + "/processed/" + filename + ".txt")
 
-            information = "\n" + filename + "\n" + "Functions with log: " + str(logcount) + "\n" + "Functions without log: " + str(nologcount) + "\n" + "Functions without log: " + str(nologcount)
+            information = "\n" + filename + "\n" + "Functions with log: " + str(logcount) + "\n" + "Functions without log: " + str(nologcount) + "\n" + "Functions without log: " + str(nologcount) + "\n"
             print(information)
 
             f = open(dirpath + "/FUNCTION_STATISTICS", 'a')
