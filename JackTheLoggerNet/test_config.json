@@ -1,18 +1,22 @@
 {
-    "name": "Mnist_LeNet",
+    "name": "FirstLSTM",
     "n_gpu": 1,
 
     "arch": {
-        "type": "MnistModel",
-        "args": {}
+        "type": "CodeRNN",
+        "args": {
+            "embedding_size": 10,
+            "batch_size": 4,
+            "use_cuda": true
+        }
     },
     "data_loader": {
-        "type": "MnistDataLoader",
+        "type": "CodeCharDataLoader",
         "args":{
-            "data_dir": "data/",
-            "batch_size": 128,
+            "filename": "test.txt",
+            "batch_size": 10,
             "shuffle": true,
-            "validation_split": 0.1,
+            "validation_split": 0.2,
             "num_workers": 2
         }
     },
@@ -24,10 +28,8 @@
             "amsgrad": true
         }
     },
-    "loss": "nll_loss",
-    "metrics": [
-        "my_metric", "my_metric2"
-    ],
+    "loss": "cross_entropy_loss",
+    "metrics": [],
     "lr_scheduler": {
         "type": "StepLR",
         "args": {
@@ -45,6 +47,7 @@
         "monitor": "min val_loss",
         "early_stop": 10,
 
-        "tensorboard": true
+        "tensorboardX": true,
+        "log_dir": "saved/runs"
     }
 }
