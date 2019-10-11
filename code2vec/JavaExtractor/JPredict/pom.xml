@@ -44,7 +44,7 @@
     <dependency>
       <groupId>com.github.javaparser</groupId>
       <artifactId>javaparser-core</artifactId>
-      <version>3.14.0</version>
+      <version>3.0.0-alpha.4</version>
     </dependency>
     <dependency>
       <groupId>commons-io</groupId>
@@ -66,6 +66,11 @@
       <groupId>org.apache.commons</groupId>
       <artifactId>commons-lang3</artifactId>
       <version>3.5</version>
+    </dependency>
+    <dependency>
+      <groupId>net.sf.py4j</groupId>
+      <artifactId>py4j</artifactId>
+      <version>0.10.8.1</version>
     </dependency>
   </dependencies>
   <properties>

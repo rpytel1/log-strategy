@@ -25,42 +25,42 @@ public class FunctionVisitor extends VoidVisitorAdapter<Object> {
 
 	private void visitMethod(MethodDeclaration node, Object obj) {
 		LeavesCollectorVisitor leavesCollectorVisitor = new LeavesCollectorVisitor();
-		leavesCollectorVisitor.visitPreOrder(node);
+		leavesCollectorVisitor.visitDepthFirst(node);
 		ArrayList<Node> leaves = leavesCollectorVisitor.getLeaves();
 
-		String normalizedMethodName = Common.normalizeName(node.getName().asString(), Common.BlankWord);
-		ArrayList<String> splitNameParts = Common.splitToSubtokens(node.getName().asString());
+		String normalizedMethodName = Common.normalizeName(node.getName(), Common.BlankWord);
+		ArrayList<String> splitNameParts = Common.splitToSubtokens(node.getName());
 
 		String splitName = normalizedMethodName;
 		if (splitNameParts.size() > 0) {
 			splitName = splitNameParts.stream().collect(Collectors.joining(Common.internalSeparator));
 		}
 
-		if (node.getBody() != null && isValidMethod(node.getName().asString())) {
-            splitName += '|' + extractID(node.getName().asString()) + '|' + extractLabel(node.getName().asString());
-            m_Methods.add(new MethodContent(leaves, splitName, getMethodLength(node.getBody().toString())));
+		if (node.getBody() != null && isValidMethod(node.getName())) {
+			splitName += '|' + extractID(node.getName()) + '|' + extractLabel(node.getName());
+			m_Methods.add(new MethodContent(leaves, splitName, getMethodLength(node.getBody().toString())));
 		}
 	}
 
 	private Boolean isValidMethod(String name){
-	    try{
-            extractID(name);
-            String label = extractLabel(name);
-            return Integer.valueOf(label) == 1 || Integer.valueOf(label) == 0;
-        } catch (ArrayIndexOutOfBoundsException ex){
-	        return false;
-        }
-    }
+		try{
+			extractID(name);
+			String label = extractLabel(name);
+			return Integer.valueOf(label) == 1 || Integer.valueOf(label) == 0;
+		} catch (ArrayIndexOutOfBoundsException ex){
+			return false;
+		}
+	}
 
 	private String extractID(String name){
-        String[] splitName = name.split("_");
-        return splitName[splitName.length - 2];
-    }
+		String[] splitName = name.split("_");
+		return splitName[splitName.length - 2];
+	}
 
-    private String extractLabel(String name){
-        String[] splitName = name.split("_");
-        return splitName[splitName.length - 1];
-    }
+	private String extractLabel(String name){
+		String[] splitName = name.split("_");
+		return splitName[splitName.length - 1];
+	}
 
 	private long getMethodLength(String code) {
 		String cleanCode = code.replaceAll("\r\n", "\n").replaceAll("\t", " ");

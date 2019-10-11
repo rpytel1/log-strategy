@@ -8,7 +8,7 @@ import java.util.StringJoiner;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import com.github.javaparser.StaticJavaParser;
+import com.github.javaparser.JavaParser;
 import com.github.javaparser.ParseException;
 import com.github.javaparser.ParseProblemException;
 import com.github.javaparser.ast.CompilationUnit;
@@ -58,16 +58,16 @@ public class FeatureExtractor {
 		String content = originalContent;
 		CompilationUnit parsed = null;
 		try {
-			parsed = StaticJavaParser.parse(content);
+			parsed = JavaParser.parse(content);
 		} catch (ParseProblemException e1) {
 			// Wrap with a class and method
 			try {
 				content = classPrefix + methodPrefix + originalContent + methodSuffix + classSuffix;
-				parsed = StaticJavaParser.parse(content);
+				parsed = JavaParser.parse(content);
 			} catch (ParseProblemException e2) {
 				// Wrap with a class only
 				content = classPrefix + originalContent + classSuffix;
-				parsed = StaticJavaParser.parse(content);
+				parsed = JavaParser.parse(content);
 			}
 		}
 
@@ -98,8 +98,8 @@ public class FeatureExtractor {
 
 				String path = generatePath(functionLeaves.get(i), functionLeaves.get(j), separator);
 				if (path != Common.EmptyString) {
-					Property source = functionLeaves.get(i).getData(Common.PropertyKey);
-					Property target = functionLeaves.get(j).getData(Common.PropertyKey);
+					Property source = functionLeaves.get(i).getUserData(Common.PropertyKey);
+					Property target = functionLeaves.get(j).getUserData(Common.PropertyKey);
 					programFeatures.addFeature(source, path, target);
 				}
 			}
@@ -112,11 +112,7 @@ public class FeatureExtractor {
 		Node current = node;
 		while (current != null) {
 			upStack.add(current);
-			if (current.getParentNode().isPresent()){
-				current = current.getParentNode().get();
-			} else {
-				current = null;
-			}
+			current = current.getParentNode();
 		}
 		return upStack;
 	}
@@ -147,8 +143,8 @@ public class FeatureExtractor {
 		}
 
 		if (currentSourceAncestorIndex >= 0 && currentTargetAncestorIndex >= 0) {
-			int pathWidth = targetStack.get(currentTargetAncestorIndex).getData(Common.ChildId)
-					- sourceStack.get(currentSourceAncestorIndex).getData(Common.ChildId);
+			int pathWidth = targetStack.get(currentTargetAncestorIndex).getUserData(Common.ChildId)
+					- sourceStack.get(currentSourceAncestorIndex).getUserData(Common.ChildId);
 			if (pathWidth > m_CommandLineValues.MaxPathWidth) {
 				return Common.EmptyString;
 			}
@@ -157,49 +153,38 @@ public class FeatureExtractor {
 		for (int i = 0; i < sourceStack.size() - commonPrefix; i++) {
 			Node currentNode = sourceStack.get(i);
 			String childId = Common.EmptyString;
-			String parentRawType = null;
-			if (currentNode.getParentNode().isPresent()){
-				if (currentNode.getParentNode().get().containsData(Common.PropertyKey)){
-					parentRawType = currentNode.getParentNode().get().getData(Common.PropertyKey).getRawType();
-				}
-			}
+			String parentRawType = currentNode.getParentNode().getUserData(Common.PropertyKey).getRawType();
 			if (i == 0 || s_ParentTypeToAddChildId.contains(parentRawType)) {
-				childId = saturateChildId(currentNode.getData(Common.ChildId))
+				childId = saturateChildId(currentNode.getUserData(Common.ChildId))
 						.toString();
 			}
 			stringBuilder.add(String.format("%s%s%s%s%s", startSymbol,
-					currentNode.getData(Common.PropertyKey).getType(), childId, endSymbol, up));
+					currentNode.getUserData(Common.PropertyKey).getType(), childId, endSymbol, up));
 		}
 
 		Node commonNode = sourceStack.get(sourceStack.size() - commonPrefix);
 		String commonNodeChildId = Common.EmptyString;
-
-		Property parentNodeProperty = null;
-		if (commonNode.getParentNode().isPresent()){
-			if (commonNode.getParentNode().get().containsData(Common.PropertyKey)){
-				parentNodeProperty = commonNode.getParentNode().get().getData(Common.PropertyKey);
-			}
-		}
+		Property parentNodeProperty = commonNode.getParentNode().getUserData(Common.PropertyKey);
 		String commonNodeParentRawType = Common.EmptyString;
 		if (parentNodeProperty != null) {
 			commonNodeParentRawType = parentNodeProperty.getRawType();
 		}
 		if (s_ParentTypeToAddChildId.contains(commonNodeParentRawType)) {
-			commonNodeChildId = saturateChildId(commonNode.getData(Common.ChildId))
+			commonNodeChildId = saturateChildId(commonNode.getUserData(Common.ChildId))
 					.toString();
 		}
 		stringBuilder.add(String.format("%s%s%s%s", startSymbol,
-				commonNode.getData(Common.PropertyKey).getType(), commonNodeChildId, endSymbol));
+				commonNode.getUserData(Common.PropertyKey).getType(), commonNodeChildId, endSymbol));
 
 		for (int i = targetStack.size() - commonPrefix - 1; i >= 0; i--) {
 			Node currentNode = targetStack.get(i);
 			String childId = Common.EmptyString;
-			if (i == 0 || s_ParentTypeToAddChildId.contains(currentNode.getData(Common.PropertyKey).getRawType())) {
-				childId = saturateChildId(currentNode.getData(Common.ChildId))
+			if (i == 0 || s_ParentTypeToAddChildId.contains(currentNode.getUserData(Common.PropertyKey).getRawType())) {
+				childId = saturateChildId(currentNode.getUserData(Common.ChildId))
 						.toString();
 			}
 			stringBuilder.add(String.format("%s%s%s%s%s", down, startSymbol,
-					currentNode.getData(Common.PropertyKey).getType(), childId, endSymbol));
+					currentNode.getUserData(Common.PropertyKey).getType(), childId, endSymbol));
 		}
 
 		return stringBuilder.toString();

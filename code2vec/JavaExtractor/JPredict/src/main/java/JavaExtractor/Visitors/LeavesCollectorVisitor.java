@@ -13,7 +13,7 @@ import JavaExtractor.Common.Common;
 import JavaExtractor.FeaturesEntities.Property;
 
 public class LeavesCollectorVisitor extends TreeVisitor {
-	ArrayList<Node> m_Leaves = new ArrayList<>(); 
+	ArrayList<Node> m_Leaves = new ArrayList<>();
 	private int currentId = 1;
 
 	@Override
@@ -29,40 +29,34 @@ public class LeavesCollectorVisitor extends TreeVisitor {
 				isLeaf = true;
 			}
 		}
-		
+
 		int childId = getChildId(node);
-		node.setData(Common.ChildId, childId);
+		node.setUserData(Common.ChildId, childId);
 		Property property = new Property(node, isLeaf, isGenericParent, currentId++);
-		node.setData(Common.PropertyKey, property);
+		node.setUserData(Common.PropertyKey, property);
 	}
 
 	private boolean isGenericParent(Node node) {
-		return (node instanceof ClassOrInterfaceType) 
-				&& ((ClassOrInterfaceType)node).getTypeArguments().isPresent()
-				&& ((ClassOrInterfaceType)node).getTypeArguments().get().size() > 0;
+		return (node instanceof ClassOrInterfaceType)
+				&& ((ClassOrInterfaceType)node).getTypeArguments() != null
+				&& ((ClassOrInterfaceType)node).getTypeArguments().size() > 0;
 	}
 
 	private boolean hasNoChildren(Node node) {
-		return node.getChildNodes().size() == 0;
+		return node.getChildrenNodes().size() == 0;
 	}
-	
+
 	private boolean isNotComment(Node node) {
 		return !(node instanceof Comment) && !(node instanceof Statement);
 	}
-	
+
 	public ArrayList<Node> getLeaves() {
 		return m_Leaves;
 	}
-	
+
 	private int getChildId(Node node) {
-		Node parent = null;
-		if (node.getParentNode().isPresent()){
-			parent = node.getParentNode().get();
-		}
-		if (parent == null){
-			return 0;
-		}
-		List<Node> parentsChildren = parent.getChildNodes();
+		Node parent = node.getParentNode();
+		List<Node> parentsChildren = parent.getChildrenNodes();
 		int childId = 0;
 		for (Node child: parentsChildren) {
 			if (child.getRange().equals(node.getRange())) {

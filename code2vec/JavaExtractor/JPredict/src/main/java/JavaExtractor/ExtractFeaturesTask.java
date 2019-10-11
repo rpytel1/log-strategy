@@ -33,22 +33,23 @@ public class ExtractFeaturesTask implements Callable<Void> {
 		return null;
 	}
 
-	public void processFile() {
+	public String processFile() {
 		ArrayList<ProgramFeatures> features;
 		try {
 			features = extractSingleFile();
 		} catch (ParseException | IOException e) {
 			e.printStackTrace();
-			return;
+			return "";
 		}
 		if (features == null) {
-			return;
+			return "";
 		}
 
 		String toPrint = featuresToString(features);
 		if (toPrint.length() > 0) {
-			System.out.println(toPrint);
+			// System.out.println(toPrint);
 		}
+		return toPrint;
 	}
 
 	public ArrayList<ProgramFeatures> extractSingleFile() throws ParseException, IOException {
@@ -75,14 +76,14 @@ public class ExtractFeaturesTask implements Callable<Void> {
 
 		for (ProgramFeatures singleMethodfeatures : features) {
 			StringBuilder builder = new StringBuilder();
-			
+
 			String toPrint = Common.EmptyString;
 			toPrint = singleMethodfeatures.toString();
 			if (m_CommandLineValues.PrettyPrint) {
 				toPrint = toPrint.replace(" ", "\n\t");
 			}
 			builder.append(toPrint);
-			
+
 
 			methodsOutputs.add(builder.toString());
 

@@ -1,27 +1,19 @@
 import subprocess
 import os
 import time
+from py4j.java_gateway import JavaGateway, GatewayParameters
 
 class Extractor:
     def __init__(self, config, jar_path, max_path_length, max_path_width):
         self.config = config
         self.max_path_length = max_path_length
         self.max_path_width = max_path_width
-        if not os.path.isfile(jar_path):
-            raise ValueError('Incorrect jar path:', jar_path)
         self.jar_path = jar_path
 
-    def extract_java(self, path):
-        command = ['java', '-cp', self.jar_path, 'JavaExtractor.App', '--max_path_length',
-                   str(self.max_path_length), '--max_path_width', str(self.max_path_width), '--file', path, '--no_hash']
-        process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-        out, err = process.communicate()
-        output = out.decode().splitlines()
+    def extract_processed(self, out, err, hash_to_string_dict, result):
+        output = out.splitlines()
         if len(output) == 0:
-            err = err.decode()
             raise ValueError(err)
-        hash_to_string_dict = {}
-        result = []
         for i, line in enumerate(output):
             parts = line.rstrip().split(' ')
             method_name = parts[0]
@@ -40,6 +32,13 @@ class Extractor:
             result.append(result_line)
         return result, hash_to_string_dict
 
+    def extract_java(self, path, hash_to_string_dict, result):
+        gateway = JavaGateway(gateway_parameters=GatewayParameters(port=25335))
+        syntaxChecker = gateway.entry_point
+
+        out = syntaxChecker.extractFile(self.max_path_length, self.max_path_width, path)
+        return self.extract_processed(str(out), "", hash_to_string_dict, result)
+
     def extract_paths(self, inputType, path):
         if inputType == '--dir':
             result = []
@@ -50,18 +49,24 @@ class Extractor:
                     startTime = time.time()
                     filepath = os.path.normpath(dirpath + '/' + filename)
                     if os.path.isfile(filepath):
-                        tmpResult, tmpHash_to_string_dict = self.extract_java(dirpath + '/' + filename)
-                        result.append(tmpResult)
-                        hash_to_string_dict.update(tmpHash_to_string_dict)
+                        result, hash_to_string_dict = self.extract_java(dirpath + '/' + filename, hash_to_string_dict, result)
                         endTime = time.time()
                         executionTime = endTime - startTime
-                        print("Processing", filename, 'at', dirpath, 'took', executionTime, 'seconds.')
+                        print("Processing", filename, 'at', dirpath, 'took', round(executionTime, 3), 'seconds.')
                     else:
                         print("Incorrect filepath:", filepath)
                 print("Processed all java files at", dirpath, '.')
             return result, hash_to_string_dict
+        elif inputType == '--file':
+            return self.extract_java(path, {}, [])
+        elif inputType == '--processed':
+            print("Read processed java code from:", path)
+            f = open(path, "r")
+            out = f.read()
+            f.close()
+            return self.extract_processed(out, "", {}, [])
         else:
-            return self.extract_java(path)
+            raise ValueError("Invalid input type: ", inputType)
 
     @staticmethod
     def java_string_hashcode(s):

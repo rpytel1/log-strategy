@@ -162,8 +162,17 @@ class Config:
         return self.INPUT_DATA_PATH and os.path.isfile(self.INPUT_DATA_PATH)
 
     @property
+    def input_data_is_java_file(self) -> bool:
+        return self.INPUT_DATA_PATH and os.path.isfile(self.INPUT_DATA_PATH) and self.INPUT_DATA_PATH.endswith(".java")
+
+    @property
     def input_data_type(self) -> str:
-        return "--file" if self.input_data_is_file else "--dir"
+        if self.input_data_is_java_file:
+            return "--file"
+        elif self.input_data_is_file:
+            return "--processed"
+        else:
+            return "--dir"
 
     @property
     def is_loading(self) -> bool:
