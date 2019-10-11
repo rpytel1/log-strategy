@@ -235,6 +235,7 @@ saved/models/
 
 JackTheLogger/term-extractor.iml
 JackTheLoggerNet/DeepJackTheLogger.iml
+JackTheLoggerNet/saved/
 
 preprocess_for_code2vec/*.txt
 preprocess_for_code2vec/**/*.java
