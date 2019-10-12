@@ -4,6 +4,9 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.LinkedList;
+
+import com.github.javaparser.JavaParser;
+import com.github.javaparser.ParseProblemException;
 import org.kohsuke.args4j.CmdLineException;
 import JavaExtractor.Common.CommandLineValues;
 import JavaExtractor.FeaturesEntities.ProgramRelation;
@@ -17,6 +20,16 @@ public class App {
 		GatewayServer gatewayServer = new GatewayServer(new App(), 25335);
 		gatewayServer.start();
 		System.out.println("PY4J gateway server was started");
+	}
+
+	public static Boolean validSyntax(String code){
+		try {
+			JavaParser.parse("class test{" + code + "}");
+			return true;
+		} catch (ParseProblemException ex) {
+			System.out.println("Failed with syntax error: " + code);
+			return false;
+		}
 	}
 
 	public static String extractFile(int max_path_length, int max_path_width, String path){
@@ -40,6 +53,25 @@ public class App {
 			return extractDir();
 		}
 		return "";
+	}
+
+	public static String extractCode(int max_path_length, int max_path_width, String code){
+		String[] args = new String[]{"--max_path_length", String.valueOf(max_path_length),
+				"--max_path_width", String.valueOf(max_path_width), "--no_hash"};
+
+		try {
+			s_CommandLineValues = new CommandLineValues(args);
+		} catch (CmdLineException e) {
+			e.printStackTrace();
+			return "";
+		}
+
+		if (s_CommandLineValues.NoHash) {
+			ProgramRelation.setNoHash();
+		}
+
+		ExtractFeaturesTask extractFeaturesTask = new ExtractFeaturesTask(s_CommandLineValues, Paths.get(""));
+		return extractFeaturesTask.processCode(code);
 	}
 
 	private static String extractFile() {

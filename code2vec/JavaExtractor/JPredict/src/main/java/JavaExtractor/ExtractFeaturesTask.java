@@ -1,17 +1,12 @@
 package JavaExtractor;
 
-import java.io.IOException;
-import java.nio.file.Files;
+import java.io.*;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
-
 import org.apache.commons.lang3.StringUtils;
-
 import com.github.javaparser.ParseException;
-import com.github.javaparser.ast.CompilationUnit;
-
 import JavaExtractor.Common.CommandLineValues;
 import JavaExtractor.Common.Common;
 import JavaExtractor.FeaturesEntities.ProgramFeatures;
@@ -33,14 +28,28 @@ public class ExtractFeaturesTask implements Callable<Void> {
 		return null;
 	}
 
-	public String processFile() {
-		ArrayList<ProgramFeatures> features;
+	public static String readFileString ( Path filePath) {
+		StringBuffer text = new StringBuffer();
 		try {
-			features = extractSingleFile();
-		} catch (ParseException | IOException e) {
+			BufferedReader in = new BufferedReader( new InputStreamReader( new FileInputStream(filePath.toFile()), "UTF8") );
+			String line;
+			while ( (line = in.readLine()) != null ) {
+				text.append(line + "\r\n");
+			}
+
+
+		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
-			return "";
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
+
+		return text.toString();
+	}
+
+	public String processFeatures(ArrayList<ProgramFeatures> features){
 		if (features == null) {
 			return "";
 		}
@@ -52,19 +61,39 @@ public class ExtractFeaturesTask implements Callable<Void> {
 		return toPrint;
 	}
 
-	public ArrayList<ProgramFeatures> extractSingleFile() throws ParseException, IOException {
-		String code = null;
+	public String processCode(String code){
+		ArrayList<ProgramFeatures> features;
 		try {
-			code = new String(Files.readAllBytes(this.filePath));
-		} catch (IOException e) {
+			features = extractCode(code);
+		} catch (ParseException | IOException e) {
 			e.printStackTrace();
-			code = Common.EmptyString;
+			return "";
 		}
+		return processFeatures(features);
+	}
+
+	public String processFile() {
+		ArrayList<ProgramFeatures> features;
+		try {
+			features = extractSingleFile();
+		} catch (ParseException | IOException e) {
+			e.printStackTrace();
+			return "";
+		}
+		return processFeatures(features);
+	}
+
+	public ArrayList<ProgramFeatures> extractCode(String code) throws ParseException, IOException {
 		FeatureExtractor featureExtractor = new FeatureExtractor(m_CommandLineValues);
 
 		ArrayList<ProgramFeatures> features = featureExtractor.extractFeatures(code);
 
 		return features;
+	}
+
+	public ArrayList<ProgramFeatures> extractSingleFile() throws ParseException, IOException {
+		String code = readFileString(this.filePath);
+		return extractCode(code);
 	}
 
 	public String featuresToString(ArrayList<ProgramFeatures> features) {

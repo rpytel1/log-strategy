@@ -4,7 +4,6 @@ git clone https://github.com/apache/drill.git
 git clone https://github.com/apache/nifi.git
 git clone https://github.com/apache/lucene-solr.git
 git clone https://github.com/apache/flume.git
-git clone https://github.com/apache/lucene-solr.git
 git clone https://github.com/apache/geode.git
 git clone https://github.com/apache/cloudstack.git
 git clone https://github.com/apache/activemq.git

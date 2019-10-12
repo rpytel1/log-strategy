@@ -47,7 +47,7 @@ public class FunctionVisitor extends VoidVisitorAdapter<Object> {
 			extractID(name);
 			String label = extractLabel(name);
 			return Integer.valueOf(label) == 1 || Integer.valueOf(label) == 0;
-		} catch (ArrayIndexOutOfBoundsException ex){
+		} catch (ArrayIndexOutOfBoundsException | NumberFormatException ex){
 			return false;
 		}
 	}

@@ -146,3 +146,53 @@ parquet-mr
 Functions with log: 239
 Functions without log: 7793
 Functions without log: 7793
+
+activemq
+Functions with log: 3436
+Functions without log: 35841
+Functions without log: 35841
+
+calcite
+Functions with log: 59
+Functions without log: 22837
+Functions without log: 22837
+
+flink
+Functions with log: 1499
+Functions without log: 59983
+Functions without log: 59983
+
+geode
+Functions with log: 2982
+Functions without log: 94804
+Functions without log: 94804
+
+hadoop
+Functions with log: 9254
+Functions without log: 115625
+Functions without log: 115625
+
+hive
+Functions with log: 4425
+Functions without log: 96042
+Functions without log: 96042
+
+kylin
+Functions with log: 1340
+Functions without log: 15168
+Functions without log: 15168
+
+lucene-solr
+Functions with log: 1917
+Functions without log: 72586
+Functions without log: 72586
+
+nutch
+Functions with log: 418
+Functions without log: 2906
+Functions without log: 2906
+
+lucene-solr
+Functions with log: 1917
+Functions without log: 72586
+Functions without log: 72586

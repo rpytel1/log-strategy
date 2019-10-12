@@ -61,7 +61,7 @@ for (dirpath, dirnames, filenames) in os.walk(INPUT_PATH):
                     if (regex.search(l)):
                         funcbody = l
                         funcbody = re.sub('(((log)|(logger))[.]((debug)|(info)|(warn)|(fatal)|(error))[^;]*;)', '', funcbody, flags=re.I)
-                        if (syntaxChecker.validateMethod(funcsig + funcbody)):
+                        if (syntaxChecker.validSyntax(funcsig + funcbody)):
                             #f.write(funcname)
                             f2.write(funcsig + funcbody)
                             f2.write('1\n')
@@ -78,7 +78,7 @@ for (dirpath, dirnames, filenames) in os.walk(INPUT_PATH):
                         #tag with 0
                         funcbody = l
 
-                        if (syntaxChecker.validateMethod(funcsig + funcbody)):
+                        if (syntaxChecker.validSyntax(funcsig + funcbody)):
                             f2.write(funcsig + funcbody)
                             f2.write('0\n')
                             #f.write(funcname)
