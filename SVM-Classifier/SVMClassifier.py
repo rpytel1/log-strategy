@@ -4,11 +4,9 @@ from sklearn import svm
 import re
 import time
 from Persistence import loadModel, save
+from sklearn.model_selection import train_test_split
 
-
-TRAINING_PATH = "C://Users//Jan//Desktop//log-strategy//SVM-Classifier//codevectors_labeled_train.txt"
-VALIDATION_PATH = "C://Users//Jan//Desktop//log-strategy//SVM-Classifier//codevectors_labeled_val.txt"
-TEST_PATH = "C://Users//Jan//Desktop//log-strategy//SVM-Classifier//codevectors_labeled_test.txt"
+DATA_PATH = "..//result//codevectors//codevectors_labeled.txt"
 MODEL_SAVEPATH = "C://Users//Jan//Desktop//log-strategy//SVM-Classifier//trained_svm"
 
 
@@ -105,24 +103,25 @@ def evaluate(prediction, label, description):
     print('-----------------------END RESULTS-----------------------\n')
 
 if __name__ == '__main__':
-    model = loadModel(MODEL_SAVEPATH + "_reconfigured" + ".joblib")
+    print("Reading and splitting data from:", DATA_PATH)
+    startTime = time.time()
+    full_codeVectors, full_labels = extractData(DATA_PATH)
+    train_codeVectors, test_codeVectors, train_labels, test_labels = train_test_split(full_codeVectors, full_labels, test_size = 0.2, random_state = 0)
+    endTime = time.time()
+    executionTime = endTime - startTime
+    print("Readind and splitting data took:", round(executionTime, 2), 'seconds.')
+
+    model = loadModel(MODEL_SAVEPATH + "_full" + ".joblib")
     if(model == None):
+        # reconfigured_codeVectors, reconfigured_labels = split(train_codeVectors + test_codeVectors, train_labels + test_labels, 0.1)
         print("Training new svm model.")
         startTime = time.time()
-        train_codeVectors, train_labels = extractData(TRAINING_PATH)
-        test_codeVectors, test_labels = extractData(TEST_PATH)
-        reconfigured_codeVectors, reconfigured_labels = split(train_codeVectors + test_codeVectors, train_labels + test_labels, 0.05)
-        model = train(reconfigured_codeVectors, reconfigured_labels)
+        model = train(train_codeVectors, train_labels)
         endTime = time.time()
         executionTime = endTime - startTime
-        print("Training model took:", executionTime, 'seconds.')
+        print("Training model took:", round(executionTime, 2), 'seconds.')
         save(model, MODEL_SAVEPATH + "_reconfigured" + ".joblib")
 
-    validation_codeVectors, validation_labels = extractData(VALIDATION_PATH)
-    prediction = model.predict(validation_codeVectors)
-    evaluate(prediction, validation_labels, "validation set")
-
-    test_codeVectors, test_labels = extractData(TEST_PATH)
     prediction = model.predict(test_codeVectors)
-    evaluate(prediction, test_labels, "test set")
+    evaluate(prediction, test_labels, "test split of 20 percent.")
 

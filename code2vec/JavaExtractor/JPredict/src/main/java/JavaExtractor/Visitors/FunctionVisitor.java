@@ -37,30 +37,30 @@ public class FunctionVisitor extends VoidVisitorAdapter<Object> {
 		}
 
 		if (node.getBody() != null && isValidMethod(node.getName())) {
-            splitName += '|' + extractID(node.getName()) + '|' + extractLabel(node.getName());
-            m_Methods.add(new MethodContent(leaves, splitName, getMethodLength(node.getBody().toString())));
+			splitName += '|' + extractID(node.getName()) + '|' + extractLabel(node.getName());
+			m_Methods.add(new MethodContent(leaves, splitName, getMethodLength(node.getBody().toString())));
 		}
 	}
 
 	private Boolean isValidMethod(String name){
-	    try{
-            extractID(name);
-            String label = extractLabel(name);
-            return Integer.valueOf(label) == 1 || Integer.valueOf(label) == 0;
-        } catch (ArrayIndexOutOfBoundsException ex){
-	        return false;
-        }
-    }
+		try{
+			extractID(name);
+			String label = extractLabel(name);
+			return Integer.valueOf(label) == 1 || Integer.valueOf(label) == 0;
+		} catch (ArrayIndexOutOfBoundsException | NumberFormatException ex){
+			return false;
+		}
+	}
 
 	private String extractID(String name){
-        String[] splitName = name.split("_");
-        return splitName[splitName.length - 2];
-    }
+		String[] splitName = name.split("_");
+		return splitName[splitName.length - 2];
+	}
 
-    private String extractLabel(String name){
-        String[] splitName = name.split("_");
-        return splitName[splitName.length - 1];
-    }
+	private String extractLabel(String name){
+		String[] splitName = name.split("_");
+		return splitName[splitName.length - 1];
+	}
 
 	private long getMethodLength(String code) {
 		String cleanCode = code.replaceAll("\r\n", "\n").replaceAll("\t", " ");
