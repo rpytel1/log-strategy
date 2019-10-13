@@ -7,23 +7,24 @@ class Feature:
     def extract_name(data: [str]) -> str:
         line = data[0]
         if '[' in line or ']' in line:
-            raise ValueError("Invalid input for feature:", data)
+            raise ValueError("Can't extract name from:", data)
         return line
 
     @staticmethod
-    def extract_codevector(data: [str]) -> [[int], [float]]:
+    def extract_codevector(data: [str]) -> [[float]]:
         tmp = ""
         reading = False
         for id, line in enumerate(data):
             if '[' in line:
                 tmp = line
                 reading = True
-            elif ']' in line:
+            elif ']' in line and reading:
                 tmp += line
                 rawVector = re.sub(r'\[|\|\n]', '', tmp)
-                return np.fromstring(rawVector, float, sep=' ')
+                return np.fromstring(rawVector, float, sep=' ').tolist()
             elif reading:
                 tmp += line
+        raise ValueError("Can't extract code vector from:", data)
 
     @staticmethod
     def extract_label(data: [str]) -> int:
@@ -32,7 +33,6 @@ class Feature:
                 label = int(line)
                 if label == 0 or label == 1:
                     return label
-
         raise ValueError("No label found in:", data)
 
 
