@@ -1,3 +1,4 @@
+import pickle
 import string
 
 import torch
@@ -43,10 +44,7 @@ class CodeRNN(nn.Module):
         total_length = X.shape[1]
         batch_size, seq_len = X.size()
         self.hidden = self.init_hidden(batch_size)
-        print(lengths.size(), lengths)
-        print(torch.max(X))
         X = self.embedding(X)
-        print(X.size())
 
         torch.as_tensor(lengths, dtype=torch.int64)
         X = torch.nn.utils.rnn.pack_padded_sequence(X, lengths, batch_first=True, enforce_sorted=False)
@@ -75,3 +73,34 @@ class CodeRNN(nn.Module):
         c0 = Variable(c0)
 
         return (h0, c0)
+
+
+class WordRNN(CodeRNN):
+    CODE_DIR = "../result/"
+
+    def __init__(self, batch_size, output_size=2, nb_lstm_layers=1, nb_lstm_units=10, bidirectionality=False,
+                 embedding_size=10, use_cuda=False):
+        super(CodeRNN, self).__init__()
+
+        self.use_cuda = use_cuda
+        self.nb_lstm_layers = nb_lstm_layers
+        self.nb_lstm_units = nb_lstm_units
+        self.batch_size = batch_size
+
+        with open(self.CODE_DIR + 'vocabulary.pickle', 'rb') as handle:
+            self.vocabulary = list(pickle.load(handle))
+
+        ## +1 bc of unkown sign
+        self.embedding = nn.Embedding(len(self.vocabulary) + 1, embedding_size)
+
+        self.get_linear_input(bidirectionality)
+        # design LSTM
+        self.lstm = nn.LSTM(
+            input_size=embedding_size,
+            hidden_size=self.nb_lstm_units,
+            num_layers=self.nb_lstm_layers,
+            batch_first=True,
+            bidirectional=bidirectionality
+        )
+
+        self.linear = nn.Linear(self.nb_lstm_units * self.linear_multiplier, output_size)

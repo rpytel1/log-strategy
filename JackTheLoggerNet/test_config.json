@@ -3,7 +3,7 @@
     "n_gpu": 1,
 
     "arch": {
-        "type": "CodeRNN",
+        "type": "WordRNN",
         "args": {
             "embedding_size": 10,
             "batch_size": 4,
@@ -11,7 +11,7 @@
         }
     },
     "data_loader": {
-        "type": "CodeCharDataLoader",
+        "type": "CodeWordDataLoader",
         "args":{
             "filename": "test.txt",
             "batch_size": 10,
