@@ -30,3 +30,8 @@ Then open `localhost:6006` to observe learning rates and more.
 - `tensorboard`
 - `tensorboardx`
 - `progressbar2`
+
+To install all of required libraries run: 
+```bash
+pip3 install -r requirements.txt
+```
