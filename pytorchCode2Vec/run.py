@@ -9,11 +9,14 @@ import random
 import pickle
 
 import models
+from DataLoader import *
+from BatchDivider import *
 
 import sys
+# setup parameters
+
 print(torch.cuda.device_count())
 print(torch.cuda.current_device())
-# setup parameters
 
 SEED = 1234
 DATA_DIR = 'data'
@@ -64,16 +67,20 @@ def calculate_f1(fx, y):
     - Calculates precision, recall and F1 score
 
     fx = [batch size, output dim]
+    fx = [batch size, output dim]
      y = [batch size]
     """
     pred_idxs = fx.max(1, keepdim=True)[1]
+
     pred_labels = [idx2target[i.item()] for i in pred_idxs]
 
     original_labels = [idx2target[i.item()] for i in y]
-
+    cnt = 0
     true_positive, false_positive, true_negative, false_negative = 0, 0, 0, 0
     for p, o in zip(pred_labels, original_labels):
-
+        print (fx[cnt])
+        print("p = " + p + "; o = " + o)
+        cnt=cnt+1;
         if p==o:
             if p=='1':
                 true_positive += 1
@@ -98,103 +105,6 @@ def calculate_f1(fx, y):
         precision, recall, f1 = 0, 0, 0
     return precision, recall, f1
 
-def parse_line(line):
-    """
-    Takes a string 'x y1,p1,z1 y2,p2,z2 ... yn,pn,zn and splits into name (x) and tree [[y1,p1,z1], ...]
-    """
-    name, *tree = line.split(' ')
-    tree = [t.split(',') for t in tree if t != '' and t != '\n']
-
-    return name, tree
-
-def file_iterator(file_path):
-    """
-    Takes a file path and creates and iterator
-    For each line in the file, parse into a name and tree
-    Pad tree to maximum length
-    Yields example:
-    - example_name = 'target'
-    - example_body = [['left_node','path','right_node'], ...]
-    """
-
-    with open(file_path, 'r') as f:
-
-        for line in f:
-
-            #each line is an example
-
-            #each example is made of the function name and then a sequence of triplets
-            #the triplets are (node, path, node)
-
-            example_name, example_body = parse_line(line)
-
-
-            #max length set while preprocessing, make sure none longer
-
-            example_length = len(example_body)
-
-            assert example_length <= MAX_LENGTH
-
-            #need to pad all to maximum length
-
-            example_body += [['<pad>', '<pad>', '<pad>']]*(MAX_LENGTH - example_length)
-
-            assert len(example_body) == MAX_LENGTH
-
-
-            yield example_name, example_body, example_length
-
-def numericalize(examples, n):
-    """
-    Examples are a list of list of lists, i.e. examples[0] = [['left_node','path','right_node'], ...]
-    n is how many batches we are getting our of `examples`
-
-    Get a batch of raw (still strings) examples
-    Create tensors to store them all
-    Numericalize each raw example within the batch and convert whole batch tensor
-    Yield tensor batch
-    """
-    global printBatch
-    assert n*BATCH_SIZE <= len(examples)
-
-    for i in range(n):
-
-        #get the raw data
-
-        raw_batch_label, raw_batch_body, batch_lengths = zip(*examples[BATCH_SIZE*i:BATCH_SIZE*(i+1)])
-
-        #create a tensor to store the batch
-
-        tensor_n = torch.zeros(BATCH_SIZE).long() #name
-        tensor_l = torch.zeros((BATCH_SIZE, MAX_LENGTH)).long() #left node
-        tensor_p = torch.zeros((BATCH_SIZE, MAX_LENGTH)).long() #path
-        tensor_r = torch.zeros((BATCH_SIZE, MAX_LENGTH)).long() #right node
-        mask = torch.ones((BATCH_SIZE, MAX_LENGTH)).float() #mask
-
-
-        #for each example in our raw data
-        for j, (label, body, length) in enumerate(zip(raw_batch_label, raw_batch_body, batch_lengths)):
-
-            #convert to idxs using vocab
-            #use <unk> tokens if item doesn't exist inside vocab
-            label = label[-1:]
-
-            temp_n = target2idx.get(label, target2idx['0'])
-            #temporary left, path and right idx vectors
-            temp_l, temp_p, temp_r = zip(*[(node2idx.get(l, node2idx['<unk>']), path2idx.get(p, path2idx['<unk>']), node2idx.get(r, node2idx['<unk>'])) for l, p, r in body])
-
-            #store idxs inside tensors
-            tensor_n[j] = temp_n
-            tensor_l[j,:] = torch.LongTensor(temp_l)
-            tensor_p[j,:] = torch.LongTensor(temp_p)
-            tensor_r[j,:] = torch.LongTensor(temp_r)
-
-            #create masks
-            mask[j, length:] = 0
-
-
-        yield tensor_n, tensor_l, tensor_p, tensor_r, mask
-
 def get_metrics(tensor_n, tensor_l, tensor_p, tensor_r, model, criterion, optimizer=None):
     """
     Takes inputs, calculates loss, accuracy and other metrics, then calculates gradients and updates parameters
@@ -205,12 +115,13 @@ def get_metrics(tensor_n, tensor_l, tensor_p, tensor_r, model, criterion, optimi
     if optimizer is not None:
         optimizer.zero_grad()
 
-    fx = model(tensor_l, tensor_p, tensor_r)
+    ##the output layer
+    BatchOut = model(tensor_l, tensor_p, tensor_r)
 
-    loss = criterion(fx, tensor_n)
+    loss = criterion(BatchOut, tensor_n)
 
-    acc = calculate_accuracy(fx, tensor_n)
-    precision, recall, f1 = calculate_f1(fx, tensor_n)
+    acc = calculate_accuracy(BatchOut, tensor_n)
+    precision, recall, f1 = calculate_f1(BatchOut, tensor_n)
     torch.cuda.empty_cache()
     if optimizer is not None:
         torch.cuda.empty_cache()
@@ -246,7 +157,7 @@ def train(model, file_path, optimizer, criterion):
     examples = []
 
     #get every function_name, functions_tree, and function_length frome preprocessed c2v file
-    for example_name, example_body, example_length in file_iterator(file_path):
+    for example_name, example_body, example_length in file_iterator(file_path, MAX_LENGTH):
 
         examples.append((example_name, example_body, example_length))
 
@@ -254,18 +165,18 @@ def train(model, file_path, optimizer, criterion):
 
             random.shuffle(examples)
 
-            #tensor_n is a
-            for tensor_n, tensor_l, tensor_p, tensor_r, mask in numericalize(examples, CHUNKS):
+            #tensor_lab is a
+            for tensor_lab, tensor_l, tensor_p, tensor_r, mask in numericalize(examples, CHUNKS,BATCH_SIZE,MAX_LENGTH,node2idx,path2idx,target2idx):
 
                 #place on gpu
 
-                tensor_n = tensor_n.to(device)
+                tensor_lab = tensor_lab.to(device)
                 tensor_l = tensor_l.to(device)
                 tensor_p = tensor_p.to(device)
                 tensor_r = tensor_r.to(device)
 
                 #put into model
-                loss, acc, p, r, f1 = get_metrics(tensor_n, tensor_l, tensor_p, tensor_r, model, criterion, optimizer)
+                loss, acc, p, r, f1 = get_metrics(tensor_lab, tensor_l, tensor_p, tensor_r, model, criterion, optimizer)
 
                 epoch_loss += loss
                 epoch_acc += acc
@@ -300,18 +211,18 @@ def train(model, file_path, optimizer, criterion):
     n = len(examples)//BATCH_SIZE
 
     #train with remaining batches
-    for tensor_n, tensor_l, tensor_p, tensor_r, mask in numericalize(examples, n):
+    for tensor_lab, tensor_l, tensor_p, tensor_r, mask in numericalize(examples, n,BATCH_SIZE,MAX_LENGTH,node2idx,path2idx,target2idx):
 
         #place on gpu
 
-        tensor_n = tensor_n.to(device)
+        tensor_lab = tensor_lab.to(device)
         tensor_l = tensor_l.to(device)
         tensor_p = tensor_p.to(device)
         tensor_r = tensor_r.to(device)
 
         #put into model
 
-        loss, acc, p, r, f1 = get_metrics(tensor_n, tensor_l, tensor_p, tensor_r, model, criterion, optimizer)
+        loss, acc, p, r, f1 = get_metrics(tensor_lab, tensor_l, tensor_p, tensor_r, model, criterion, optimizer)
 
         epoch_loss += loss
         epoch_acc += acc
@@ -341,7 +252,7 @@ def evaluate(model, file_path, criterion):
 
     examples = []
 
-    for example_name, example_body, example_length in file_iterator(file_path):
+    for example_name, example_body, example_length in file_iterator(file_path,MAX_LENGTH):
 
         examples.append((example_name, example_body, example_length))
 
@@ -349,7 +260,7 @@ def evaluate(model, file_path, criterion):
 
             random.shuffle(examples)
 
-            for tensor_n, tensor_l, tensor_p, tensor_r, mask in numericalize(examples, CHUNKS):
+            for tensor_n, tensor_l, tensor_p, tensor_r, mask in numericalize(examples, CHUNKS,BATCH_SIZE,MAX_LENGTH,node2idx,path2idx,target2idx):
 
                 #place on gpu
 
@@ -395,7 +306,7 @@ def evaluate(model, file_path, criterion):
 
     n = len(examples)//BATCH_SIZE
 
-    for tensor_n, tensor_l, tensor_p, tensor_r, mask in numericalize(examples, n):
+    for tensor_n, tensor_l, tensor_p, tensor_r, mask in numericalize(examples, n,BATCH_SIZE,MAX_LENGTH,node2idx,path2idx,target2idx):
 
         #place on gpu
 

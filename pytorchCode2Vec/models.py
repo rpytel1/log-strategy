@@ -18,7 +18,7 @@ class Code2Vec(nn.Module):
         #starts = paths = ends = [batch size, max length]
         
         W = self.W.repeat(starts.shape[0], 1, 1)
-        
+
         #W = [batch size, embedding dim, embedding dim * 3]
         
         embedded_starts = self.node_embedding(starts)
@@ -51,8 +51,8 @@ class Code2Vec(nn.Module):
         
         #z = [batch size, max length]
 
-        z = F.softmax(z, dim=1)
-        
+        z = F.softmax(z,dim=1)
+
         #z = [batch size, max length]
         
         z = z.unsqueeze(2)
@@ -62,12 +62,14 @@ class Code2Vec(nn.Module):
         x = x.permute(0, 2, 1)
         
         #x = [batch size, embedding dim, max length]
-        
+
         v = torch.bmm(x, z).squeeze(2)
-        
+
+        #v = F.softmax(v)
+
         #v = [batch size, embedding dim]
         
-        out = self.out(v)
+        out = F.softmax(self.out(v))
         
         #out = [batch size, output dim]
 
