@@ -39,7 +39,7 @@ class CodeCharDataset(Dataset):
             elif ind % 3 == 1:
                 functions.append(signature + elem)
             else:
-                self.labels.append(self.one_hot_label(int(elem)))
+                self.labels.append(torch.tensor(int(elem)))
 
         self.length = min(len(functions), len(self.labels))
         self.max_chars = len(max(functions, key=len))
@@ -60,11 +60,6 @@ class CodeCharDataset(Dataset):
 
     def __len__(self):
         return self.length
-
-    def one_hot_label(self,label):
-        lab = torch.zeros(2, dtype= torch.float32)
-        lab[label] = 1
-        return lab
 
     def line_to_tensor(self, line):
         tensor = torch.zeros(self.max_chars, dtype=torch.long)
@@ -98,7 +93,7 @@ class CodeWordDataset(Dataset):
                 lengths.append(len(word_tokenize(signature + elem)))
 
             else:
-                self.labels.append(self.one_hot_label(int(elem)))
+                self.labels.append(torch.tensor(int(elem)))
 
         self.length = min(len(functions), len(self.labels))
 
@@ -120,13 +115,6 @@ class CodeWordDataset(Dataset):
 
     def __len__(self):
         return self.length
-
-    def one_hot_label(self,label):
-        lab = torch.zeros(2, dtype= torch.float32)
-        lab[label] = 1
-        return lab
-
-
 
     def line_to_tensor(self, line):
         tensor = torch.zeros(self.max_chars, dtype=torch.long)
