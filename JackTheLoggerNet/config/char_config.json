@@ -3,18 +3,18 @@
     "n_gpu": 1,
 
     "arch": {
-        "type": "WordRNN",
+        "type": "CodeRNN",
         "args": {
             "embedding_size": 10,
-            "batch_size": 4,
+            "batch_size": 30,
             "use_cuda": true
         }
     },
     "data_loader": {
-        "type": "CodeWordDataLoader",
+        "type": "CodeCharDataLoader",
         "args":{
-            "filename": "test.txt",
-            "batch_size": 10,
+            "filename": "zookeeper_filteredRNN.txt",
+            "batch_size": 30,
             "shuffle": true,
             "validation_split": 0.2,
             "num_workers": 2
@@ -43,7 +43,7 @@
         "save_dir": "saved/",
         "save_period": 1,
         "verbosity": 2,
-        
+
         "monitor": "min val_loss",
         "early_stop": 10,
 

@@ -4,6 +4,8 @@ import string
 import torch
 import torch.nn as nn
 from torch.autograd import Variable
+import torch.nn.functional as F
+import numpy as np
 
 
 class CodeRNN(nn.Module):
@@ -31,7 +33,11 @@ class CodeRNN(nn.Module):
             bidirectional=bidirectionality
         )
 
-        self.linear = nn.Linear(self.nb_lstm_units * self.linear_multiplier, output_size)
+        self.linear = nn.Linear(self.nb_lstm_units * self.linear_multiplier, 100)
+
+        self.linear2 = nn.Linear(100, output_size)
+
+        self.softmax = nn.Softmax()
 
     def get_linear_input(self, bidirectional):
         self.multiplier = self.nb_lstm_layers
@@ -56,7 +62,10 @@ class CodeRNN(nn.Module):
         n = [X[i, n, :] for i, n in enumerate(list(lengths))]
 
         k = torch.cat(n).view(batch_size, -1)
-        X = self.linear(k)
+        X = F.relu(self.linear(k))
+        X = F.relu(self.linear2(X))
+        X = self.softmax(X)
+
         Y_hat = X
 
         return Y_hat
@@ -103,4 +112,11 @@ class WordRNN(CodeRNN):
             bidirectional=bidirectionality
         )
 
-        self.linear = nn.Linear(self.nb_lstm_units * self.linear_multiplier, output_size)
+        self.linear = nn.Linear(self.nb_lstm_units * self.linear_multiplier, 100)
+
+        self.linear2 = nn.Linear(100, output_size)
+
+        self.softmax = nn.Softmax()
+        model_parameters = filter(lambda p: p.requires_grad, self.parameters())
+        params = sum([np.prod(p.size()) for p in model_parameters])
+        print(params)

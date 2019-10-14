@@ -3,7 +3,7 @@ from nltk.tokenize import word_tokenize
 import pickle
 
 CODE_DIR = "../result/"
-WORTH_VOCAB_RATIO = 0.05
+WORTH_VOCAB_RATIO = 0.1
 
 functions = []
 word_dict = FreqDist()
@@ -14,7 +14,7 @@ files = ["beam_filteredRNN.txt", "camel_filteredRNN.txt", "cassandra_filteredRNN
 
 # Open directory and learn words
 for file in files:
-    d = open(CODE_DIR + "hadoop_filteredRNN.txt", "r", encoding="utf-8")
+    d = open(CODE_DIR + file, "r", encoding="utf-8")
     for ind, elem in enumerate(d):
         if ind % 3 == 0:
             signature = elem
@@ -22,7 +22,7 @@ for file in files:
             fdist = FreqDist(word.lower() for word in word_tokenize(signature + elem))
             word_dict.update(fdist)
 
-# Take 5 % of most common words to vocabulary
+# Take 50 % of most common words to vocabulary
 worth = word_dict.most_common(int(WORTH_VOCAB_RATIO * len(word_dict)))
 worth_vocab = [word for word, freq in worth]
 print(len(worth_vocab))
