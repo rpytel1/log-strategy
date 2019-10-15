@@ -83,8 +83,9 @@ def train_classifier(data_path: str, stop: int, step: int):
                 executionTime = endTime - startTime
                 print("Extracting and splitting model with", len(features), "features took:", round(executionTime, 2), 'seconds, current total:', feature_count)
 
-    svm_classifier = train_svm(totalCodeVectors, totalLabels)
     random_forest_classifier = train_randomforest(totalCodeVectors, totalLabels)
+    print(len(totalCodeVectors))
+    svm_classifier = train_svm(totalCodeVectors, totalLabels)
 
     return [(svm_classifier, "svm"), (random_forest_classifier, "random_forest")]
 
@@ -99,14 +100,16 @@ def evaluate(prediction, label, description):
     print('-----------------------END RESULTS-----------------------\n')
 
 if __name__ == '__main__':
+    with open(DATA_PATH, "r") as file_in:
+        features, eof = fr.extractFeatures(file_in, TEST_SIZE)
+    test_codeVectors, test_labels = fr.extractData(features)
+    print("Extracted training data set with:", len(test_codeVectors), "features.")
+
     classifier = train_classifier(DATA_PATH, TRAIN_SIZE, STEP_SIZE)
     for model, descriptor in classifier:
         save(model, CLASSIFIER_SAVEPATH + "_" + descriptor + "_" + str(TRAIN_SIZE) + "_" + str(round(POSITIVE_RATIO, 2)) + ".joblib")
 
-    with open(DATA_PATH, "r") as file_in:
-        features, eof = fr.extractFeatures(file_in, TEST_SIZE)
-        test_codeVectors, test_labels = fr.extractData(features)
-        for model, descriptor in classifier:
-            prediction = model.predict(test_codeVectors)
-            evaluate(prediction, test_labels, str(TEST_SIZE) + descriptor)
+    for model, descriptor in classifier:
+        prediction = model.predict(test_codeVectors)
+        evaluate(prediction, test_labels, str(TEST_SIZE) + descriptor)
 
