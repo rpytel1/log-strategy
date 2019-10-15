@@ -116,7 +116,7 @@ class Trainer(BaseTrainer):
 
     def move_to_device(self, data, target, lengths):
 
-        if lengths != "CODE2VEC":
+        if str(lengths[0]) == "CODE2VEC":
             tensor_l, tensor_p, tensor_r = data
             return (tensor_l.to(self.device), tensor_p.to(self.device), tensor_r.to(self.device)), target.to(
                 self.device), ""
