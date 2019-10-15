@@ -104,7 +104,7 @@ class Code2VecDataset:
 		inputData = Code2VecData()
 		inputData.vector = []
 		f = open(filepath)
-		lines = f.readlines();
+		lines = f.readlines()
 		f.close()
 		
 		counter = 0
