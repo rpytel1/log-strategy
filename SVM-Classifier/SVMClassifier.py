@@ -1,6 +1,6 @@
 from Evaluation import JaccardIndex, Accuracy, APrecision, Precision, Recall
 from sklearn import svm, linear_model
-from Feature import Feature
+import FeatureReader as  fr
 import time
 from Persistence import loadModel, save
 import numpy as np
@@ -8,38 +8,11 @@ import numpy as np
 
 DATA_PATH = "..//result//codevectors//codevectors_labeled.txt"
 MODEL_SAVEPATH = "C://Users//Jan//Desktop//log-strategy//SVM-Classifier//trained_svm"
-TRAIN_SIZE = 200000
-TEST_SIZE = 20000
-STEP_SIZE = 50000
-
-
-def isFeatureEnd(line: str) -> bool:
-    return ']' in line
-
-def extractFeatures(file, batch_size: int) -> ([Feature], bool):
-    features = []
-    featureRaw = ""
-
-    for line in file:
-        featureRaw += line
-        if isFeatureEnd(line):
-            features.append(Feature(featureRaw.splitlines()))
-            featureRaw = ""
-
-        if len(features) == batch_size:
-            print("Extracted:", len(features), "features")
-            return features, False
-
-    print("Extracted:", len(features), "features")
-    return features, True
-
-def extractData(features: [Feature]) -> ([float], [int]):
-    codeVectors, labels = [], []
-    for feature in features:
-        codeVectors.append(feature.codeVector)
-        labels.append(feature.label)
-
-    return codeVectors, labels
+TRAIN_SIZE = 50000
+TEST_SIZE = 5000
+STEP_SIZE = 10000
+POSITIVE_RATIO = 0.2
+MODEL_DESCRIPTOR = "_" + str(TRAIN_SIZE) + "_" + str(round(POSITIVE_RATIO, 2)) + ".joblib"
 
 def incremental_train_svm(data_path: str, stop: int, step: int):
     feature_count = 0
@@ -49,10 +22,10 @@ def incremental_train_svm(data_path: str, stop: int, step: int):
     with open(data_path, "r") as file_in:
         while not eof and feature_count < stop:
             startTime = time.time()
-            features, eof = extractFeatures(file_in, step)
+            features, eof = fr.extractFeatures(file_in, step)
             feature_count += len(features)
             if len(features) > 0:
-                codeVectors, labels = extractData(features)
+                codeVectors, labels = fr.extractData(features)
                 model = model.partial_fit(codeVectors, labels, classes=np.unique(labels))
                 endTime = time.time()
                 executionTime = endTime - startTime
@@ -70,15 +43,16 @@ def train_svm(data_path: str, stop: int, step: int):
     with open(data_path, "r") as file_in:
         while not eof and feature_count < stop:
             startTime = time.time()
-            features, eof = extractFeatures(file_in, step)
+            features, eof = fr.extractFeatures(file_in, min(step, stop - feature_count))
+            features = fr.splitDataSet(features, POSITIVE_RATIO)
             feature_count += len(features)
             if len(features) > 0:
-                codeVectors, labels = extractData(features)
+                codeVectors, labels = fr.extractData(features)
                 totalCodeVectors += codeVectors
                 totalLabels += labels
                 endTime = time.time()
                 executionTime = endTime - startTime
-                print("Extracting", step, "features took:", round(executionTime, 2), 'seconds.')
+                print("Extracting and splitting", len(features), "features took:", round(executionTime, 2), 'seconds.')
 
     startTime = time.time()
     clf = svm.SVC(gamma='scale')
@@ -109,11 +83,11 @@ if __name__ == '__main__':
     if(model == None):
         print("Training new svm model.")
         model = train_svm(DATA_PATH, TRAIN_SIZE, STEP_SIZE)
-        save(model, MODEL_SAVEPATH + "_" + str(TRAIN_SIZE) + ".joblib")
+        save(model, MODEL_SAVEPATH + MODEL_DESCRIPTOR)
 
     with open(DATA_PATH, "r") as file_in:
-        features, eof = extractFeatures(file_in, TEST_SIZE)
-        test_codeVectors, test_labels = extractData(features)
+        features, eof = fr.extractFeatures(file_in, TEST_SIZE)
+        test_codeVectors, test_labels = fr.extractData(features)
         prediction = model.predict(test_codeVectors)
         evaluate(prediction, test_labels, str(TEST_SIZE) + " test samples")
 

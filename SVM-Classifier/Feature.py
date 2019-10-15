@@ -21,7 +21,7 @@ class Feature:
             elif ']' in line and reading:
                 tmp += line
                 rawVector = re.sub(r'\[|\|\n]', '', tmp)
-                return np.fromstring(rawVector, float, sep=' ').tolist()
+                return np.fromstring(rawVector, np.float32, sep=' ').tolist()
             elif reading:
                 tmp += line
         raise ValueError("Can't extract code vector from:", data)
