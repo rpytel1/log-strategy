@@ -19,6 +19,7 @@ class Code2Vec(nn.Module):
         
         W = self.W.repeat(starts.shape[0], 1, 1)
 
+
         #W = [batch size, embedding dim, embedding dim * 3]
         
         embedded_starts = self.node_embedding(starts)
@@ -52,6 +53,9 @@ class Code2Vec(nn.Module):
         #z = [batch size, max length]
 
         z = F.softmax(z,dim=1)
+
+        print("batch MM of x and a")
+        print(z)
 
         #z = [batch size, max length]
         

@@ -331,7 +331,7 @@ def evaluate(model, file_path, criterion):
 
 #load counts of each token in dataset
 os.environ['CUDA_VISIBLE_DEVICES'] = '2'
-with open(f'{DATASET}.dict.c2v', 'rb') as file:
+with open(f'{DATA_DIR}/preprocessed_code/{DATASET}.dict.c2v', 'rb') as file:
     node2count = pickle.load(file)
 
     path2count = pickle.load(file)
@@ -383,8 +383,6 @@ device = torch.device('cuda:0')
 
 model = model.to(device)
 criterion = criterion.to(device)
-
-
 
 best_valid_loss = float('inf')
 
