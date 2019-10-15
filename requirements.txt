@@ -1,0 +1,7 @@
+torch
+numpy
+tensorflow
+tensorboard
+tensorboardx
+progressbar2
+

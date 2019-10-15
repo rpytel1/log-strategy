@@ -1,9 +1,11 @@
+import pickle
 import string
 
 import torch
 import torch.nn as nn
 from torch.autograd import Variable
-import torch.nn.functional as fn
+import torch.nn.functional as F
+import numpy as np
 
 
 class CodeRNN(nn.Module):
@@ -17,7 +19,9 @@ class CodeRNN(nn.Module):
         self.nb_lstm_units = nb_lstm_units
         self.batch_size = batch_size
         self.vocabulary = string.printable + " .,;'"
-        self.embedding = nn.Embedding(len(self.vocabulary), embedding_size)
+
+        ## +1 bc of unkown sign
+        self.embedding = nn.Embedding(len(self.vocabulary) + 1, embedding_size)
 
         self.get_linear_input(bidirectionality)
         # design LSTM
@@ -29,7 +33,10 @@ class CodeRNN(nn.Module):
             bidirectional=bidirectionality
         )
 
-        self.linear = nn.Linear(self.nb_lstm_units * self.linear_multiplier, output_size)
+        self.linear = nn.Linear(self.nb_lstm_units * self.linear_multiplier, 100)
+
+        self.linear2 = nn.Linear(100, output_size)
+
 
     def get_linear_input(self, bidirectional):
         self.multiplier = self.nb_lstm_layers
@@ -43,6 +50,8 @@ class CodeRNN(nn.Module):
         batch_size, seq_len = X.size()
         self.hidden = self.init_hidden(batch_size)
         X = self.embedding(X)
+
+        torch.as_tensor(lengths, dtype=torch.int64)
         X = torch.nn.utils.rnn.pack_padded_sequence(X, lengths, batch_first=True, enforce_sorted=False)
         # now run through LSTM
         X, self.hidden = self.lstm(X, self.hidden)
@@ -52,7 +61,9 @@ class CodeRNN(nn.Module):
         n = [X[i, n, :] for i, n in enumerate(list(lengths))]
 
         k = torch.cat(n).view(batch_size, -1)
-        X = self.linear(k)
+        X = F.relu(self.linear(k))
+        X = self.linear2(X)
+
         Y_hat = X
 
         return Y_hat
@@ -69,6 +80,43 @@ class CodeRNN(nn.Module):
         c0 = Variable(c0)
 
         return (h0, c0)
+
+
+class WordRNN(CodeRNN):
+    CODE_DIR = "../result/"
+
+    def __init__(self, batch_size, output_size=2, nb_lstm_layers=1, nb_lstm_units=10, bidirectionality=False,
+                 embedding_size=10, use_cuda=False):
+        super(CodeRNN, self).__init__()
+
+        self.use_cuda = use_cuda
+        self.nb_lstm_layers = nb_lstm_layers
+        self.nb_lstm_units = nb_lstm_units
+        self.batch_size = batch_size
+
+        with open(self.CODE_DIR + 'vocabulary.pickle', 'rb') as handle:
+            self.vocabulary = list(pickle.load(handle))
+
+        ## +1 bc of unkown sign
+        self.embedding = nn.Embedding(len(self.vocabulary) + 1, embedding_size)
+
+        self.get_linear_input(bidirectionality)
+        # design LSTM
+        self.lstm = nn.LSTM(
+            input_size=embedding_size,
+            hidden_size=self.nb_lstm_units,
+            num_layers=self.nb_lstm_layers,
+            batch_first=True,
+            bidirectional=bidirectionality
+        )
+
+        self.linear = nn.Linear(self.nb_lstm_units * self.linear_multiplier, 100)
+
+        self.linear2 = nn.Linear(100, output_size)
+
+        model_parameters = filter(lambda p: p.requires_grad, self.parameters())
+        params = sum([np.prod(p.size()) for p in model_parameters])
+        print(params)
 
 
 class Code2VecSingleNN(nn.Module):
