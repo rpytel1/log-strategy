@@ -45,7 +45,8 @@ class Trainer(BaseTrainer):
         total_loss = 0
         total_metrics = np.zeros(len(self.metrics))
         for batch_idx, (data, target, lengths) in enumerate(self.data_loader):
-            data, target,lengths = data.to(self.device), target.to(self.device),lengths.to(self.device)
+
+            data, target, lengths = self.move_to_device(data, target, lengths)
 
             self.optimizer.zero_grad()
             output = self.model(data, lengths)
@@ -112,3 +113,13 @@ class Trainer(BaseTrainer):
             'val_loss': total_val_loss / len(self.valid_data_loader),
             'val_metrics': (total_val_metrics / len(self.valid_data_loader)).tolist()
         }
+
+    def move_to_device(self, data, target, lengths):
+
+        if lengths != "CODE2VEC":
+            print("CODE2VEC")
+            tensor_l, tensor_p, tensor_r = data
+            return (tensor_l.to(self.device), tensor_p.to(self.device), tensor_r.to(self.device)), target.to(
+                self.device), _
+        else:
+            return data.to(self.device), target.to(self.device), lengths.to(self.device)

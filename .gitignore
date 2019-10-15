@@ -229,3 +229,5 @@ JackTheLogger/term-extractor.iml
 JackTheLoggerNet/DeepJackTheLogger.iml
 JackTheLoggerNet/saved/
 code2vec/
+JackTheLoggerNet/code2vectest/
+JackTheLoggerNet/data/
