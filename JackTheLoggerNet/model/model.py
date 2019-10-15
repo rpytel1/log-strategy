@@ -133,7 +133,7 @@ class Code2VecSingleNN(nn.Module):
     def forward(self, x, lengths):
 
 
-        X = fn.relu(self.hidden(x))
+        X = F.relu(self.hidden(x))
         output = self.output(X)
 
         return output
