@@ -15,7 +15,7 @@
     "type": "Code2VecDataLoader",
     "args": {
       "filename": "preprocessed_code.train.c2v",
-      "batch_size": 10,
+      "batch_size": 1024,
       "shuffle": true,
       "validation_split": 0.2,
       "num_workers": 2

@@ -16,7 +16,6 @@ def recall(output, target):
         assert pred.shape[0] == len(target)
         tp = torch.sum(pred == 1).item()
         tp_fn = torch.sum(target == 1).item()
-        print(tp, tp_fn)
         if tp_fn == 0:
             return 0
     return tp / max(tp_fn, tp)

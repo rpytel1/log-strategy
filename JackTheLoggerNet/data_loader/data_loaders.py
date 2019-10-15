@@ -207,8 +207,9 @@ class Code2VecDataset(Dataset):
                 for tensor_lab, tensor_l, tensor_p, tensor_r, mask in numericalize(self.examples, self.CHUNKS,
                                                                                    self.BATCH_SIZE, self.MAX_LENGTH,
                                                                                    node2idx, path2idx, target2idx):
-                    self.data.append((tensor_l, tensor_p, tensor_r))
-                    self.labels.append(tensor_lab)
+                    for i in range(self.BATCH_SIZE):
+                        self.data.append((tensor_l[i], tensor_p[i], tensor_r[i]))
+                        self.labels.append(tensor_lab[i])
 
                 self.examples = []
 

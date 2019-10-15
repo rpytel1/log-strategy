@@ -131,6 +131,7 @@ class Code2Vec(nn.Module):
 
     def forward(self, X, lengths):
         starts, paths, ends = X
+
         # starts = paths = ends = [batch size, max length]
 
         W = self.W.repeat(starts.shape[0], 1, 1)
@@ -184,7 +185,7 @@ class Code2Vec(nn.Module):
 
         # v = [batch size, embedding dim]
 
-        out = F.softmax(self.out(v))
+        out = self.out(v)
 
         # out = [batch size, output dim]
 

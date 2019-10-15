@@ -66,7 +66,7 @@ class Trainer(BaseTrainer):
                     self.data_loader.n_samples,
                     100.0 * batch_idx / len(self.data_loader),
                     loss.item()))
-                self.writer.add_image('input', make_grid(data.cpu().double(), nrow=8, normalize=True))
+                # self.writer.add_image('input', make_grid(data.cpu().double(), nrow=8, normalize=True))
 
         log = {
             'loss': total_loss / len(self.data_loader),
@@ -94,7 +94,7 @@ class Trainer(BaseTrainer):
         total_val_metrics = np.zeros(len(self.metrics))
         with torch.no_grad():
             for batch_idx, (data, target, length) in enumerate(self.valid_data_loader):
-                data, target,length = data.to(self.device), target.to(self.device), length.to(self.device)
+                data, target,length = self.move_to_device(data, target, length)
 
                 output = self.model(data, length)
                 loss = self.loss(output, target)
@@ -117,9 +117,8 @@ class Trainer(BaseTrainer):
     def move_to_device(self, data, target, lengths):
 
         if lengths != "CODE2VEC":
-            print("CODE2VEC")
             tensor_l, tensor_p, tensor_r = data
             return (tensor_l.to(self.device), tensor_p.to(self.device), tensor_r.to(self.device)), target.to(
-                self.device), _
+                self.device), ""
         else:
             return data.to(self.device), target.to(self.device), lengths.to(self.device)
