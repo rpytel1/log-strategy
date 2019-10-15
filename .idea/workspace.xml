@@ -1,137 +1,88 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="39d49ec8-f879-4bc4-bd29-c7e99a64e358" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/result/TOTAL_FUNCTIONS.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/result/beam.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/result/beam_filteredCode2Vec.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/result/beam_filteredRNN.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/result/camel.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/result/camel_filteredCode2Vec.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/result/camel_filteredRNN.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/result/cassandra.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/result/cassandra_filteredCode2Vec.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/result/cassandra_filteredRNN.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/result/fastText_java.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/result/flink.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/result/flink_filteredCode2Vec.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/result/flink_filteredRNN.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/result/hadoop.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/result/hadoop_filteredCode2Vec.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/result/hadoop_filteredRNN.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/result/hive.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/result/hive_filteredCode2Vec.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/result/hive_filteredRNN.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/result/jmeter.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/result/jmeter_filteredCode2Vec.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/result/jmeter_filteredRNN.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/result/kafka.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/result/kafka_filteredCode2Vec.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/result/kafka_filteredRNN.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/result/maven.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/result/maven_filteredCode2Vec.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/result/maven_filteredRNN.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/result/tomcat.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/result/tomcat_filteredCode2Vec.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/result/tomcat_filteredRNN.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/result/zookeeper.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/result/zookeeper_filteredCode2Vec.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/result/zookeeper_filteredRNN.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SyntaxValidator/SyntaxValidator.iml" beforeDir="false" afterPath="$PROJECT_DIR$/TermExtactor/term-extractor.iml" afterDir="false" />
+    <list default="true" id="b4e69113-8f74-444f-8644-4ec086abf50c" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.name" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_github_javaparser_javaparser_core_3_14_3.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_github_javaparser_javaparser_symbol_solver_core_3_14_3.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_github_javaparser_javaparser_symbol_solver_logic_3_14_3.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_github_javaparser_javaparser_symbol_solver_model_3_14_3.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_google_code_findbugs_jsr305_3_0_2.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_google_errorprone_error_prone_annotations_2_2_0.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_google_guava_failureaccess_1_0.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_google_guava_guava_27_0_jre.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_google_guava_listenablefuture_9999_0_empty_to_avoid_conflict_with_guava.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_google_j2objc_j2objc_annotations_1_1.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__commons_io_commons_io_2_6.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__junit_junit_3_8_1.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__net_sf_py4j_py4j_0_10_8_1.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_checkerframework_checker_qual_2_5_2.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_codehaus_mojo_animal_sniffer_annotations_1_17.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_javassist_javassist_3_24_0_GA.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/log-strategy.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sbt.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/JackTheLoggerNet/data_loader/data_loaders.py" beforeDir="false" afterPath="$PROJECT_DIR$/JackTheLoggerNet/data_loader/data_loaders.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/JackTheLoggerNet/test_config_singlenn.json" beforeDir="false" afterPath="$PROJECT_DIR$/JackTheLoggerNet/test_config_singlenn.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SyntaxValidator/syntax-validator.iml" beforeDir="false" afterPath="$PROJECT_DIR$/SyntaxValidator/syntax-validator.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/TermExtactor/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/TermExtactor/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/META-INF/MANIFEST.MF" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/TermExtractor/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/TermExtactor/src/App.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/TermExtractor/JavaCompilationUnit.java" beforeDir="false" afterPath="$PROJECT_DIR$/TermExtactor/src/JavaCompilationUnit.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/TermExtractor/MethodRepresentation.java" beforeDir="false" afterPath="$PROJECT_DIR$/TermExtactor/src/MethodRepresentation.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/TermExtractor/Preprocessor.java" beforeDir="false" afterPath="$PROJECT_DIR$/TermExtactor/src/Preprocessor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/TermExtractor/Repository.java" beforeDir="false" afterPath="$PROJECT_DIR$/TermExtactor/src/Repository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/script/selected_repositories.sh" beforeDir="false" afterPath="$PROJECT_DIR$/TermExtactor/script/selected_repositories.sh" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tag_remove_log/kafkatest_filtered.txt" beforeDir="false" afterPath="$PROJECT_DIR$/tag_remove_log/kafkatest_filtered.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tag_remove_log/tagLog.py" beforeDir="false" afterPath="$PROJECT_DIR$/tag_remove_log/tagLog.py" afterDir="false" />
     </list>
-    <ignored path="$PROJECT_DIR$/JackTheLogger/target/" />
-    <ignored path="$PROJECT_DIR$/target/" />
-    <ignored path="$PROJECT_DIR$/SyntaxValidator/target/" />
+    <list id="86e2b80a-9427-4f88-bcea-1d85d44e1a96" name="model changes" comment="">
+      <change beforePath="$PROJECT_DIR$/JackTheLoggerNet/model/model.py" beforeDir="false" afterPath="$PROJECT_DIR$/JackTheLoggerNet/model/model.py" afterDir="false" />
+    </list>
+    <ignored path="$PROJECT_DIR$/.idea/shelf/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="DefaultGradleProjectSettings">
-    <option name="isMigrated" value="true" />
-  </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+    <leaf>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/code2vec/code2vec.py">
+        <entry file="file://$PROJECT_DIR$/code2vec/result/codevectors_labeled_test.txt">
+          <provider selected="true" editor-type-id="LargeFileEditor" />
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/code2vec/result/codevectors_labeled_train.txt">
+          <provider selected="true" editor-type-id="LargeFileEditor" />
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/JackTheLoggerNet/data_loader/data_loaders.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="214">
-              <caret line="35" column="40" selection-start-line="35" selection-start-column="20" selection-end-line="35" selection-end-column="40" />
+            <state relative-caret-position="63">
+              <caret line="120" column="41" selection-start-line="120" selection-start-column="22" selection-end-line="120" selection-end-column="41" />
               <folding>
-                <element signature="e#0#34#0" expanded="true" />
+                <element signature="e#0#13#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/code2vec/interactive_predict.py">
+        <entry file="file://$PROJECT_DIR$/JackTheLoggerNet/model/loss.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="100">
-              <caret line="16" selection-start-line="16" selection-end-line="16" />
-              <folding>
-                <element signature="e#0#16#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="45">
+              <caret line="3" column="39" selection-start-line="3" selection-start-column="39" selection-end-line="3" selection-end-column="39" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/code2vec/tensorflow_model.py">
+        <entry file="file://$PROJECT_DIR$/.gitignore">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1">
-              <caret line="324" selection-start-line="324" selection-end-line="324" />
-              <folding>
-                <element signature="e#0#23#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="-3153">
+              <caret line="4" column="8" selection-start-line="4" selection-start-column="3" selection-end-line="4" selection-end-column="8" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/code2vec/code2vec.iml">
-          <provider selected="true" editor-type-id="text-editor" />
-        </entry>
-      </file>
     </leaf>
-  </component>
-  <component name="FileTemplateManagerImpl">
-    <option name="RECENT_TEMPLATES">
-      <list>
-        <option value="Class" />
-        <option value="Python Script" />
-      </list>
-    </option>
-  </component>
-  <component name="FindInProjectRecents">
-    <findStrings>
-      <find>write</find>
-      <find>print</find>
-      <find>getRepoSize</find>
-      <find>Signature</find>
-      <find>signa</find>
-      <find>name</find>
-      <find>\\</find>
-      <find>PREDICT</find>
-      <find>extractRepresentation</find>
-      <find>extract</find>
-      <find>REPRESENTATION</find>
-      <find>predict</find>
-      <find>predict(</find>
-    </findStrings>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -139,45 +90,18 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/script/checkout_curated.sh" />
-        <option value="$PROJECT_DIR$/src/TermExtractor/Repository.java" />
-        <option value="$PROJECT_DIR$/src/TermExtractor/App.java" />
-        <option value="$PROJECT_DIR$/src/TermExtractor/Java8Lexer.java" />
-        <option value="$PROJECT_DIR$/src/TermExtractor/AstPrinter.java" />
-        <option value="$PROJECT_DIR$/src/TermExtractor/JavaCompilationUnit.java" />
-        <option value="$PROJECT_DIR$/src/TermExtractor/Test.java" />
-        <option value="$PROJECT_DIR$/src/TermExtractor/Preprocessor.java" />
-        <option value="$PROJECT_DIR$/src/TermExtractor/MethodRepresentation.java" />
-        <option value="$PROJECT_DIR$/code2vec.py" />
-        <option value="$PROJECT_DIR$/config.py" />
-        <option value="$PROJECT_DIR$/model_base.py" />
-        <option value="$PROJECT_DIR$/src/TermExtractor/tensorflow_model.py" />
-        <option value="$PROJECT_DIR$/keras_model.py" />
-        <option value="$PROJECT_DIR$/pom.xml" />
-        <option value="$PROJECT_DIR$/code2vec/Input.java" />
-        <option value="$PROJECT_DIR$/code2vec/config.py" />
-        <option value="$PROJECT_DIR$/code2vec/interactive_predict.py" />
-        <option value="$PROJECT_DIR$/code2vec/keras_model.py" />
-        <option value="$PROJECT_DIR$/code2vec/model_base.py" />
-        <option value="$PROJECT_DIR$/code2vec/tensorflow_model.py" />
-        <option value="$PROJECT_DIR$/code2vec/code2vec.py" />
+        <option value="$PROJECT_DIR$/JackTheLoggerNet/model/model.py" />
+        <option value="$PROJECT_DIR$/JackTheLoggerNet/data_loader/data_loaders.py" />
+        <option value="$PROJECT_DIR$/JackTheLoggerNet/test_config_singlenn.json" />
+        <option value="$PROJECT_DIR$/JackTheLoggerNet/model/loss.py" />
       </list>
     </option>
   </component>
-  <component name="MavenImportPreferences">
-    <option name="importingSettings">
-      <MavenImportingSettings>
-        <option name="importAutomatically" value="true" />
-      </MavenImportingSettings>
-    </option>
-  </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="-10" />
-    <option name="y" value="-10" />
-    <option name="width" value="980" />
-    <option name="height" value="1040" />
+    <option name="y" value="23" />
+    <option name="width" value="982" />
+    <option name="height" value="877" />
   </component>
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
     <navigator proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
@@ -187,31 +111,47 @@
         <subPane>
           <expand>
             <path>
-              <item name="syntax-validator" type="b2602c69:ProjectViewProjectNode" />
-              <item name="code2vec" type="462c0819:PsiDirectoryNode" />
+              <item name="Seminar_for_ML_in_SE" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Seminar_for_ML_in_SE" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Seminar_for_ML_in_SE" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Seminar_for_ML_in_SE" type="462c0819:PsiDirectoryNode" />
+              <item name="JackTheLoggerNet" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Seminar_for_ML_in_SE" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Seminar_for_ML_in_SE" type="462c0819:PsiDirectoryNode" />
+              <item name="JackTheLoggerNet" type="462c0819:PsiDirectoryNode" />
+              <item name="data_loader" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Seminar_for_ML_in_SE" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Seminar_for_ML_in_SE" type="462c0819:PsiDirectoryNode" />
+              <item name="JackTheLoggerNet" type="462c0819:PsiDirectoryNode" />
+              <item name="model" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="PackagesPane" />
       <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="ASKED_SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/code2vec" />
-    <property name="project.structure.last.edited" value="Modules" />
-    <property name="project.structure.proportion" value="0.15" />
-    <property name="project.structure.side.proportion" value="0.2" />
-    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/code2vec/result" />
+    <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
+    <property name="nodejs_npm_path_reset_for_default_project" value="true" />
+    <property name="settings.editor.selected.configurable" value="configurable.group.appearance" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\Jan\Desktop\log-strategy" />
-      <recent name="C:\Users\Jan\Desktop\log-strategy\src\TermExtractor" />
-      <recent name="C:\Users\Jan\Desktop\log-strategy\src\TermExtractor\ANTLR-Java-Grammar" />
+      <recent name="$PROJECT_DIR$/code2vec/result" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/code2vec/result" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -226,404 +166,134 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.code2vec">
-    <configuration name="App" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="TermExtractor.App" />
-      <module name="log-strategy" />
-      <option name="PROGRAM_PARAMETERS" value="&quot;$PROJECT_DIR$/../Repositories/&quot;" />
-      <option name="VM_PARAMETERS" value="-Xmx4g -Xmx8g -XX:+UseG1GC" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="TermExtractor.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="TermExtractor in log-strategy" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="log-strategy" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="TermExtractor.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="TermExtractor" />
-      <option name="TEST_OBJECT" value="package" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="code2vec" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <module name="code2vec" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="C:\Users\Jan\Desktop\log-strategy\venv\Scripts\python.exe" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/code2vec" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/code2vec/code2vec.py" />
-      <option name="PARAMETERS" value="--load models/java14_model/saved_model_iter8 --representation" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <list>
-      <item itemvalue="Application.App" />
-      <item itemvalue="JUnit.TermExtractor in log-strategy" />
-      <item itemvalue="Python.code2vec" />
-    </list>
-    <recent_temporary>
-      <list>
-        <item itemvalue="Python.code2vec" />
-        <item itemvalue="JUnit.TermExtractor in log-strategy" />
-        <item itemvalue="Application.App" />
-      </list>
-    </recent_temporary>
-  </component>
-  <component name="SbtLocalSettings">
-    <option name="projectSyncType">
-      <map>
-        <entry key="$PROJECT_DIR$/../FLOCKA" value="PREVIEW" />
-      </map>
-    </option>
-  </component>
   <component name="SvnConfiguration">
     <configuration />
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="39d49ec8-f879-4bc4-bd29-c7e99a64e358" name="Default Changelist" comment="" />
-      <created>1568369460670</created>
+      <changelist id="b4e69113-8f74-444f-8644-4ec086abf50c" name="Default Changelist" comment="" />
+      <changelist id="86e2b80a-9427-4f88-bcea-1d85d44e1a96" name="model changes" comment="" />
+      <created>1571130053271</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1568369460670</updated>
+      <updated>1571130053271</updated>
+      <workItem from="1571130054798" duration="1013000" />
     </task>
+    <task id="LOCAL-00001" summary="model changes">
+      <created>1571130730921</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1571130730921</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
-  <component name="TodoView">
-    <todo-panel id="selected-file">
-      <is-autoscroll-to-source value="true" />
-    </todo-panel>
-    <todo-panel id="all">
-      <are-packages-shown value="true" />
-      <is-autoscroll-to-source value="true" />
-    </todo-panel>
+  <component name="TimeTrackingManager">
+    <option name="totallyTimeSpent" value="1013000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
+    <frame x="0" y="23" width="1440" height="877" extended-state="6" />
+    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.19932885" />
+      <window_info id="Favorites" side_tool="true" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.22317597" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
-      <window_info id="Designer" order="2" />
-      <window_info id="Favorites" order="3" side_tool="true" />
+      <window_info anchor="bottom" id="Docker" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Database Changes" />
+      <window_info anchor="bottom" id="Version Control" weight="0.3792651" />
+      <window_info anchor="bottom" id="Python Console" weight="0.32939634" />
+      <window_info anchor="bottom" id="Messages" />
+      <window_info anchor="bottom" id="Terminal" visible="true" weight="0.2913386" />
+      <window_info anchor="bottom" id="Event Log" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Debug" order="2" weight="0.4" />
-      <window_info anchor="bottom" id="Cvs" order="3" weight="0.25" />
-      <window_info anchor="bottom" id="Inspection" order="4" weight="0.4" />
-      <window_info anchor="bottom" id="TODO" order="5" weight="0.3286119" />
-      <window_info active="true" anchor="bottom" id="Run" order="6" visible="true" weight="0.9575071" />
-      <window_info anchor="bottom" id="Statistic" order="7" />
-      <window_info anchor="bottom" id="SBT Console" order="8" />
-      <window_info anchor="bottom" id="Terminal" order="9" weight="0.3286119" />
-      <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
-      <window_info anchor="bottom" id="Version Control" order="11" weight="0.3286119" />
-      <window_info anchor="bottom" id="Messages" order="12" weight="0.31586403" />
+      <window_info anchor="bottom" id="Run" order="2" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="right" id="SciView" />
+      <window_info anchor="right" id="Database" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
-      <window_info anchor="right" id="Maven" order="3" />
-      <window_info anchor="right" id="Palette&#9;" order="4" />
     </layout>
   </component>
-  <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/result/hadoop_functions.csv" />
-    <entry file="file://$PROJECT_DIR$/src/script/selected_repositories.sh">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="2" selection-start-line="2" selection-end-line="11" selection-end-column="49" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/TermExtractor/Repository.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-5">
-          <caret line="40" column="21" lean-forward="true" selection-start-line="40" selection-start-column="21" selection-end-line="40" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/result/flink.txt" />
-    <entry file="file://$PROJECT_DIR$/src/TermExtractor/Java8Parser.java" />
-    <entry file="file://$PROJECT_DIR$/src/TermExtractor/Java8Lexer.java" />
-    <entry file="file://$PROJECT_DIR$/result/camel.txt" />
-    <entry file="file://$PROJECT_DIR$/src/TermExtractor/AstPrinter.java" />
-    <entry file="file://$PROJECT_DIR$/src/TermExtractor/Test.java" />
-    <entry file="file://$PROJECT_DIR$/result/camel_filtered.txt" />
-    <entry file="file://$PROJECT_DIR$/SyntaxValidator/src/Validator/SyntaxValidator.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="16" selection-start-line="16" selection-end-line="16" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/result/fastText_java.txt" />
-    <entry file="file://$PROJECT_DIR$/config.py" />
-    <entry file="file://$PROJECT_DIR$/keras_model.py" />
-    <entry file="file://$PROJECT_DIR$/tensorflow_model.py" />
-    <entry file="file://$PROJECT_DIR$/model_base.py" />
-    <entry file="file://$PROJECT_DIR$/src/TermExtractor/MethodRepresentation.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="4" column="3" lean-forward="true" selection-start-line="4" selection-start-column="3" selection-end-line="4" selection-end-column="3" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/TermExtractor/Preprocessor.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="357">
-          <caret line="25" column="1" selection-start-line="25" selection-start-column="1" selection-end-line="25" selection-end-column="1" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/new_project.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <folding>
-            <element signature="e#0#10#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/parse_config.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <folding>
-            <element signature="e#0#9#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/SyntaxValidator/pom.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="442">
-          <caret line="26" lean-forward="true" selection-start-line="26" selection-end-line="26" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/code2vec.py" />
-    <entry file="file://$PROJECT_DIR$/SyntaxValidator/SyntaxValidator.iml">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/SyntaxValidator/syntax-validator.iml">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/TermExtractor/App.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="15" column="28" selection-start-line="15" selection-start-column="28" selection-end-line="15" selection-end-column="28" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/SyntaxValidator/src/Validator/App.java">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/TermExtractor/JavaCompilationUnit.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-256">
-          <caret line="10" column="48" selection-start-line="10" selection-start-column="48" selection-end-line="10" selection-end-column="48" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/pom.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="153">
-          <caret line="9" lean-forward="true" selection-start-line="9" selection-end-line="9" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/META-INF/MANIFEST.MF">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/code2vec/Input.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="289">
-          <caret line="17" column="93" lean-forward="true" selection-start-line="17" selection-start-column="93" selection-end-line="17" selection-end-column="93" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/code2vec/config.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="102">
-          <caret line="6" lean-forward="true" selection-start-line="6" selection-end-line="6" />
-          <folding>
-            <element signature="e#0#21#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/code2vec/path_context_reader.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <folding>
-            <element signature="e#0#23#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/code2vec/model_base.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="318">
-          <caret line="146" column="23" selection-start-line="146" selection-start-column="23" selection-end-line="146" selection-end-column="23" />
-          <folding>
-            <element signature="e#0#18#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/code2vec/keras_model.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="413">
-          <caret line="231" lean-forward="true" selection-start-line="231" selection-end-line="231" />
-          <folding>
-            <element signature="e#0#23#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/code2vec/code2vec.iml">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/code2vec/code2vec.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="214">
-          <caret line="35" column="40" selection-start-line="35" selection-start-column="20" selection-end-line="35" selection-end-column="40" />
-          <folding>
-            <element signature="e#0#34#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/code2vec/interactive_predict.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="100">
-          <caret line="16" selection-start-line="16" selection-end-line="16" />
-          <folding>
-            <element signature="e#0#16#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/code2vec/tensorflow_model.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1">
-          <caret line="324" selection-start-line="324" selection-end-line="324" />
-          <folding>
-            <element signature="e#0#23#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
   </component>
-  <component name="masterDetails">
-    <states>
-      <state key="ArtifactsStructureConfigurable.UI">
-        <settings>
-          <artifact-editor />
-          <splitter-proportions>
-            <option name="proportions">
-              <list>
-                <option value="0.2" />
-              </list>
-            </option>
-          </splitter-proportions>
-        </settings>
-      </state>
-      <state key="FacetStructureConfigurable.UI">
-        <settings>
-          <splitter-proportions>
-            <option name="proportions">
-              <list>
-                <option value="0.2" />
-              </list>
-            </option>
-          </splitter-proportions>
-        </settings>
-      </state>
-      <state key="GlobalLibrariesConfigurable.UI">
-        <settings>
-          <last-edited>Python 3.7 (venv) interpreter library</last-edited>
-          <splitter-proportions>
-            <option name="proportions">
-              <list>
-                <option value="0.2" />
-              </list>
-            </option>
-          </splitter-proportions>
-        </settings>
-      </state>
-      <state key="JdkListConfigurable.UI">
-        <settings>
-          <last-edited>Python 3.7 (log-strategy)</last-edited>
-          <splitter-proportions>
-            <option name="proportions">
-              <list>
-                <option value="0.2" />
-              </list>
-            </option>
-          </splitter-proportions>
-        </settings>
-      </state>
-      <state key="ModuleStructureConfigurable.UI">
-        <settings>
-          <last-edited>code2vec</last-edited>
-          <splitter-proportions>
-            <option name="proportions">
-              <list>
-                <option value="0.2" />
-              </list>
-            </option>
-          </splitter-proportions>
-        </settings>
-      </state>
-      <state key="ProjectJDKs.UI">
-        <settings>
-          <last-edited>1.8.0_201</last-edited>
-          <splitter-proportions>
-            <option name="proportions">
-              <list>
-                <option value="0.2" />
-              </list>
-            </option>
-          </splitter-proportions>
-        </settings>
-      </state>
-      <state key="ProjectLibrariesConfigurable.UI">
-        <settings>
-          <splitter-proportions>
-            <option name="proportions">
-              <list>
-                <option value="0.2" />
-              </list>
-            </option>
-          </splitter-proportions>
-        </settings>
-      </state>
-    </states>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="model changes" />
+    <option name="LAST_COMMIT_MESSAGE" value="model changes" />
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file:///Library/Frameworks/Python.framework/Versions/3.6/lib/python3.6/site-packages/torch/nn/modules/linear.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="320">
+          <caret line="76" column="15" selection-start-line="76" selection-start-column="11" selection-end-line="76" selection-end-column="15" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/linear.json">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/JackTheLoggerNet/config.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="105">
+          <caret line="7" column="14" selection-end-line="53" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/code2vec/result/codevectors_labeled_test.txt">
+      <provider selected="true" editor-type-id="LargeFileEditor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/code2vec/result/codevectors_labeled_val.txt">
+      <provider selected="true" editor-type-id="LargeFileEditor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/code2vec/result/codevectors_labeled_train.txt">
+      <provider selected="true" editor-type-id="LargeFileEditor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/JackTheLoggerNet/data_loader/data_loaders.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="63">
+          <caret line="120" column="41" selection-start-line="120" selection-start-column="22" selection-end-line="120" selection-end-column="41" />
+          <folding>
+            <element signature="e#0#13#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/JackTheLoggerNet/test_config_singlenn.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="330">
+          <caret line="22" column="6" selection-start-line="22" selection-start-column="6" selection-end-line="22" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/JackTheLoggerNet/model/model.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="445">
+          <caret line="88" column="31" selection-start-line="88" selection-start-column="31" selection-end-line="88" selection-end-column="31" />
+          <folding>
+            <element signature="e#0#13#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/JackTheLoggerNet/model/loss.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="45">
+          <caret line="3" column="39" selection-start-line="3" selection-start-column="39" selection-end-line="3" selection-end-column="39" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-3153">
+          <caret line="4" column="8" selection-start-line="4" selection-start-column="3" selection-end-line="4" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
   </component>
 </project>

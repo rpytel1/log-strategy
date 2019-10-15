@@ -5,6 +5,7 @@ import torch.nn as nn
 from torch.autograd import Variable
 import torch.nn.functional as fn
 
+
 class CodeRNN(nn.Module):
     def __init__(self, batch_size, output_size=2, nb_lstm_layers=1, nb_lstm_units=10, bidirectionality=False,
                  embedding_size=len(string.printable + " .,;'"),
@@ -69,43 +70,22 @@ class CodeRNN(nn.Module):
 
         return (h0, c0)
 
+
 class Code2VecSingleNN(nn.Module):
-	def __init__(self, inputSize=384, hiddenSize=128, outputSize=1, use_cuda=False):
-		super(Code2VecSingleNN, self).__init__()
-		
-		self.use_cuda = use_cuda
-		
-        #384 input features (code2vec vector is 96*4), 128
-		self.hidden = nn.Linear(inputSize, hiddenSize)
-		self.output = nn.Linear(hiddenSize, outputSize)
+    def __init__(self, inputSize=384, hiddenSize=128, outputSize=2, use_cuda=False):
+        super(Code2VecSingleNN, self).__init__()
 
-        ##init weights
-		self.w1 = torch.randn(inputSize, hiddenSize)
-		self.w2 = torch.randn(hiddenSize, outputSize)
+        self.use_cuda = use_cuda
 
-        ## initialize tensor for inputs, and outputs 
-		self.x = torch.randn((1, inputSize))
-		self.y = torch.randn((1, outputSize)) 
-		self.b1 = torch.randn((1, hiddenSize)) # bias for hidden layer
-		self.b2 = torch.randn((1, outputSize)) # bias for output layer
-		
-		if self.use_cuda and torch.cuda.is_available():
-			self.w1 = self.w1.cuda()
-			self.w2 = self.w2.cuda()
-			self.x = self.x.cuda()
-			self.y = self.y.cuda()
-			self.b1 = self.b1.cuda()
-			self.b2 = self.b2.cuda()
-		
-	
-	
-	def forward(self, x, lengths):
-        ##activate hidden layer
-		self.z1 = torch.matmul(x, self.w1) + self.b1
-		self.a1 = fn.relu(self.z1)
+        # 384 input features (code2vec vector is 96*4), 128
+        self.hidden = nn.Linear(inputSize, hiddenSize)
+        self.output = nn.Linear(hiddenSize, outputSize)
 
-        ##activate output
-		self.z2 = torch.matmul(self.a1, self.w2) + self.b2
-		output = fn.relu(self.z2)
-        
-		return output
+
+    def forward(self, x, lengths):
+
+
+        X = fn.relu(self.hidden(x))
+        output = self.output(X)
+
+        return output

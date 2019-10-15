@@ -7,7 +7,7 @@
         "args": {
             "inputSize": 384,
             "hiddenSize": 128,
-			"outputSize": 1,
+			"outputSize": 2,
             "use_cuda": true
         }
     },
