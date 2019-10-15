@@ -1,5 +1,4 @@
 from Feature import Feature
-from functools import reduce
 
 # read code2vec representation from txt file into features in an iterative more RAM efficient way
 def isFeatureEnd(line: str) -> bool:
@@ -16,10 +15,9 @@ def extractFeatures(file, batch_size: int) -> ([Feature], bool):
             featureRaw = ""
 
         if len(features) == batch_size:
-            print("Extracted:", len(features), "features")
             return features, False
 
-    print("Extracted:", len(features), "features")
+    print("Extracted:", len(features), "features and red file", str(file), "till the end.")
     return features, True
 
 def extractData(features: [Feature]) -> ([float], [int]):
@@ -59,26 +57,30 @@ def conditionalSplit(list, condition, a_target: int, b_target: int):
     raise ValueError("Could not hit the given target of", a_target, "positive elements and",
                      b_target, "negative elements with condition:", str(condition), "for the given input.")
 
+def estimateSplitCount(features: [Feature], positive_proportion: float) -> int:
+    negative_proportion = 1 - positive_proportion
+    positiveFeatureCount: int = conditionalCount(features, filterPositive)
+    negativeFeatureCount: int = conditionalCount(features, filterNegative)
+    finalNegativeRatio: float = negative_proportion / positive_proportion
+    finalNegativeTargetTmp: int = int(finalNegativeRatio * positiveFeatureCount)
+    finalNegativeTarget: int = finalNegativeTargetTmp if finalNegativeTargetTmp < negativeFeatureCount else negativeFeatureCount
+    finalNegativeRatio: float = positive_proportion / negative_proportion
+    finalPositiveTarget: int = int(finalNegativeRatio * finalNegativeTarget)
+    featureTargetCount = finalNegativeTarget + finalPositiveTarget
+    return featureTargetCount
+
 def splitDataSet(features: [Feature], positive_proportion: float, featureTargetCount: int = -1) -> [Feature]:
-    if positive_proportion <= 0:
+    if positive_proportion < 0:
         return features
+
+    if featureTargetCount == -1:
+        featureTargetCount = estimateSplitCount(features, positive_proportion)
 
     negative_proportion = 1 - positive_proportion
     positiveFeatureCount: int = conditionalCount(features, filterPositive)
     negativeFeatureCount: int = conditionalCount(features, filterNegative)
-    print(positiveFeatureCount)
-    print(negativeFeatureCount)
-
-    if featureTargetCount == -1:
-        finalNegativeRatio: float = negative_proportion / positive_proportion
-        finalNegativeTargetTmp = int(finalNegativeRatio * positiveFeatureCount)
-        finalNegativeTarget: int = finalNegativeTargetTmp if finalNegativeTargetTmp < negativeFeatureCount else negativeFeatureCount
-        finalNegativeRatio: float = positive_proportion / negative_proportion
-        finalPositiveTarget: int = int(finalNegativeRatio * finalNegativeTarget)
-        featureTargetCount = finalNegativeTarget + finalPositiveTarget
-    else:
-        finalNegativeTarget: int = int(featureTargetCount * negative_proportion)
-        finalPositiveTarget: int = int(featureTargetCount * positive_proportion)
+    finalNegativeTarget: int = int(featureTargetCount * negative_proportion)
+    finalPositiveTarget: int = int(featureTargetCount * positive_proportion)
 
     if negativeFeatureCount < finalNegativeTarget:
         raise ValueError("To few negative features for a final feature count of", featureTargetCount, "with", negative_proportion, "percent negative features.")
@@ -87,5 +89,6 @@ def splitDataSet(features: [Feature], positive_proportion: float, featureTargetC
 
     positiveFeatures, negativeFeatures = conditionalSplit(features, filterPositive, finalPositiveTarget, finalNegativeTarget)
 
-    print("Reconfigured data set has a positive/ negative label ratio of:", positive_proportion, "/", negative_proportion, "with", (finalPositiveTarget + finalNegativeTarget), "features.")
+    print("Rebalanced data set has a positive/ negative label ratio of:", positive_proportion, "/",
+          negative_proportion, "with", (finalPositiveTarget + finalNegativeTarget), "features.")
     return positiveFeatures + negativeFeatures
