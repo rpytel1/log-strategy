@@ -166,7 +166,7 @@ print("Functions with log in original training data: " + str(model.logcount))
 print("Functions without log in original training data: " + str(model.nologcount))
 
 
-relativeNrNoLogFunctions = 1
+relativeNrNoLogFunctions = 10
 
 print("Balancing data to have " + str(relativeNrNoLogFunctions * model.logcount) + " functions without log statements")
 epochs = 10
@@ -176,7 +176,8 @@ for i in range(epochs):
     #balancing 50/50 log/nolog
     for j in range(relativeNrNoLogFunctions * model.logcount):
         traininputDatas.append(inputDatasnolog[j])
-        traininputDatas.append(inputDataslog[j])
+        if (j < model.logcount):
+            traininputDatas.append(inputDataslog[j])
     random.shuffle(traininputDatas)
     for j in range(len(traininputDatas)):
         model.trainModel(traininputDatas[j])

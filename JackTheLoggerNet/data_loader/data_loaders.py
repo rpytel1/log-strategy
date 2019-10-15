@@ -61,9 +61,9 @@ class CodeCharDataset(Dataset):
         return tensor, len(line) - 1
 
 class Code2VecLoader(BaseDataLoader):
-	def __init__(self, filename, relativeNrNoLogFunctions, shuffle=True, validation_split=0.0, num_workers=1):
+	def __init__(self, batch_size, filename, relativeNrNoLogFunctions, shuffle=True, validation_split=0.0, num_workers=1):
 		self.dataset = Code2VecDataset(filename, relativeNrNoLogFunctions)
-		super().__init__(self.dataset, 1, shuffle, validation_split, num_workers)
+		super().__init__(self.dataset, batch_size, shuffle, validation_split, num_workers)
 	
 class Code2VecData:
     funcname = ''
@@ -87,7 +87,8 @@ class Code2VecDataset:
 		random.shuffle(self.inputDatasnolog)
 		for j in range(relativeNrNoLogFunctions * self.logcount):
 			self.balancedInputDatas.append(self.inputDatasnolog[j])
-			self.balancedInputDatas.append(self.inputDataslog[j])
+			if (j < self.logcount):
+                            self.balancedInputDatas.append(self.inputDataslog[j])
 		random.shuffle(self.balancedInputDatas)
 		self.inputDataslog.clear()
 		self.inputDatasnolog.clear()
