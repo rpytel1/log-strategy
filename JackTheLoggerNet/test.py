@@ -1,4 +1,5 @@
 import os
+import json
 import argparse
 import torch
 from tqdm import tqdm
@@ -12,18 +13,19 @@ from train import get_instance
 def main(config, resume):
     # setup data_loader instances
     data_loader = getattr(module_data, config['data_loader']['type'])(
-        config['data_loader']['args']['data_dir'],
+        config['data_loader']['args']['test_filename'],
         batch_size=512,
         shuffle=False,
         validation_split=0.0,
         training=False,
-        num_workers=2
+        num_workers=0,
+        test_filename='hackyPlaceholder'
     )
 
     # build model architecture
     model = get_instance(module_arch, 'arch', config)
-    model.summary()
-
+    print(model)
+    
     # get function handles of loss and metrics
     loss_fn = getattr(module_loss, config['loss'])
     metric_fns = [getattr(module_metric, met) for met in config['metrics']]
@@ -44,9 +46,9 @@ def main(config, resume):
     total_metrics = torch.zeros(len(metric_fns))
 
     with torch.no_grad():
-        for i, (data, target) in enumerate(tqdm(data_loader)):
-            data, target = data.to(device), target.to(device)
-            output = model(data)
+        for i, (data, target, lengths) in enumerate(tqdm(data_loader)):
+            data, target,lengths = data.to(device), target.to(device),lengths.to(device)
+            output = model(data, lengths)
             #
             # save sample images, or do something with output here
             #

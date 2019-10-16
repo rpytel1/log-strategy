@@ -131,9 +131,9 @@ class CodeWordDataset(Dataset):
         return -1
 
 class Code2VecLoader(BaseDataLoader):
-	def __init__(self, batch_size, filename, relativeNrNoLogFunctions, shuffle=True, validation_split=0.0, num_workers=1):
-		self.dataset = Code2VecDataset(filename, relativeNrNoLogFunctions)
-		super().__init__(self.dataset, batch_size, shuffle, validation_split, num_workers)
+    def __init__(self, filename, batch_size, test_filename, relativeNrNoLogFunctions=1, shuffle=True, validation_split=0.0, num_workers=1, training=True):
+	    self.dataset = Code2VecDataset(filename, relativeNrNoLogFunctions, training)
+	    super().__init__(self.dataset, batch_size, shuffle, validation_split, num_workers)
 	
 class Code2VecData:
     funcname = ''
@@ -145,76 +145,77 @@ class Code2VecData:
         vector = []
 		
 class Code2VecDataset:
+    def __init__(self, filename, relativeNrNoLogFunctions, training):
+            self.inputDataslog = []
+            self.inputDatasnolog = []
+            self.balancedInputDatas = []
+            self.logcount = 0
+            
+            self.readFile(filename)
+            self.relativeNrNoLogFunctions = relativeNrNoLogFunctions
+            random.shuffle(self.inputDatasnolog)
+            if (training):
+                for j in range(relativeNrNoLogFunctions * self.logcount):
+                    self.balancedInputDatas.append(self.inputDatasnolog[j])
+                    if (j < self.logcount):
+                        self.balancedInputDatas.append(self.inputDataslog[j])
+                random.shuffle(self.balancedInputDatas)
+            else:
+                self.balancedInputDatas.extend(self.inputDatasnolog)
+                self.balancedInputDatas.extend(self.inputDataslog)
+            self.inputDataslog.clear()
+            self.inputDatasnolog.clear()
+            
+    def __getitem__(self, index):
+            return torch.tensor(self.balancedInputDatas[index].vector), self.balancedInputDatas[index].label, -1
+            
+    def __len__(self):
+            return len(self.balancedInputDatas)
+                
+    def readFile(self, filepath):
+            inputData = Code2VecData()
+            inputData.vector = []
+            f = open(filepath)
+            lines = f.readlines()
+            f.close()
+            
+            counter = 0
 
-	def __init__(self, filename, relativeNrNoLogFunctions):
-		self.inputDataslog = []
-		self.inputDatasnolog = []
-		self.balancedInputDatas = []
-		self.logcount = 0
-		
-		self.readFile(filename)
-		self.relativeNrNoLogFunctions = relativeNrNoLogFunctions
-		random.shuffle(self.inputDatasnolog)
-		for j in range(relativeNrNoLogFunctions * self.logcount):
-			self.balancedInputDatas.append(self.inputDatasnolog[j])
-			if (j < self.logcount):
-                            self.balancedInputDatas.append(self.inputDataslog[j])
-		random.shuffle(self.balancedInputDatas)
-		self.inputDataslog.clear()
-		self.inputDatasnolog.clear()
-		
-	def __getitem__(self, index):
-		return torch.tensor(self.balancedInputDatas[index].vector), self.balancedInputDatas[index].label, -1
-		
-	def __len__(self):
-		return len(self.balancedInputDatas)
-		
-	#line to tensor?
-	
-	def readFile(self, filepath):
-		inputData = Code2VecData()
-		inputData.vector = []
-		f = open(filepath)
-		lines = f.readlines()
-		f.close()
-		
-		counter = 0
+            for l in lines:
+                    if (counter == 0):
+                            inputData.funcname = l
+                            counter += 1
+                    elif (counter == 1):
+                            inputData.label = int(l)   
+                            counter += 1
+                    elif (counter == 2):
+                            l = l[1:]
+                            arr = np.array(l.split())
+                            inputData.vector.extend(arr.astype(np.float))
+                            counter += 1
+                    elif (counter == 3):
+                            if (l[-2] == ']'):
+                                    counter = 0
+                                    l = l[:-2]
+                                    arr = np.array(l.split())
+                                    inputData.vector.extend(arr.astype(np.float))
+            
+                                    if (inputData.label == 0):
+                                            self.inputDatasnolog.append(inputData)
 
-		for l in lines:
-			if (counter == 0):
-				inputData.funcname = l
-				counter += 1
-			elif (counter == 1):
-				inputData.label = int(l)   
-				counter += 1
-			elif (counter == 2):
-				l = l[1:]
-				arr = np.array(l.split())
-				inputData.vector.extend(arr.astype(np.float))
-				counter += 1
-			elif (counter == 3):
-				if (l[-2] == ']'):
-					counter = 0
-					l = l[:-2]
-					arr = np.array(l.split())
-					inputData.vector.extend(arr.astype(np.float))
-		
-					if (inputData.label == 0):
-						self.inputDatasnolog.append(inputData)
+                                    else:
+                                            self.logcount += 1
+                                            self.inputDataslog.append(inputData)
 
-					else:
-						self.logcount += 1
-						self.inputDataslog.append(inputData)
-
-					#reset
-					del inputData
-					inputData = Code2VecData()
-					inputData.vector = []
-				else:
-					arr = np.array(l.split())
-					inputData.vector.extend(arr.astype(np.float))
+                                    #reset
+                                    del inputData
+                                    inputData = Code2VecData()
+                                    inputData.vector = []
+                            else:
+                                    arr = np.array(l.split())
+                                    inputData.vector.extend(arr.astype(np.float))
 
 
-		
-		
-	
+            
+            
+    
