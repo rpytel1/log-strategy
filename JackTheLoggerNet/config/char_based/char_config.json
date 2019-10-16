@@ -13,7 +13,7 @@
     "data_loader": {
         "type": "CodeCharDataLoader",
         "args":{
-            "filename": "zookeeper_filteredRNN.txt",
+            "filename": "all_train_filteredRNN.txt",
             "batch_size": 30,
             "shuffle": true,
             "validation_split": 0.2,
