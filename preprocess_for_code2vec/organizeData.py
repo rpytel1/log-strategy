@@ -5,7 +5,7 @@ import re
 import warnings
 
 
-CODE2VEC_PATH = "C:\\Users\\Jan\\Desktop\\log-strategy\\code2vec"
+CODE2VEC_PATH = "C:\\Users\\Jan\\Desktop\\log-strategy\\code_2_vec"
 
 
 def readInput(path: str):

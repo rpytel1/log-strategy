@@ -3,7 +3,7 @@ from nltk.tokenize import word_tokenize
 import pickle
 
 CODE_DIR = "../result/"
-WORTH_VOCAB_RATIO = 0.1
+WORTH_VOCAB_RATIO = 0.4
 
 functions = []
 word_dict = FreqDist()
