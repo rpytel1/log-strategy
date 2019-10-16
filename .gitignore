@@ -1,3 +1,11 @@
+*.class
+*.lst
+**/models/**
+**/data/**
+**/.idea/**
+*.tar.gz
+**/log.txt
+**/venv/**
 
 # Created by https://www.gitignore.io/api/python,intellij,jupyternotebooks
 # Edit at https://www.gitignore.io/?templates=python,intellij,jupyternotebooks
@@ -228,6 +236,13 @@ saved/models/
 JackTheLogger/term-extractor.iml
 JackTheLoggerNet/DeepJackTheLogger.iml
 JackTheLoggerNet/saved/
-code2vec/
+
+preprocess_for_code2vec/*.txt
+preprocess_for_code2vec/**/*.java
+
+code2vec/Inputs
+**/*.pyc
+code2vec/result
+
 JackTheLoggerNet/code2vectest/
 JackTheLoggerNet/data/

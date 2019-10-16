@@ -8,6 +8,8 @@ from nltk import word_tokenize
 
 from base import BaseDataLoader
 from torch.utils.data.dataset import Dataset
+import random
+import numpy as np
 
 from utils.code2vec_utils import numericalize, file_iterator
 
@@ -218,3 +220,93 @@ class Code2VecDataset(Dataset):
 
     def __len__(self):
         return len(self.data)
+
+class Code2VecPreLoader(BaseDataLoader):
+    def __init__(self, filename, batch_size, test_filename, relativeNrNoLogFunctions=1, shuffle=True, validation_split=0.0, num_workers=1, training=True):
+	    self.dataset = Code2VecPreDataset(filename, relativeNrNoLogFunctions, training)
+	    super().__init__(self.dataset, batch_size, shuffle, validation_split, num_workers)
+	
+class Code2VecPreData:
+    funcname = ''
+    label = -1
+    vector = []
+    def __init__(self):
+        funcname = ''
+        label = -1
+        vector = []
+		
+class Code2VecPreDataset:
+    def __init__(self, filename, relativeNrNoLogFunctions, training):
+            self.inputDataslog = []
+            self.inputDatasnolog = []
+            self.balancedInputDatas = []
+            self.logcount = 0
+            
+            self.readFile(filename)
+            self.relativeNrNoLogFunctions = relativeNrNoLogFunctions
+            random.shuffle(self.inputDatasnolog)
+            if (training):
+                for j in range(relativeNrNoLogFunctions * self.logcount):
+                    self.balancedInputDatas.append(self.inputDatasnolog[j])
+                    if (j < self.logcount):
+                        self.balancedInputDatas.append(self.inputDataslog[j])
+                random.shuffle(self.balancedInputDatas)
+            else:
+                self.balancedInputDatas.extend(self.inputDatasnolog)
+                self.balancedInputDatas.extend(self.inputDataslog)
+            self.inputDataslog.clear()
+            self.inputDatasnolog.clear()
+            
+    def __getitem__(self, index):
+            return torch.tensor(self.balancedInputDatas[index].vector), self.balancedInputDatas[index].label, -1
+            
+    def __len__(self):
+            return len(self.balancedInputDatas)
+                
+    def readFile(self, filepath):
+            inputData = Code2VecPreData()
+            inputData.vector = []
+            f = open(filepath)
+            lines = f.readlines()
+            f.close()
+            
+            counter = 0
+
+            for l in lines:
+                    if (counter == 0):
+                            inputData.funcname = l
+                            counter += 1
+                    elif (counter == 1):
+                            inputData.label = int(l)   
+                            counter += 1
+                    elif (counter == 2):
+                            l = l[1:]
+                            arr = np.array(l.split())
+                            inputData.vector.extend(arr.astype(np.float))
+                            counter += 1
+                    elif (counter == 3):
+                            if (l[-2] == ']'):
+                                    counter = 0
+                                    l = l[:-2]
+                                    arr = np.array(l.split())
+                                    inputData.vector.extend(arr.astype(np.float))
+            
+                                    if (inputData.label == 0):
+                                            self.inputDatasnolog.append(inputData)
+
+                                    else:
+                                            self.logcount += 1
+                                            self.inputDataslog.append(inputData)
+
+                                    #reset
+                                    del inputData
+                                    inputData = Code2VecPreData()
+                                    inputData.vector = []
+                            else:
+                                    arr = np.array(l.split())
+                                    inputData.vector.extend(arr.astype(np.float))
+
+
+            
+            
+    
