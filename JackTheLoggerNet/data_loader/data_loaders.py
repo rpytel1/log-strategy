@@ -223,7 +223,7 @@ class Code2VecDataset(Dataset):
 
 class Code2VecPreLoader(BaseDataLoader):
     def __init__(self, filename, batch_size, test_filename, relativeNrNoLogFunctions=1, shuffle=True, validation_split=0.0, num_workers=1, training=True):
-	    self.dataset = Code2VecDataset(filename, relativeNrNoLogFunctions, training)
+	    self.dataset = Code2VecPreDataset(filename, relativeNrNoLogFunctions, training)
 	    super().__init__(self.dataset, batch_size, shuffle, validation_split, num_workers)
 	
 class Code2VecPreData:
