@@ -118,6 +118,24 @@ class WordRNN(CodeRNN):
         print(params)
 
 
+class Code2VecSingleNN(nn.Module):
+    def __init__(self, inputSize=384, hiddenSize=128, outputSize=2, use_cuda=False):
+        super(Code2VecSingleNN, self).__init__()
+
+        self.use_cuda = use_cuda
+
+        # 384 input features (code2vec vector is 96*4), 128
+        self.hidden = nn.Linear(inputSize, hiddenSize)
+        self.output = nn.Linear(hiddenSize, outputSize)
+
+
+    def forward(self, x, lengths):
+        X = F.relu(self.hidden(x))
+        output = self.output(X)
+
+        return output
+
+
 class Code2Vec(nn.Module):
     def __init__(self, nodes_dim, paths_dim, embedding_dim, output_dim, dropout):
         super().__init__()

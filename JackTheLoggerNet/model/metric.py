@@ -14,6 +14,7 @@ def recall(output, target):
     with torch.no_grad():
         pred = torch.argmax(output, dim=1)
         assert pred.shape[0] == len(target)
+        pred = pred[pred == target]
         tp = torch.sum(pred == 1).item()
         tp_fn = torch.sum(target == 1).item()
         if tp_fn == 0:
