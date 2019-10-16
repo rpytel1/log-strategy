@@ -15,6 +15,7 @@ python3 train.py -c config/config_test.json
 Available configurations:
 - char-based approach `char_config.json`
 - word-based approach `word_config.json`
+- code2vec approach  `code2vec.json`
 
 ## Vizualization
 

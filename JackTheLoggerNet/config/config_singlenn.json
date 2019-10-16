@@ -12,7 +12,7 @@
         }
     },
     "data_loader": {
-        "type": "Code2VecLoader",
+        "type": "Code2VecPreLoader",
         "args":{
             "filename": "../code2vec/result/codevectors_labeled_train.txt",
             "batch_size": 50,

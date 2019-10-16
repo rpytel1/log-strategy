@@ -243,3 +243,6 @@ preprocess_for_code2vec/**/*.java
 code2vec/Inputs
 **/*.pyc
 code2vec/result
+
+JackTheLoggerNet/code2vectest/
+JackTheLoggerNet/data/
