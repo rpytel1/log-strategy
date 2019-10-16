@@ -18,7 +18,9 @@
             "batch_size": 30,
             "shuffle": true,
             "validation_split": 0.2,
-            "num_workers": 0
+            "num_workers": 0,
+            "test_filename": "all_test_filteredRNN.txt"
+
         }
     },
     "optimizer": {

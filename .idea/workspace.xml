@@ -2,37 +2,19 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b4e69113-8f74-444f-8644-4ec086abf50c" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.name" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_github_javaparser_javaparser_core_3_14_3.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_github_javaparser_javaparser_symbol_solver_core_3_14_3.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_github_javaparser_javaparser_symbol_solver_logic_3_14_3.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_github_javaparser_javaparser_symbol_solver_model_3_14_3.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_google_code_findbugs_jsr305_3_0_2.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_google_errorprone_error_prone_annotations_2_2_0.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_google_guava_failureaccess_1_0.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_google_guava_guava_27_0_jre.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_google_guava_listenablefuture_9999_0_empty_to_avoid_conflict_with_guava.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_google_j2objc_j2objc_annotations_1_1.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__commons_io_commons_io_2_6.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__junit_junit_3_8_1.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__net_sf_py4j_py4j_0_10_8_1.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_checkerframework_checker_qual_2_5_2.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_codehaus_mojo_animal_sniffer_annotations_1_17.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_javassist_javassist_3_24_0_GA.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/log-strategy.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sbt.xml" beforeDir="false" />
+      <change afterPath="$PROJECT_DIR$/result/testset.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/JackTheLoggerNet/config/char_based/10dim.json" beforeDir="false" afterPath="$PROJECT_DIR$/JackTheLoggerNet/config/char_based/10dim.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/JackTheLoggerNet/config/char_based/20dim.json" beforeDir="false" afterPath="$PROJECT_DIR$/JackTheLoggerNet/config/char_based/20dim.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/JackTheLoggerNet/config/char_based/one_hot.json" beforeDir="false" afterPath="$PROJECT_DIR$/JackTheLoggerNet/config/char_based/one_hot.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/JackTheLoggerNet/config/code_2_vec/code2vec.json" beforeDir="false" afterPath="$PROJECT_DIR$/JackTheLoggerNet/config/code_2_vec/code2vec.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/JackTheLoggerNet/config/test_config.json" beforeDir="false" afterPath="$PROJECT_DIR$/JackTheLoggerNet/config/test_config.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/JackTheLoggerNet/config/word_based/100dim.json" beforeDir="false" afterPath="$PROJECT_DIR$/JackTheLoggerNet/config/word_based/100dim.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/JackTheLoggerNet/config/word_based/20dim.json" beforeDir="false" afterPath="$PROJECT_DIR$/JackTheLoggerNet/config/word_based/20dim.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/JackTheLoggerNet/config/word_based/500dim.json" beforeDir="false" afterPath="$PROJECT_DIR$/JackTheLoggerNet/config/word_based/500dim.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/JackTheLoggerNet/data_loader/data_loaders.py" beforeDir="false" afterPath="$PROJECT_DIR$/JackTheLoggerNet/data_loader/data_loaders.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/JackTheLoggerNet/test_config_singlenn.json" beforeDir="false" afterPath="$PROJECT_DIR$/JackTheLoggerNet/test_config_singlenn.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SyntaxValidator/syntax-validator.iml" beforeDir="false" afterPath="$PROJECT_DIR$/SyntaxValidator/syntax-validator.iml" afterDir="false" />
     </list>
-    <list id="86e2b80a-9427-4f88-bcea-1d85d44e1a96" name="model changes" comment="">
-      <change beforePath="$PROJECT_DIR$/JackTheLoggerNet/model/model.py" beforeDir="false" afterPath="$PROJECT_DIR$/JackTheLoggerNet/model/model.py" afterDir="false" />
-    </list>
+    <list id="86e2b80a-9427-4f88-bcea-1d85d44e1a96" name="model changes" comment="" />
     <ignored path="$PROJECT_DIR$/.idea/shelf/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -41,22 +23,12 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="FileEditorManager">
-    <leaf>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/code2vec/result/codevectors_labeled_test.txt">
-          <provider selected="true" editor-type-id="LargeFileEditor" />
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/code2vec/result/codevectors_labeled_train.txt">
-          <provider selected="true" editor-type-id="LargeFileEditor" />
-        </entry>
-      </file>
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/JackTheLoggerNet/data_loader/data_loaders.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="63">
-              <caret line="120" column="41" selection-start-line="120" selection-start-column="22" selection-end-line="120" selection-end-column="41" />
+            <state relative-caret-position="218">
+              <caret line="23" column="60" selection-start-line="23" selection-start-column="60" selection-end-line="23" selection-end-column="60" />
               <folding>
                 <element signature="e#0#13#0" expanded="true" />
               </folding>
@@ -65,19 +37,78 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/JackTheLoggerNet/model/loss.py">
+        <entry file="file://$PROJECT_DIR$/JackTheLoggerNet/config/test_config.json">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="45">
-              <caret line="3" column="39" selection-start-line="3" selection-start-column="39" selection-end-line="3" selection-end-column="39" />
+            <state relative-caret-position="327">
+              <caret line="26" column="22" selection-start-line="26" selection-start-column="22" selection-end-line="26" selection-end-column="22" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/JackTheLoggerNet/config/char_based/10dim.json">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="300">
+              <caret line="20" column="36" selection-start-line="20" selection-end-line="21" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/JackTheLoggerNet/config/char_based/20dim.json">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="240">
+              <caret line="16" column="39" selection-start-line="16" selection-start-column="39" selection-end-line="16" selection-end-column="39" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/JackTheLoggerNet/config/char_based/char_config.json">
+          <provider selected="true" editor-type-id="text-editor" />
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/JackTheLoggerNet/config/char_based/one_hot.json">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="285">
+              <caret line="19" column="55" selection-start-line="19" selection-start-column="55" selection-end-line="19" selection-end-column="55" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/.gitignore">
+        <entry file="file://$PROJECT_DIR$/JackTheLoggerNet/config/code_2_vec/code2vec.json">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-3153">
-              <caret line="4" column="8" selection-start-line="4" selection-start-column="3" selection-end-line="4" selection-end-column="8" />
+            <state relative-caret-position="315">
+              <caret line="21" column="52" selection-start-line="21" selection-start-column="52" selection-end-line="21" selection-end-column="52" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/JackTheLoggerNet/config/word_based/20dim.json">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="285">
+              <caret line="19" column="29" selection-start-line="19" selection-start-column="29" selection-end-line="19" selection-end-column="29" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/JackTheLoggerNet/config/word_based/100dim.json">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="285">
+              <caret line="19" column="29" selection-start-line="19" selection-start-column="29" selection-end-line="19" selection-end-column="29" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/JackTheLoggerNet/config/word_based/500dim.json">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="300">
+              <caret line="20" column="12" selection-start-line="20" selection-start-column="12" selection-end-line="20" selection-end-column="12" />
             </state>
           </provider>
         </entry>
@@ -91,9 +122,18 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/JackTheLoggerNet/model/model.py" />
-        <option value="$PROJECT_DIR$/JackTheLoggerNet/data_loader/data_loaders.py" />
         <option value="$PROJECT_DIR$/JackTheLoggerNet/test_config_singlenn.json" />
         <option value="$PROJECT_DIR$/JackTheLoggerNet/model/loss.py" />
+        <option value="$PROJECT_DIR$/result/testset.txt" />
+        <option value="$PROJECT_DIR$/JackTheLoggerNet/data_loader/data_loaders.py" />
+        <option value="$PROJECT_DIR$/JackTheLoggerNet/config/char_based/10dim.json" />
+        <option value="$PROJECT_DIR$/JackTheLoggerNet/config/char_based/20dim.json" />
+        <option value="$PROJECT_DIR$/JackTheLoggerNet/config/char_based/one_hot.json" />
+        <option value="$PROJECT_DIR$/JackTheLoggerNet/config/word_based/20dim.json" />
+        <option value="$PROJECT_DIR$/JackTheLoggerNet/config/word_based/100dim.json" />
+        <option value="$PROJECT_DIR$/JackTheLoggerNet/config/word_based/500dim.json" />
+        <option value="$PROJECT_DIR$/JackTheLoggerNet/config/test_config.json" />
+        <option value="$PROJECT_DIR$/JackTheLoggerNet/config/code_2_vec/code2vec.json" />
       </list>
     </option>
   </component>
@@ -107,6 +147,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -123,6 +164,33 @@
               <item name="Seminar_for_ML_in_SE" type="b2602c69:ProjectViewProjectNode" />
               <item name="Seminar_for_ML_in_SE" type="462c0819:PsiDirectoryNode" />
               <item name="JackTheLoggerNet" type="462c0819:PsiDirectoryNode" />
+              <item name="config" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Seminar_for_ML_in_SE" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Seminar_for_ML_in_SE" type="462c0819:PsiDirectoryNode" />
+              <item name="JackTheLoggerNet" type="462c0819:PsiDirectoryNode" />
+              <item name="config" type="462c0819:PsiDirectoryNode" />
+              <item name="char_based" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Seminar_for_ML_in_SE" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Seminar_for_ML_in_SE" type="462c0819:PsiDirectoryNode" />
+              <item name="JackTheLoggerNet" type="462c0819:PsiDirectoryNode" />
+              <item name="config" type="462c0819:PsiDirectoryNode" />
+              <item name="code_2_vec" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Seminar_for_ML_in_SE" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Seminar_for_ML_in_SE" type="462c0819:PsiDirectoryNode" />
+              <item name="JackTheLoggerNet" type="462c0819:PsiDirectoryNode" />
+              <item name="config" type="462c0819:PsiDirectoryNode" />
+              <item name="word_based" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Seminar_for_ML_in_SE" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Seminar_for_ML_in_SE" type="462c0819:PsiDirectoryNode" />
+              <item name="JackTheLoggerNet" type="462c0819:PsiDirectoryNode" />
               <item name="data_loader" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -131,17 +199,27 @@
               <item name="JackTheLoggerNet" type="462c0819:PsiDirectoryNode" />
               <item name="model" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="Seminar_for_ML_in_SE" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Seminar_for_ML_in_SE" type="462c0819:PsiDirectoryNode" />
+              <item name="result" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/code2vec/result" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.tslint" value="true" />
+    <property name="node.js.path.for.package.eslint" value="project" />
+    <property name="node.js.path.for.package.tslint" value="project" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="settings.editor.selected.configurable" value="configurable.group.appearance" />
@@ -190,22 +268,15 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1013000" />
+    <option name="totallyTimeSpent" value="2365000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="23" width="1440" height="877" extended-state="6" />
+    <frame x="0" y="0" width="1440" height="900" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="Favorites" side_tool="true" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.22317597" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.22603719" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
-      <window_info anchor="bottom" id="Docker" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Database Changes" />
-      <window_info anchor="bottom" id="Version Control" weight="0.3792651" />
-      <window_info anchor="bottom" id="Python Console" weight="0.32939634" />
-      <window_info anchor="bottom" id="Messages" />
-      <window_info anchor="bottom" id="Terminal" visible="true" weight="0.2913386" />
-      <window_info anchor="bottom" id="Event Log" side_tool="true" />
+      <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
       <window_info anchor="bottom" id="Run" order="2" />
@@ -213,11 +284,18 @@
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="right" id="SciView" />
-      <window_info anchor="right" id="Database" />
+      <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Version Control" order="8" weight="0.3792651" />
+      <window_info anchor="bottom" id="Database Changes" order="9" />
+      <window_info anchor="bottom" id="Terminal" order="10" visible="true" weight="0.15861215" />
+      <window_info anchor="bottom" id="Python Console" order="11" weight="0.32939634" />
+      <window_info anchor="bottom" id="Event Log" order="12" side_tool="true" />
+      <window_info anchor="bottom" id="Messages" order="13" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="right" id="Database" order="3" />
+      <window_info anchor="right" id="SciView" order="4" />
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -235,45 +313,59 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/linear.json">
-      <provider selected="true" editor-type-id="text-editor" />
+    <entry file="file://$PROJECT_DIR$/linear.json" />
+    <entry file="file://$PROJECT_DIR$/JackTheLoggerNet/config.json" />
+    <entry file="file://$PROJECT_DIR$/code2vec/result/codevectors_labeled_val.txt">
+      <provider selected="true" editor-type-id="LargeFileEditor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/JackTheLoggerNet/config.json">
+    <entry file="file://$PROJECT_DIR$/JackTheLoggerNet/test_config_singlenn.json" />
+    <entry file="file://$PROJECT_DIR$/.gitignore">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="7" column="14" selection-end-line="53" />
+        <state relative-caret-position="247">
+          <caret line="233" column="13" lean-forward="true" selection-start-line="233" selection-start-column="13" selection-end-line="233" selection-end-column="13" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/code2vec/result/codevectors_labeled_test.txt">
-      <provider selected="true" editor-type-id="LargeFileEditor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/code2vec/result/codevectors_labeled_val.txt">
-      <provider selected="true" editor-type-id="LargeFileEditor" />
+    <entry file="file://$PROJECT_DIR$/JackTheLoggerNet/model/loss.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="30">
+          <caret line="3" selection-start-line="3" selection-end-line="3" />
+        </state>
+      </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/code2vec/result/codevectors_labeled_train.txt">
       <provider selected="true" editor-type-id="LargeFileEditor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/JackTheLoggerNet/data_loader/data_loaders.py">
+    <entry file="file://$PROJECT_DIR$/code2vec/result/codevectors_labeled_test.txt">
+      <provider selected="true" editor-type-id="LargeFileEditor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/result/maven_filteredRNN.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="63">
-          <caret line="120" column="41" selection-start-line="120" selection-start-column="22" selection-end-line="120" selection-end-column="41" />
-          <folding>
-            <element signature="e#0#13#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="210">
+          <caret line="14" column="1" selection-end-line="14" selection-end-column="1" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/JackTheLoggerNet/test_config_singlenn.json">
+    <entry file="file://$PROJECT_DIR$/JackTheLoggerNet/config/config_singlenn.json">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="330">
-          <caret line="22" column="6" selection-start-line="22" selection-start-column="6" selection-end-line="22" selection-end-column="6" />
+          <caret line="22" column="78" selection-start-line="22" selection-start-column="12" selection-end-line="22" selection-end-column="78" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/result/test.txt">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/result/testset.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="210">
+          <caret line="14" column="1" selection-start-line="14" selection-start-column="1" selection-end-line="14" selection-end-column="1" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/JackTheLoggerNet/model/model.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="445">
+        <state relative-caret-position="158">
           <caret line="88" column="31" selection-start-line="88" selection-start-column="31" selection-end-line="88" selection-end-column="31" />
           <folding>
             <element signature="e#0#13#0" expanded="true" />
@@ -281,17 +373,75 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/JackTheLoggerNet/model/loss.py">
+    <entry file="file://$PROJECT_DIR$/JackTheLoggerNet/data_loader/data_loaders.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="45">
-          <caret line="3" column="39" selection-start-line="3" selection-start-column="39" selection-end-line="3" selection-end-column="39" />
+        <state relative-caret-position="218">
+          <caret line="23" column="60" selection-start-line="23" selection-start-column="60" selection-end-line="23" selection-end-column="60" />
+          <folding>
+            <element signature="e#0#13#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/.gitignore">
+    <entry file="file://$PROJECT_DIR$/result/all_test_filteredRNN.txt">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/JackTheLoggerNet/config/char_based/char_config.json">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/JackTheLoggerNet/config/test_config.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-3153">
-          <caret line="4" column="8" selection-start-line="4" selection-start-column="3" selection-end-line="4" selection-end-column="8" />
+        <state relative-caret-position="327">
+          <caret line="26" column="22" selection-start-line="26" selection-start-column="22" selection-end-line="26" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/JackTheLoggerNet/config/char_based/20dim.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="240">
+          <caret line="16" column="39" selection-start-line="16" selection-start-column="39" selection-end-line="16" selection-end-column="39" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/JackTheLoggerNet/config/char_based/10dim.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="300">
+          <caret line="20" column="36" selection-start-line="20" selection-end-line="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/JackTheLoggerNet/config/char_based/one_hot.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="285">
+          <caret line="19" column="55" selection-start-line="19" selection-start-column="55" selection-end-line="19" selection-end-column="55" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/JackTheLoggerNet/config/word_based/20dim.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="285">
+          <caret line="19" column="29" selection-start-line="19" selection-start-column="29" selection-end-line="19" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/JackTheLoggerNet/config/word_based/100dim.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="285">
+          <caret line="19" column="29" selection-start-line="19" selection-start-column="29" selection-end-line="19" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/JackTheLoggerNet/config/word_based/500dim.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="300">
+          <caret line="20" column="12" selection-start-line="20" selection-start-column="12" selection-end-line="20" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/JackTheLoggerNet/config/code_2_vec/code2vec.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="315">
+          <caret line="21" column="52" selection-start-line="21" selection-start-column="52" selection-end-line="21" selection-end-column="52" />
         </state>
       </provider>
     </entry>

@@ -3,7 +3,7 @@
     "n_gpu": 1,
 
     "arch": {
-        "type": "CodeRNN",
+        "type": "WordRNN",
         "args": {
             "embedding_size": 10,
             "batch_size": 4,
@@ -11,19 +11,20 @@
         }
     },
     "data_loader": {
-        "type": "CodeCharDataLoader",
+        "type": "CodeWordDataLoader",
         "args":{
             "filename": "test.txt",
             "batch_size": 10,
             "shuffle": true,
             "validation_split": 0.2,
-            "num_workers": 2
+            "num_workers": 2,
+            "test_filename": "testset.txt"
         }
     },
     "optimizer": {
         "type": "Adam",
         "args":{
-            "lr": 0.001,
+            "lr": 0.01,
             "weight_decay": 0,
             "amsgrad": true
         }
