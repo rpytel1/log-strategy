@@ -7,7 +7,7 @@
 **/log.txt
 **/venv/**
 
-**/codevectors_labeled.txt
+**/codevectors/**
 
 # Created by https://www.gitignore.io/api/python,intellij,jupyternotebooks
 # Edit at https://www.gitignore.io/?templates=python,intellij,jupyternotebooks
