@@ -1,18 +1,22 @@
 from Feature import Feature
+import random
 
 # read code2vec representation from txt file into features in an iterative more RAM efficient way
 def isFeatureEnd(line: str) -> bool:
     return ']' in line
 
-def extractFeatures(file, batch_size: int) -> ([Feature], bool):
+def extractFeatures(file, batch_size: int, start: int = 0) -> ([Feature], bool):
     features = []
     featureRaw = ""
+    feature_count = 0
 
     for line in file:
         featureRaw += line
         if isFeatureEnd(line):
-            features.append(Feature(featureRaw.splitlines()))
-            featureRaw = ""
+            feature_count += 1
+            if feature_count > start:
+                features.append(Feature(featureRaw.splitlines()))
+                featureRaw = ""
 
         if len(features) == batch_size:
             return features, False
@@ -58,9 +62,12 @@ def conditionalSplit(list, condition, a_target: int, b_target: int):
                      b_target, "negative elements with condition:", str(condition), "for the given input.")
 
 def estimateSplitCount(features: [Feature], positive_proportion: float) -> int:
-    negative_proportion = 1 - positive_proportion
     positiveFeatureCount: int = conditionalCount(features, filterPositive)
     negativeFeatureCount: int = conditionalCount(features, filterNegative)
+    return estimateBalance(positiveFeatureCount, negativeFeatureCount, positive_proportion)
+
+def estimateBalance(positiveFeatureCount, negativeFeatureCount, positive_proportion: float) -> int:
+    negative_proportion = 1 - positive_proportion
     finalNegativeRatio: float = negative_proportion / positive_proportion
     finalNegativeTargetTmp: int = int(finalNegativeRatio * positiveFeatureCount)
     finalNegativeTarget: int = finalNegativeTargetTmp if finalNegativeTargetTmp < negativeFeatureCount else negativeFeatureCount
@@ -69,7 +76,7 @@ def estimateSplitCount(features: [Feature], positive_proportion: float) -> int:
     featureTargetCount = finalNegativeTarget + finalPositiveTarget
     return featureTargetCount
 
-def splitDataSet(features: [Feature], positive_proportion: float, featureTargetCount: int = -1) -> [Feature]:
+def rebalance_data(features: [Feature], positive_proportion: float, featureTargetCount: int = -1) -> [Feature]:
     if positive_proportion < 0:
         return features
 
@@ -92,3 +99,33 @@ def splitDataSet(features: [Feature], positive_proportion: float, featureTargetC
     print("Rebalanced data set has a positive/ negative label ratio of:", positive_proportion, "/",
           negative_proportion, "with", (finalPositiveTarget + finalNegativeTarget), "features.")
     return positiveFeatures + negativeFeatures
+
+def shuffle_data(features: [Feature]):
+    random.shuffle(features)
+    return features
+
+def split_set(features: [Feature], proportion: float = 1):
+    size: int = len(features)
+    target: int = int(proportion * size)
+    return features[:target], features[target:]
+
+def statistics(path):
+    with open(path, "r") as file_in:
+        eof = False
+        feature_count, positive_count, negative_count = 0, 0, 0
+        while not eof:
+            features, eof = extractFeatures(file_in, 60000)
+            positive_count += conditionalCount(features, filterPositive)
+            negative_count += conditionalCount(features, filterNegative)
+            del features
+
+        return (negative_count + positive_count), positive_count, negative_count
+
+def save(features: [Feature], savepath: str):
+    print("Start writing", len(features), "features to", savepath)
+    with open(savepath, "w") as file:
+        for feature in features:
+            file.write(str(feature))
+
+    print("Saved features to:", savepath)
+

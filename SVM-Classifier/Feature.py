@@ -46,3 +46,5 @@ class Feature:
     def valid_feature(self) -> bool:
         return len(self.codeVector) == 384 and (self.label == 0 or self.label == 1) and len(self.name) > 3
 
+    def __str__(self):
+        return self.name + "\n" + np.array2string(np.asarray(self.codeVector)) + "\n"

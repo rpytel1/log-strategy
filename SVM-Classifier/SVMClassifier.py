@@ -10,11 +10,10 @@ from sklearn.model_selection import RandomizedSearchCV, GridSearchCV
 
 DATA_PATH = "..//result//codevectors//codevectors_labeled.txt"
 CLASSIFIER_SAVEPATH = "C://Users//Jan//Desktop//log-strategy//SVM-Classifier//model"
-TRAIN_SIZE = 50000
-TEST_SIZE = 20000
-STEP_SIZE = 60000
+STEP_SIZE = 6000000
+TEST_RATIO = 0.1
 POSITIVE_RATIO = 0.2
-REAL_POSITIVE_RATIO = 0.035
+REAL_POSITIVE_RATIO = 0.04
 
 def incremental_train_svm(data_path: str, stop: int, step: int):
     feature_count = 0
@@ -24,7 +23,7 @@ def incremental_train_svm(data_path: str, stop: int, step: int):
     with open(data_path, "r") as file_in:
         while not eof and feature_count < stop:
             startTime = time.time()
-            features, eof = fr.extractFeatures(file_in, min(step, stop))
+            features, eof = get_features(file_in, feature_count, step, stop)
             feature_count += len(features)
             if len(features) > 0:
                 codeVectors, labels = fr.extractData(features)
@@ -97,6 +96,12 @@ def train_randomforest(totalCodeVectors, totalLabels):
     print("Training random forest classifier with", len(totalCodeVectors), "features took:", round(executionTime, 2), 'seconds.')
     return rf_random.best_estimator_
 
+def get_features(file_in, feature_count, step, stop):
+    features, eof = fr.extractFeatures(file_in, min(int(step * (POSITIVE_RATIO / REAL_POSITIVE_RATIO) * 2), int(stop * (POSITIVE_RATIO / REAL_POSITIVE_RATIO) * 2)))
+    features = fr.shuffle_data(features)
+    features = fr.rebalance_data(features, POSITIVE_RATIO, min(fr.estimateSplitCount(features, POSITIVE_RATIO), (stop - feature_count)))
+    return features, eof
+
 # As other classifiers, SVC, NuSVC and LinearSVC take as input two arrays: an array X of size [n_samples, n_features] holding the training samples,
 # and an array y of class labels (strings or integers), size [n_samples]:
 def train_classifier(data_path: str, stop: int, step: int):
@@ -107,8 +112,7 @@ def train_classifier(data_path: str, stop: int, step: int):
     with open(data_path, "r") as file_in:
         while not eof and feature_count < stop:
             startTime = time.time()
-            features, eof = fr.extractFeatures(file_in, min(int(step * (POSITIVE_RATIO / REAL_POSITIVE_RATIO)), stop))
-            features = fr.splitDataSet(features, POSITIVE_RATIO, min(fr.estimateSplitCount(features, POSITIVE_RATIO), (stop - feature_count)))
+            features, eof = get_features(file_in, feature_count, step, stop)
             feature_count += len(features)
             if len(features) > 0:
                 codeVectors, labels = fr.extractData(features)
@@ -134,17 +138,27 @@ def evaluate(prediction, label, description):
     print('-----------------------END RESULTS-----------------------\n')
 
 if __name__ == '__main__':
-    with open(DATA_PATH, "r") as file_in:
-        features, eof = fr.extractFeatures(file_in, TEST_SIZE)
-    test_codeVectors, test_labels = fr.extractData(features)
-    print("Extracted training data set with:", len(test_codeVectors), "features.")
+    feature_count, positive_count, negative_count = 925833, 44073, 881760
+    test_count: int = int(feature_count * TEST_RATIO)
+    train_count: int = feature_count - test_count
 
-    classifier = train_classifier(DATA_PATH, TRAIN_SIZE, STEP_SIZE)
+    with open(DATA_PATH, "r") as file_in:
+        eof = False
+        feature_target = fr.estimateBalance(positive_count, negative_count, POSITIVE_RATIO)
+        print(feature_target)
+        while not eof:
+            features, eof = get_features(file_in, 0, feature_target, feature_target)
+            fr.save(features, "..//result//codevectors//codevectors_labeled_rebalanced-0-2_shuffled.txt")
+
+    classifier = train_classifier(DATA_PATH, train_target, STEP_SIZE)
     for model, descriptor in classifier:
-        save(model, CLASSIFIER_SAVEPATH + "_" + descriptor + "_" + str(TRAIN_SIZE) + "_" + str(round(POSITIVE_RATIO, 2))
+        save(model, CLASSIFIER_SAVEPATH + "_" + descriptor + "_" + str(train_target) + "_" + str(round(POSITIVE_RATIO, 2))
              + ".joblib")
 
-    for model, descriptor in classifier:
-        prediction = model.predict(test_codeVectors)
-        evaluate(prediction, test_labels, str(TEST_SIZE) + descriptor)
-
+    with open(DATA_PATH, "r") as file_in:
+        features, eof = fr.extractFeatures(file_in,STEP_SIZE, train_target)
+        test_codeVectors, test_labels = fr.extractData(features)
+        print("Extracted training data set with:", len(test_codeVectors), "features.")
+        for model, descriptor in classifier:
+            prediction = model.predict(test_codeVectors)
+            evaluate(prediction, test_labels, str(len(features)) + descriptor)
