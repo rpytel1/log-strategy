@@ -5,9 +5,11 @@
     "arch": {
         "type": "WordRNN",
         "args": {
-            "embedding_size": 500,
+            "embedding_size": 10,
             "batch_size": 30,
-            "use_cuda": true
+            "use_cuda": true,
+            "nb_lstm_units": 20,
+            "nb_lstm_layers":1
         }
     },
     "data_loader": {

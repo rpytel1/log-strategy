@@ -6,7 +6,10 @@
         "type": "CodeRNN",
         "args": {
             "batch_size": 30,
-            "use_cuda": true
+            "use_cuda": true,
+            "nb_lstm_layers":1,
+            "nb_lstm_units": 20
+
         }
     },
     "data_loader": {

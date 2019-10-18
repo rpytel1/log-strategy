@@ -8,6 +8,7 @@ import model.loss as module_loss
 import model.metric as module_metric
 import model.model as module_arch
 from train import get_instance
+import numpy as np
 
 
 def main(config, resume):
@@ -25,6 +26,11 @@ def main(config, resume):
     # build model architecture
     model = get_instance(module_arch, 'arch', config)
     print(model)
+
+    # Show how many parameters
+    model_parameters = filter(lambda p: p.requires_grad, model.parameters())
+    params = sum([np.prod(p.size()) for p in model_parameters])
+    print("Number of trainable parameters:" + str(params))
     
     # get function handles of loss and metrics
     loss_fn = getattr(module_loss, config['loss'])

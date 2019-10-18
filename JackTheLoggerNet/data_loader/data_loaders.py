@@ -15,13 +15,15 @@ from utils.code2vec_utils import numericalize, file_iterator
 
 
 class CodeCharDataLoader(BaseDataLoader):
-    def __init__(self, filename, batch_size, test_filename, shuffle=True, validation_split=0.0, num_workers=1, training=True):
+    def __init__(self, filename, batch_size, test_filename, shuffle=True, validation_split=0.0, num_workers=1,
+                 training=True):
         self.dataset = CodeCharDataset(filename)
         super().__init__(self.dataset, batch_size, shuffle, validation_split, num_workers)
 
 
 class CodeWordDataLoader(BaseDataLoader):
-    def __init__(self, filename, batch_size, test_filename, shuffle=True, validation_split=0.0, num_workers=1, training=True):
+    def __init__(self, filename, batch_size, test_filename, shuffle=True, validation_split=0.0, num_workers=1,
+                 training=True):
         self.dataset = CodeWordDataset(filename)
         super().__init__(self.dataset, batch_size, shuffle, validation_split, num_workers)
 
@@ -135,7 +137,8 @@ class CodeWordDataset(Dataset):
 
 
 class Code2VecDataLoader(BaseDataLoader):
-    def __init__(self, filename, batch_size, test_filename, shuffle=True, validation_split=0.0, num_workers=1, training=True):
+    def __init__(self, filename, batch_size, test_filename, shuffle=True, validation_split=0.0, num_workers=1,
+                 training=True):
         self.dataset = Code2VecDataset(filename)
         super().__init__(self.dataset, batch_size, shuffle, validation_split, num_workers)
 
@@ -149,7 +152,7 @@ class Code2VecDataset(Dataset):
     CHUNKS = 10
     MAX_LENGTH = 200
 
-    def __init__(self, file_path):
+    def __init__(self, filename):
 
         with open(f'{self.DATA_DIR}/preprocessed_code/{self.DATASET}.dict.c2v', 'rb') as file:
             node2count = pickle.load(file)
@@ -193,27 +196,27 @@ class Code2VecDataset(Dataset):
         print("Target dim: " + str(len(target2idx)))
 
         ###########################################
-        self.examples = []
+        examples = []
         self.data = []
         self.labels = []
 
         for example_name, example_body, example_length in file_iterator(
-                f'{self.DATA_DIR}/{self.DATASET}/{self.DATASET}.train.c2v', self.MAX_LENGTH):
+                f'{self.DATA_DIR}/{self.DATASET}/{filename}', self.MAX_LENGTH):
 
-            self.examples.append((example_name, example_body, example_length))
-            if len(self.examples) >= (self.BATCH_SIZE * self.CHUNKS):
+            examples.append((example_name, example_body, example_length))
+            if len(examples) >= (self.BATCH_SIZE * self.CHUNKS):
 
-                random.shuffle(self.examples)
+                random.shuffle(examples)
 
                 # tensor_lab is a
-                for tensor_lab, tensor_l, tensor_p, tensor_r, mask in numericalize(self.examples, self.CHUNKS,
+                for tensor_lab, tensor_l, tensor_p, tensor_r, mask in numericalize(examples, self.CHUNKS,
                                                                                    self.BATCH_SIZE, self.MAX_LENGTH,
                                                                                    node2idx, path2idx, target2idx):
                     for i in range(self.BATCH_SIZE):
                         self.data.append((tensor_l[i], tensor_p[i], tensor_r[i]))
                         self.labels.append(tensor_lab[i])
 
-                self.examples = []
+                examples = []
 
     def __getitem__(self, index):
         return self.data[index], self.labels[index], "CODE2VEC"
