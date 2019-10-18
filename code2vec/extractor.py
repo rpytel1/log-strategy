@@ -1,5 +1,6 @@
-import subprocess
-
+import os
+import time
+from py4j.java_gateway import JavaGateway, GatewayParameters
 
 class Extractor:
     def __init__(self, config, jar_path, max_path_length, max_path_width):
@@ -8,17 +9,10 @@ class Extractor:
         self.max_path_width = max_path_width
         self.jar_path = jar_path
 
-    def extract_paths(self, inputType, path):
-        command = ['java', '-cp', self.jar_path, 'JavaExtractor.App', '--max_path_length',
-                   str(self.max_path_length), '--max_path_width', str(self.max_path_width), inputType, path, '--no_hash']
-        process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-        out, err = process.communicate()
-        output = out.decode().splitlines()
+    def extract_processed(self, out, err, hash_to_string_dict, result):
+        output = out.splitlines()
         if len(output) == 0:
-            err = err.decode()
             raise ValueError(err)
-        hash_to_string_dict = {}
-        result = []
         for i, line in enumerate(output):
             parts = line.rstrip().split(' ')
             method_name = parts[0]
@@ -36,6 +30,76 @@ class Extractor:
             result_line = ' '.join(current_result_line_parts) + space_padding
             result.append(result_line)
         return result, hash_to_string_dict
+
+    def extract_java(self, path, hash_to_string_dict, result):
+        gateway = JavaGateway(gateway_parameters=GatewayParameters(port=25335))
+        javaextractor = gateway.entry_point
+
+        f = open(path, "r", encoding="utf8")
+        code = f.read()
+        f.close()
+
+        out = javaextractor.extractCode(self.max_path_length, self.max_path_width, code)
+        return self.extract_processed(str(out), "", hash_to_string_dict, result)
+
+    def validateInput(self, path):
+        failingFiles = []
+        for (dirpath, dirnames, filenames) in os.walk(path):
+            print("Validating input at:", dirpath)
+            for filename in filenames:
+                filepath = os.path.normpath(dirpath + '/' + filename)
+                if os.path.isfile(filepath):
+                    currentResult = True
+                    gateway = JavaGateway(gateway_parameters=GatewayParameters(port=25335))
+                    syntaxChecker = gateway.entry_point
+                    f = open(filepath, "r", encoding="utf8")
+
+                    currentFile = True
+                    while currentFile:
+                        line1 = f.readline()
+                        line2 = f.readline()
+                        currentFile = line2 and line1
+                        if len(line1) > 1 and len(line2) > 1:
+                            if not syntaxChecker.validSyntax(line1 + line2):
+                                currentResult = False
+
+                    gateway.close()
+                    f.close()
+                    if not currentResult:
+                        failingFiles.append(filename)
+
+        if len(failingFiles) > 0:
+            print("Input validation failed for:", failingFiles)
+        return len(failingFiles) == 0;
+
+    def extract_paths(self, inputType, path):
+        if inputType == '--dir' and self.validateInput(path):
+            result = []
+            hash_to_string_dict = {}
+            for (dirpath, dirnames, filenames) in os.walk(path):
+                print("Processing all java files at", dirpath, '.')
+                for filename in filenames:
+                    startTime = time.time()
+                    filepath = os.path.normpath(dirpath + '/' + filename)
+                    if os.path.isfile(filepath):
+                        result, hash_to_string_dict = self.extract_java(dirpath + '/' + filename, hash_to_string_dict, result)
+                        endTime = time.time()
+                        executionTime = endTime - startTime
+                        print("Processing", filename, 'at', dirpath, 'took', round(executionTime, 3), 'seconds.')
+                    else:
+                        print("Incorrect filepath:", filepath)
+                print("Processed all java files at", dirpath, '.')
+            return result, hash_to_string_dict
+        elif inputType == '--file':
+            return self.extract_java(path, {}, [])
+        elif inputType == '--processed':
+            print("Read processed java code from:", path)
+            f = open(path, "r", encoding="utf8")
+            out = f.read()
+            f.close()
+            return self.extract_processed(out, "", {}, [])
+        else:
+            raise ValueError("Invalid input with: ", inputType, "at", path)
 
     @staticmethod
     def java_string_hashcode(s):

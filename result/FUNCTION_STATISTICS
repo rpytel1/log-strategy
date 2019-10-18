@@ -1,0 +1,203 @@
+avro
+Functions with log: 70
+Functions without log: 6574
+Functions without log: 6574
+
+beam
+Functions with log: 791
+Functions without log: 33495
+Functions without log: 33495
+
+camel
+Functions with log: 4892
+Functions without log: 129810
+Functions without log: 129810
+
+cassandra
+Functions with log: 694
+Functions without log: 28531
+Functions without log: 28531
+
+fastText_java
+Functions with log: 0
+Functions without log: 184
+Functions without log: 184
+
+FUNCTION_STATISTICS
+Functions with log: 0
+Functions without log: 0
+Functions without log: 0
+
+groovy
+Functions with log: 72
+Functions without log: 18848
+Functions without log: 18848
+hbase
+Functions with log: 4043
+Functions without log: 49779
+Functions without log: 49779
+hive
+Functions with log: 4425
+Functions without log: 96042
+Functions without log: 96042
+jmeter
+Functions with log: 948
+Functions without log: 10323
+Functions without log: 10323
+kafka
+Functions with log: 794
+Functions without log: 20103
+Functions without log: 20103
+kylin
+Functions with log: 1340
+Functions without log: 15168
+Functions without log: 15168
+maven
+Functions with log: 126
+Functions without log: 5676
+Functions without log: 5676
+nutch
+Functions with log: 418
+Functions without log: 2906
+Functions without log: 2906
+shiro
+Functions with log: 156
+Functions without log: 3229
+Functions without log: 3229
+storm
+Functions with log: 1392
+Functions without log: 21990
+Functions without log: 21990
+tomcat
+Functions with log: 1002
+Functions without log: 25305
+Functions without log: 25305
+zeppelin
+Functions with log: 1095
+Functions without log: 9466
+Functions without log: 9466
+zookeeper
+Functions with log: 863
+Functions without log: 5953
+Functions without log: 5953
+curator
+Functions with log: 139
+Functions without log: 3690
+Functions without log: 3690
+flink
+Functions with log: 1499
+Functions without log: 59983
+Functions without log: 59983
+hadoop
+Functions with log: 9254
+Functions without log: 115625
+Functions without log: 115625
+activemq
+Functions with log: 3436
+Functions without log: 35841
+Functions without log: 35841
+
+ambari
+Functions with log: 1528
+Functions without log: 25569
+Functions without log: 25569
+
+calcite
+Functions with log: 59
+Functions without log: 22837
+Functions without log: 22837
+
+cloudstack
+Functions with log: 489
+Functions without log: 41170
+Functions without log: 41170
+
+drill
+Functions with log: 998
+Functions without log: 39451
+Functions without log: 39451
+
+flume
+Functions with log: 638
+Functions without log: 5837
+Functions without log: 5837
+
+geode
+Functions with log: 2980
+Functions without log: 94804
+Functions without log: 94804
+
+lucene-solr
+Functions with log: 1917
+Functions without log: 72586
+Functions without log: 72586
+
+mahout
+Functions with log: 286
+Functions without log: 7617
+Functions without log: 7617
+
+nifi
+Functions with log: 1625
+Functions without log: 36558
+Functions without log: 36558
+
+parquet-mr
+Functions with log: 239
+Functions without log: 7793
+Functions without log: 7793
+
+activemq
+Functions with log: 3436
+Functions without log: 35841
+Functions without log: 35841
+
+calcite
+Functions with log: 59
+Functions without log: 22837
+Functions without log: 22837
+
+flink
+Functions with log: 1499
+Functions without log: 59983
+Functions without log: 59983
+
+geode
+Functions with log: 2982
+Functions without log: 94804
+Functions without log: 94804
+
+hadoop
+Functions with log: 9254
+Functions without log: 115625
+Functions without log: 115625
+
+hive
+Functions with log: 4425
+Functions without log: 96042
+Functions without log: 96042
+
+kylin
+Functions with log: 1340
+Functions without log: 15168
+Functions without log: 15168
+
+lucene-solr
+Functions with log: 1917
+Functions without log: 72586
+Functions without log: 72586
+
+nutch
+Functions with log: 418
+Functions without log: 2906
+Functions without log: 2906
+
+lucene-solr
+Functions with log: 1917
+Functions without log: 72586
+Functions without log: 72586
+
+elasticsearch
+Functions with log: 2973
+Functions without log: 104096
+Functions without log: 104096
