@@ -33,9 +33,12 @@ class CodeRNN(nn.Module):
             bidirectional=bidirectionality
         )
 
-        self.linear = nn.Linear(self.nb_lstm_units * self.linear_multiplier, 100)
+        self.linear = nn.Linear(self.nb_lstm_units * self.linear_multiplier, output_size)
 
-        self.linear2 = nn.Linear(100, output_size)
+        # Show how many parameters
+        model_parameters = filter(lambda p: p.requires_grad, self.parameters())
+        params = sum([np.prod(p.size()) for p in model_parameters])
+        print(params)
 
     def get_linear_input(self, bidirectional):
         self.multiplier = self.nb_lstm_layers
@@ -60,8 +63,7 @@ class CodeRNN(nn.Module):
         n = [X[i, n, :] for i, n in enumerate(list(lengths))]
 
         k = torch.cat(n).view(batch_size, -1)
-        X = F.relu(self.linear(k))
-        X = self.linear2(X)
+        X = self.linear(k)
 
         Y_hat = X
 
@@ -109,9 +111,7 @@ class WordRNN(CodeRNN):
             bidirectional=bidirectionality
         )
 
-        self.linear = nn.Linear(self.nb_lstm_units * self.linear_multiplier, 100)
-
-        self.linear2 = nn.Linear(100, output_size)
+        self.linear = nn.Linear(self.nb_lstm_units * self.linear_multiplier, output_size)
 
         model_parameters = filter(lambda p: p.requires_grad, self.parameters())
         params = sum([np.prod(p.size()) for p in model_parameters])
@@ -127,7 +127,6 @@ class Code2VecSingleNN(nn.Module):
         # 384 input features (code2vec vector is 96*4), 128
         self.hidden = nn.Linear(inputSize, hiddenSize)
         self.output = nn.Linear(hiddenSize, outputSize)
-
 
     def forward(self, x, lengths):
         X = F.relu(self.hidden(x))
@@ -146,6 +145,11 @@ class Code2Vec(nn.Module):
         self.a = nn.Parameter(torch.randn(1, embedding_dim, 1))
         self.out = nn.Linear(embedding_dim, output_dim)
         self.do = nn.Dropout(dropout)
+
+        # Show how many parameters
+        model_parameters = filter(lambda p: p.requires_grad, self.parameters())
+        params = sum([np.prod(p.size()) for p in model_parameters])
+        print(params)
 
     def forward(self, X, lengths):
         starts, paths, ends = X
