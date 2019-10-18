@@ -5,25 +5,28 @@
     "arch": {
         "type": "CodeRNN",
         "args": {
-            "embedding_size": 10,
-            "batch_size": 4,
-            "use_cuda": true
+            "batch_size": 30,
+            "use_cuda": true,
+            "nb_lstm_layers":1,
+            "nb_lstm_units": 10
+
         }
     },
     "data_loader": {
         "type": "CodeCharDataLoader",
         "args":{
             "filename": "test.txt",
-            "batch_size": 10,
+            "batch_size": 30,
             "shuffle": true,
             "validation_split": 0.2,
-            "num_workers": 2
+            "num_workers": 0,
+            "test_filename": "test.txt"
         }
     },
     "optimizer": {
         "type": "Adam",
         "args":{
-            "lr": 0.001,
+            "lr": 0.01,
             "weight_decay": 0,
             "amsgrad": true
         }
