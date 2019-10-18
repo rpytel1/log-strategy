@@ -1,6 +1,5 @@
 class DataElem:
     def __init__(self, function_name, signature, body, function_id, label):
-
             self.function_name = function_name
             self.signature = signature
             self.body = body

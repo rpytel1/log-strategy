@@ -1,17 +1,8 @@
 import os
 from DataElem import DataElem
+from IOHelper import read_data, write_data, move_file
 import re
 import warnings
-
-
-def readInput(path: str):
-    file = open(path, "r", encoding='utf-8')
-    lines = file.readlines()
-    file.close()
-
-    print("Found and red " + str(int(len(lines) / 2)) + ' methods in ' + path + '.')
-    return lines
-
 
 def extractLabel(signature: str):
     splitSignature = signature.split('_')
@@ -20,11 +11,9 @@ def extractLabel(signature: str):
 
     return re.sub(logPattern, '', functionName)
 
-
 def extractFunctionId(signature: str):
     splitSignature = signature.split('_')
     return splitSignature[len(splitSignature) - 2]
-
 
 def extractFunctionName(signature: str):
     pattern = re.compile(r'( [^\( ]+\()')
@@ -40,7 +29,7 @@ def processInput(input: str):
     data = []
     signature = ""
 
-    for id, line in enumerate(readInput(input)):
+    for id, line in enumerate(read_data(input)):
         line.replace('\n', ' ').replace('\r', '')
         if id % 2 == 0:
             signature = line
@@ -56,39 +45,10 @@ def processInput(input: str):
     print("Processed " + str(len(data)) + ' methods.')
     return data
 
-def createDirectories():
-    if not os.path.isdir("train"):
-        os.mkdir("train")
-        print('Created output directory at: ' + os.path.abspath("train"))
-
-def writeInput(data, name):
-    createDirectories()
-
-    f_train_file_counter = 0
-    f_train_counter = 0
-    write_buffer = ""
-    
-    for id, elem in enumerate(data):
-        if f_train_counter > 1000:
-            f_train_features = open("train/train" + name + str(f_train_file_counter) + ".java", "w", encoding="utf-8")
-            f_train_features.write(write_buffer)
-            f_train_features.close()
-            write_buffer = ""
-            f_train_file_counter += 1
-            f_train_counter = 0
-        f_train_counter += 1
-        write_buffer += elem.getJavaRepresentation()
-
-    print('Wrote ' + str(len(data)) + ' methods to disk.')
-    f_train_features.close()
-
-# pipeline
-def preprocess():
-    for (dirpath, dirnames, filenames) in os.walk("../result/filteredCode2Vec"):
+def prepare(input_dir: str, save_dir: str):
+    print("Prepare the data for code2vec.")
+    for (dirpath, dirnames, filenames) in os.walk(input_dir):
         for filename in filenames:
             data = processInput(dirpath + "/" + filename)
-            writeInput(data, filename)
-
-
-# RUN PREPROCESS
-preprocess()
+            write_data(data, save_dir, filename)
+            move_file(dirpath + "/" + filename, dirpath + "/processed/" + filename)

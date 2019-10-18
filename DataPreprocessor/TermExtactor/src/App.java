@@ -45,13 +45,13 @@ public class App {
 					.collect(Collectors.toList());
 
 			String fileName = repository.name;
-			writeOutputFile(savePath + fileName + ".txt", repoRepresentation);
+			writeOutputFile(Paths.get(savePath + "/" + fileName + ".txt"), repoRepresentation);
 		}
 
 		return true;
 	}
 
-	public static List<Repository> getAllRepositories(Path repoDir) throws IOException {
+	private static List<Repository> getAllRepositories(Path repoDir) throws IOException {
 		List<Repository> repositories = new ArrayList<>();
 
 		System.out.println("-----------------------------------------------------------");
@@ -64,7 +64,7 @@ public class App {
 		return repositories;
 	}
 	
-	public static List<Repository> getRepository(Path path) {
+	private static List<Repository> getRepository(Path path) {
 		List<Repository> repositories = new ArrayList<>();
 		repositories.add(new Repository(path));
 		return repositories;
@@ -78,10 +78,9 @@ public class App {
 		return output;
 	}
 	
-	private static void writeOutputFile(String path, List<String> rows) throws IOException {
-		Path outputPath = Paths.get(path);
+	private static void writeOutputFile(Path path, List<String> rows) throws IOException {
 		System.out.println("Writing to " + path);
-		Files.write(outputPath, prepareOutput(rows), Charset.forName("UTF-8"));
+		Files.write(path, prepareOutput(rows), Charset.forName("UTF-8"));
 		System.out.println("Wrote to " + path);
 		System.out.println("-----------------------------------------------------------");
 	}
