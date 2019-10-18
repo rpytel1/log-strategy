@@ -1,96 +1,131 @@
-import numpy as np
 from Evaluation import JaccardIndex, Accuracy, APrecision, Precision, Recall
-from sklearn import svm
-import re
+from sklearn import svm, linear_model
+import SampleReader as sr
 import time
 from Persistence import loadModel, save
-from sklearn.model_selection import train_test_split
+import numpy as np
+from sklearn.ensemble import RandomForestRegressor
+from sklearn.model_selection import RandomizedSearchCV, GridSearchCV
+
 
 DATA_PATH = "..//result//codevectors//codevectors_labeled.txt"
-MODEL_SAVEPATH = "C://Users//Jan//Desktop//log-strategy//SVM-Classifier//trained_svm"
+CLASSIFIER_SAVEPATH = "C://Users//Jan//Desktop//log-strategy//SVM-Classifier//model"
+STEP_SIZE = 6000000
+TEST_RATIO = 0.99
+POSITIVE_RATIO = 0.2
 
 
-def readInput(path: str):
-    file = open(path, "r")
-    lines = file.readlines()
-    file.close()
-    print("\nExtracted", len(lines), "lines from", path, ".")
-    return lines
+def incremental_train_svm(data_path: str, stop: int, step: int):
+    feature_count = 0
+    eof = False
+    model = linear_model.SGDClassifier()
 
-def extractVectors(data) -> [[int], [float]] :
-    vectors = []
-    tmp = ""
-    reading = False
-    for id, line in enumerate(data):
-        if '[' in line:
-            tmp = line
-            reading = True
-        elif ']' in line:
-            tmp += line
-            reading = False
-            rawVector = re.sub(r'\[|\|\n]', '', tmp)
-            codeVector = np.fromstring(rawVector, float, sep=' ').tolist()
-            vectors.append(codeVector)
-        elif reading:
-            tmp += line
+    with open(data_path, "r") as file_in:
+        while not eof and feature_count < stop:
+            startTime = time.time()
+            features, eof = get_features(file_in, feature_count, step, stop)
+            feature_count += len(features)
+            if len(features) > 0:
+                codeVectors, labels = sr.extractData(features)
+                model = model.partial_fit(codeVectors, labels, classes=np.unique(labels))
+                endTime = time.time()
+                executionTime = endTime - startTime
+                print("Extracting and training model with", len(features), "features took:", round(executionTime, 2), 'seconds, current total:', feature_count)
+    return model
 
-    print("Found ", len(vectors), " code vectors.")
-    return vectors
+def train_svm(totalCodeVectors, totalLabels):
+    print("Training new svm classifier.")
+    startTime = time.time()
+    clf = svm.SVC(gamma='scale')
+    clf.fit(totalCodeVectors, totalLabels)
+    svm.SVC(C=1.0, cache_size=200, class_weight=None, coef0=0.0,
+            decision_function_shape='ovr', degree=3, gamma='scale', kernel='rbf',
+            max_iter=-1, probability=False, random_state=None, shrinking=True,
+            tol=0.001, verbose=False)
+    endTime = time.time()
+    executionTime = endTime - startTime
+    print("Training svm classifier with", len(totalCodeVectors), "features took:", round(executionTime, 2), 'seconds.')
+    return clf
 
-def extractLabels(data) -> [int]:
-    labels = []
-    for id, line in enumerate(data):
-        if len(line) <= 2:
-            labels.append(int(line))
+def train_svm_grid(totalCodeVectors, totalLabels):
+    print("Training new svm classifier with grid hyper tuning.")
+    startTime = time.time()
+    Cs = [0.1, 1, 10]
+    gammas = [0.01, 0.1, 1]
+    param_grid = {'C': Cs, 'gamma': gammas}
+    clf = GridSearchCV(svm.SVC(kernel='rbf', C=1.0, cache_size=500, class_weight=None, coef0=0.0,
+                               decision_function_shape='ovr', degree=3, max_iter=-1, probability=False,
+                               random_state=None, shrinking=True, tol=0.001, verbose=False), param_grid)
+    clf.fit(totalCodeVectors, totalLabels)
+    endTime = time.time()
+    executionTime = endTime - startTime
+    print("Best parameter for svm:", clf.best_params_)
+    print("Training svm classifier with", len(totalCodeVectors), "features took:", round(executionTime, 2), 'seconds.')
+    return clf
 
-    print("Of the", len(labels), "labels", labels.count(1), 'labels are positive.\n')
-    return labels
+def train_randomforest(totalCodeVectors, totalLabels):
+    print("Training new random forest classifier.")
+    startTime = time.time()
+    # Number of trees in random forest
+    n_estimators = [int(x) for x in np.linspace(start = 200, stop = 2000, num = 10)]
+    # Number of features to consider at every split
+    max_features = ['auto', 'sqrt']
+    # Maximum number of levels in tree
+    max_depth = [int(x) for x in np.linspace(10, 110, num = 11)]
+    max_depth.append(None)
+    # Minimum number of samples required to split a node
+    min_samples_split = [2, 5, 10]
+    # Minimum number of samples required at each leaf node
+    min_samples_leaf = [1, 2, 4]
+    # Method of selecting samples for training each tree
+    bootstrap = [True, False]
+    # Create the random grid
+    random_grid = {'n_estimators': n_estimators,
+                   'max_features': max_features,
+                   'max_depth': max_depth,
+                   'min_samples_split': min_samples_split,
+                   'min_samples_leaf': min_samples_leaf,
+                   'bootstrap': bootstrap}
+    rf = RandomForestRegressor()
+    clf = rf_random = RandomizedSearchCV(estimator= rf, param_distributions= random_grid, n_iter= 100,
+                                         cv= 3, verbose=2, random_state=42, n_jobs= -1)
+    clf.fit(totalCodeVectors, totalLabels)
+    endTime = time.time()
+    executionTime = endTime - startTime
+    print("Best parameter for random forest:", rf_random.best_params_)
+    print("Training random forest classifier with", len(totalCodeVectors), "features took:", round(executionTime, 2), 'seconds.')
+    return rf_random.best_estimator_
 
-def filterData(codeVectors, labels, condition):
-    filteredCodeVectors = []
-    filteredLabels = []
-    for id, label in enumerate(labels):
-        if label == condition:
-            filteredCodeVectors.append(np.fromiter(codeVectors[id], dtype=float))
-            filteredLabels.append(label)
-
-    print("After filtering", len(filteredCodeVectors), "code vectors and", len(filteredLabels), "labels remain.")
-    return filteredCodeVectors, filteredLabels
-
-def extractPositive(codeVectors, labels):
-    return filterData(codeVectors, labels, 1)
-
-def extractNegative(codeVectors, labels):
-    return filterData(codeVectors, labels, 0)
-
-def split(codeVectors, labels, positive_size):
-    negative_size = 1 - positive_size
-    positiveCodeVectors, positiveLabel = extractPositive(codeVectors, labels)
-    negativeCodeVectors, negativeLabel = extractNegative(codeVectors, labels)
-
-    finalRatio = negative_size / positive_size
-    finalNegativeCount = int(finalRatio * min(len(positiveCodeVectors), len(negativeCodeVectors)))
-    splitCodeVectors = positiveCodeVectors + negativeCodeVectors[:finalNegativeCount]
-    splitLabel = positiveLabel + negativeLabel[:finalNegativeCount]
-    print("Reconfigured data set has a positive/ negative label ratio of:", positive_size, "/", negative_size, "with", len(splitLabel), "elements.")
-    return splitCodeVectors, splitLabel
+def get_features(file_in, feature_count, step, stop):
+    features, eof = sr.extractFeatures(file_in, min(int(step * (POSITIVE_RATIO / 0.04) * 2), int(stop * (POSITIVE_RATIO / 0.04) * 2)))
+    features = sr.shuffle_data(features)
+    features = sr.rebalance_data(features, POSITIVE_RATIO, min(sr.estimateSplitCount(features, POSITIVE_RATIO), (stop - feature_count)))
+    return features, eof
 
 # As other classifiers, SVC, NuSVC and LinearSVC take as input two arrays: an array X of size [n_samples, n_features] holding the training samples,
 # and an array y of class labels (strings or integers), size [n_samples]:
-def train(features, labels):
-    clf = svm.SVC(gamma='scale')
-    clf.fit(features, labels)
-    svm.SVC(C=1.0, cache_size=200, class_weight=None, coef0=0.0,
-    decision_function_shape='ovr', degree=3, gamma='scale', kernel='rbf',
-    max_iter=-1, probability=False, random_state=None, shrinking=True,
-    tol=0.001, verbose=False)
-    return clf
+def train_classifier(data_path: str, stop: int, step: int):
+    feature_count = 0
+    eof = False
+    totalCodeVectors, totalLabels = [], []
 
-def extractData(path: str):
-    data = readInput(path)
-    codeVectors = extractVectors(data)
-    labels = extractLabels(data)
-    return codeVectors, labels
+    with open(data_path, "r") as file_in:
+        while not eof and feature_count < stop:
+            startTime = time.time()
+            features, eof = get_features(file_in, feature_count, step, stop)
+            feature_count += len(features)
+            if len(features) > 0:
+                codeVectors, labels = sr.extractData(features)
+                totalCodeVectors += codeVectors
+                totalLabels += labels
+                endTime = time.time()
+                executionTime = endTime - startTime
+                print("Extracting and splitting model with", len(features), "features took:", round(executionTime, 2), 'seconds, current total:', feature_count)
+
+    # random_forest_classifier = train_randomforest(totalCodeVectors, totalLabels)
+    svm_classifier = train_svm_grid(totalCodeVectors, totalLabels)
+
+    return [(svm_classifier, "svm")]
 
 def evaluate(prediction, label, description):
     print('\n-----------------------RESULTS-----------------------')
@@ -103,25 +138,25 @@ def evaluate(prediction, label, description):
     print('-----------------------END RESULTS-----------------------\n')
 
 if __name__ == '__main__':
-    print("Reading and splitting data from:", DATA_PATH)
-    startTime = time.time()
-    full_codeVectors, full_labels = extractData(DATA_PATH)
-    train_codeVectors, test_codeVectors, train_labels, test_labels = train_test_split(full_codeVectors, full_labels, test_size = 0.2, random_state = 0)
-    endTime = time.time()
-    executionTime = endTime - startTime
-    print("Readind and splitting data took:", round(executionTime, 2), 'seconds.')
+    feature_count, positive_count, negative_count = 925833, 44073, 881760
+    write_target = int(sr.estimateBalance(positive_count, negative_count, POSITIVE_RATIO) * (1 - TEST_RATIO) - 1000)
+    print("Write ", write_target, " samples with a balance of", POSITIVE_RATIO, "to disk.")
+    with open(DATA_PATH, "r") as file_in:
+        sr.write_rebalanced_shuffled_data(file_in, "..//result//codevectors//codevectors_labeled_rebalanced-" +
+                                      str(POSITIVE_RATIO) + "_shuffled.txt", write_target, POSITIVE_RATIO, STEP_SIZE)
+        test_count: int = int(feature_count * TEST_RATIO)
+        sr.write_rebalanced_shuffled_data(file_in, "..//result//codevectors//codevectors_labeled_test_shuffled.txt",
+                                          test_count, step=STEP_SIZE)
 
-    model = loadModel(MODEL_SAVEPATH + "_full" + ".joblib")
-    if(model == None):
-        # reconfigured_codeVectors, reconfigured_labels = split(train_codeVectors + test_codeVectors, train_labels + test_labels, 0.1)
-        print("Training new svm model.")
-        startTime = time.time()
-        model = train(train_codeVectors, train_labels)
-        endTime = time.time()
-        executionTime = endTime - startTime
-        print("Training model took:", round(executionTime, 2), 'seconds.')
-        save(model, MODEL_SAVEPATH + "_reconfigured" + ".joblib")
+    classifier = train_classifier(DATA_PATH, train_target, STEP_SIZE)
+    for model, descriptor in classifier:
+        save(model, CLASSIFIER_SAVEPATH + "_" + descriptor + "_" + str(train_target) + "_" + str(round(POSITIVE_RATIO, 2))
+             + ".joblib")
 
-    prediction = model.predict(test_codeVectors)
-    evaluate(prediction, test_labels, "test split of 20 percent.")
-
+    with open(DATA_PATH, "r") as file_in:
+        features, eof = sr.extractFeatures(file_in, STEP_SIZE, train_target)
+        test_codeVectors, test_labels = sr.extractData(features)
+        print("Extracted training data set with:", len(test_codeVectors), "features.")
+        for model, descriptor in classifier:
+            prediction = model.predict(test_codeVectors)
+            evaluate(prediction, test_labels, str(len(features)) + descriptor)
