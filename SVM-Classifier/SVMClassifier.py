@@ -142,16 +142,17 @@ if __name__ == '__main__':
 
     with open(DATA_PATH, "r") as file_in:
         samples, eof = sr.extractFeatures(file_in, int(feature_count * (1 - TEST_RATIO)))
-        feature_count, positive_count, negative_count = sr.statistics_samples(samples)
-        write_target = int(sr.estimateBalance(positive_count, negative_count, POSITIVE_RATIO))
+        feature_count_train, positive_count_train, negative_count_train = sr.statistics_samples(samples)
+        write_target = int(sr.estimateBalance(positive_count_train, negative_count_train, POSITIVE_RATIO))
 
     with open(DATA_PATH, "r") as file_in:
-        print("Write ", write_target, " samples with a balance of", POSITIVE_RATIO, "to disk.")
+        print("Write ", write_target, " samples with a balance of", POSITIVE_RATIO, "to disk as train set.")
         sr.write_rebalanced_shuffled_data(file_in, "..//result//codevectors//codevectors_labeled_rebalanced-" +
                                       str(POSITIVE_RATIO) + "_shuffled.txt", write_target, POSITIVE_RATIO, STEP_SIZE)
-        test_count: int = int(feature_count * TEST_RATIO)
+        test_write: int = int(feature_count_train * TEST_RATIO)
+        print("Write ", test_write, " samples with a balance of", POSITIVE_RATIO, "to disk as test set.")
         sr.write_rebalanced_shuffled_data(file_in, "..//result//codevectors//codevectors_labeled_test_shuffled.txt",
-                                          test_count, step=STEP_SIZE)
+                                          test_write, step=STEP_SIZE)
 
     classifier = train_classifier(DATA_PATH, train_target, STEP_SIZE)
     for model, descriptor in classifier:

@@ -143,11 +143,10 @@ def save(sample_count: [Sample], savepath: str):
         file.write(write_buffer)
     print("Saved all samples to:", savepath)
 
-def write_rebalanced_shuffled_data(file_in, save_path: str, stop: int, balance: float = -1, step: int = 60000, hard_stop = -1):
+def write_rebalanced_shuffled_data(file_in, save_path: str, stop: int, balance: float = -1, step: int = 60000):
     samples = []
     eof = False
     sample_count: int = 0
-    process_count = 0
     while not eof and sample_count < stop:
         samples, eof = extractFeatures(file_in, min(step, max(stop - step, 100)))
         if balance > 0:
