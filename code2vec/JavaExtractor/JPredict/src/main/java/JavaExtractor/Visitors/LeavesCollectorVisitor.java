@@ -13,7 +13,7 @@ import JavaExtractor.Common.Common;
 import JavaExtractor.FeaturesEntities.Property;
 
 public class LeavesCollectorVisitor extends TreeVisitor {
-	ArrayList<Node> m_Leaves = new ArrayList<>(); 
+	ArrayList<Node> m_Leaves = new ArrayList<>();
 	private int currentId = 1;
 
 	@Override
@@ -29,7 +29,7 @@ public class LeavesCollectorVisitor extends TreeVisitor {
 				isLeaf = true;
 			}
 		}
-		
+
 		int childId = getChildId(node);
 		node.setUserData(Common.ChildId, childId);
 		Property property = new Property(node, isLeaf, isGenericParent, currentId++);
@@ -37,23 +37,23 @@ public class LeavesCollectorVisitor extends TreeVisitor {
 	}
 
 	private boolean isGenericParent(Node node) {
-		return (node instanceof ClassOrInterfaceType) 
-				&& ((ClassOrInterfaceType)node).getTypeArguments() != null 
+		return (node instanceof ClassOrInterfaceType)
+				&& ((ClassOrInterfaceType)node).getTypeArguments() != null
 				&& ((ClassOrInterfaceType)node).getTypeArguments().size() > 0;
 	}
 
 	private boolean hasNoChildren(Node node) {
 		return node.getChildrenNodes().size() == 0;
 	}
-	
+
 	private boolean isNotComment(Node node) {
 		return !(node instanceof Comment) && !(node instanceof Statement);
 	}
-	
+
 	public ArrayList<Node> getLeaves() {
 		return m_Leaves;
 	}
-	
+
 	private int getChildId(Node node) {
 		Node parent = node.getParentNode();
 		List<Node> parentsChildren = parent.getChildrenNodes();
