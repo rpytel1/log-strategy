@@ -371,7 +371,8 @@ class Code2VecModel(Code2VecModelBase):
         if self.predict_reader is None:
             self.predict_reader = PathContextReader(vocabs=self.vocabs,
                                                     model_input_tensors_former=_TFEvaluateModelInputTensorsFormer(),
-                                                    config=self.config, estimator_action=EstimatorAction.Predict)
+                                                    config=self.config,
+                                                    estimator_action=EstimatorAction.Predict)
             self.predict_placeholder = tf.compat.v1.placeholder(tf.string)
             reader_output = self.predict_reader.process_input_row(self.predict_placeholder)
 
@@ -385,14 +386,21 @@ class Code2VecModel(Code2VecModelBase):
             self._load_inner_model(sess=self.sess)
 
 
-        fileDir = os.path.dirname(os.path.realpath('result'))
-        file = open(os.path.join(fileDir, "result/codevectors_labeled.txt"), "w")
+        fileDir = os.path.dirname(os.path.realpath('../result'))
+        file = open(os.path.join(fileDir, "result/codevectors_labeled.txt"), "a")
+        print("Extracting code vectors.")
+        currentPercent = 0
+        amountDataLines = len(predict_data_lines)
 
-        for line in predict_data_lines:
+        for id, line in enumerate(predict_data_lines):
+            if id > 0 and id / amountDataLines > currentPercent:
+                print("extracted code vectors for", str(round(currentPercent, 2)) + " percent of", amountDataLines, "methods.")
+                currentPercent += 0.05
+
             batch_original_name, batch_code_vectors = self.sess.run(
                 [self.predict_original_names_op, self.predict_code_vectors],
                 feed_dict={self.predict_placeholder: line})
-            code_vectors= np.squeeze(batch_code_vectors,axis=0)
+            code_vectors = np.squeeze(batch_code_vectors, axis=0)
 
             methodName, paddingf, methodId, methodLabel = np.array2string(batch_original_name).split('|')
             output = methodName[3:] + methodId + '\n' + methodLabel[0] + '\n' + np.array2string(code_vectors) + '\n'
