@@ -3,7 +3,6 @@ import os
 import codecs
 from py4j.java_gateway import JavaGateway, GatewayParameters
 
-gateway = JavaGateway(gateway_parameters=GatewayParameters(port=25335))
 syntaxChecker = gateway.entry_point
 
 filenames = ['beam', 'camel', 'cassandra', 'flink', 'hadoop', 'hive', 'jmeter', 'kafka', 'maven', 'tomcat', 'zookeeper'];
