@@ -15,13 +15,15 @@ from utils.code2vec_utils import numericalize, file_iterator
 
 
 class CodeCharDataLoader(BaseDataLoader):
-    def __init__(self, filename, batch_size, shuffle=True, validation_split=0.0, num_workers=1, training=True):
+    def __init__(self, filename, batch_size, test_filename, shuffle=True, validation_split=0.0, num_workers=1,
+                 training=True):
         self.dataset = CodeCharDataset(filename)
         super().__init__(self.dataset, batch_size, shuffle, validation_split, num_workers)
 
 
 class CodeWordDataLoader(BaseDataLoader):
-    def __init__(self, filename, batch_size, shuffle=True, validation_split=0.0, num_workers=1, training=True):
+    def __init__(self, filename, batch_size, test_filename, shuffle=True, validation_split=0.0, num_workers=1,
+                 training=True):
         self.dataset = CodeWordDataset(filename)
         super().__init__(self.dataset, batch_size, shuffle, validation_split, num_workers)
 
@@ -135,7 +137,8 @@ class CodeWordDataset(Dataset):
 
 
 class Code2VecDataLoader(BaseDataLoader):
-    def __init__(self, filename, batch_size, shuffle=True, validation_split=0.0, num_workers=1, training=True):
+    def __init__(self, filename, batch_size, test_filename, shuffle=True, validation_split=0.0, num_workers=1,
+                 training=True):
         self.dataset = Code2VecDataset(filename)
         super().__init__(self.dataset, batch_size, shuffle, validation_split, num_workers)
 
@@ -149,7 +152,7 @@ class Code2VecDataset(Dataset):
     CHUNKS = 10
     MAX_LENGTH = 200
 
-    def __init__(self, file_path):
+    def __init__(self, filename):
 
         with open(f'{self.DATA_DIR}/preprocessed_code/{self.DATASET}.dict.c2v', 'rb') as file:
             node2count = pickle.load(file)
@@ -193,27 +196,27 @@ class Code2VecDataset(Dataset):
         print("Target dim: " + str(len(target2idx)))
 
         ###########################################
-        self.examples = []
+        examples = []
         self.data = []
         self.labels = []
 
         for example_name, example_body, example_length in file_iterator(
-                f'{self.DATA_DIR}/{self.DATASET}/{self.DATASET}.train.c2v', self.MAX_LENGTH):
+                f'{self.DATA_DIR}/{self.DATASET}/{filename}', self.MAX_LENGTH):
 
-            self.examples.append((example_name, example_body, example_length))
-            if len(self.examples) >= (self.BATCH_SIZE * self.CHUNKS):
+            examples.append((example_name, example_body, example_length))
+            if len(examples) >= (self.BATCH_SIZE * self.CHUNKS):
 
-                random.shuffle(self.examples)
+                random.shuffle(examples)
 
                 # tensor_lab is a
-                for tensor_lab, tensor_l, tensor_p, tensor_r, mask in numericalize(self.examples, self.CHUNKS,
+                for tensor_lab, tensor_l, tensor_p, tensor_r, mask in numericalize(examples, self.CHUNKS,
                                                                                    self.BATCH_SIZE, self.MAX_LENGTH,
                                                                                    node2idx, path2idx, target2idx):
                     for i in range(self.BATCH_SIZE):
                         self.data.append((tensor_l[i], tensor_p[i], tensor_r[i]))
                         self.labels.append(tensor_lab[i])
 
-                self.examples = []
+                examples = []
 
     def __getitem__(self, index):
         return self.data[index], self.labels[index], "CODE2VEC"
@@ -221,92 +224,92 @@ class Code2VecDataset(Dataset):
     def __len__(self):
         return len(self.data)
 
+
 class Code2VecPreLoader(BaseDataLoader):
-    def __init__(self, filename, batch_size, test_filename, relativeNrNoLogFunctions=1, shuffle=True, validation_split=0.0, num_workers=1, training=True):
-	    self.dataset = Code2VecPreDataset(filename, relativeNrNoLogFunctions, training)
-	    super().__init__(self.dataset, batch_size, shuffle, validation_split, num_workers)
-	
+    def __init__(self, filename, batch_size, test_filename, relativeNrNoLogFunctions=1, shuffle=True,
+                 validation_split=0.0, num_workers=1, training=True):
+        self.dataset = Code2VecPreDataset(filename, relativeNrNoLogFunctions, training)
+        super().__init__(self.dataset, batch_size, shuffle, validation_split, num_workers)
+
+
 class Code2VecPreData:
     funcname = ''
     label = -1
     vector = []
+
     def __init__(self):
         funcname = ''
         label = -1
         vector = []
-		
+
+
 class Code2VecPreDataset:
     def __init__(self, filename, relativeNrNoLogFunctions, training):
-            self.inputDataslog = []
-            self.inputDatasnolog = []
-            self.balancedInputDatas = []
-            self.logcount = 0
-            
-            self.readFile(filename)
-            self.relativeNrNoLogFunctions = relativeNrNoLogFunctions
-            random.shuffle(self.inputDatasnolog)
-            if (training):
-                for j in range(relativeNrNoLogFunctions * self.logcount):
-                    self.balancedInputDatas.append(self.inputDatasnolog[j])
-                    if (j < self.logcount):
-                        self.balancedInputDatas.append(self.inputDataslog[j])
-                random.shuffle(self.balancedInputDatas)
-            else:
-                self.balancedInputDatas.extend(self.inputDatasnolog)
-                self.balancedInputDatas.extend(self.inputDataslog)
-            self.inputDataslog.clear()
-            self.inputDatasnolog.clear()
-            
+        self.inputDataslog = []
+        self.inputDatasnolog = []
+        self.balancedInputDatas = []
+        self.logcount = 0
+
+        self.readFile(filename)
+        self.relativeNrNoLogFunctions = relativeNrNoLogFunctions
+        random.shuffle(self.inputDatasnolog)
+        if (training):
+            for j in range(relativeNrNoLogFunctions * self.logcount):
+                self.balancedInputDatas.append(self.inputDatasnolog[j])
+                if (j < self.logcount):
+                    self.balancedInputDatas.append(self.inputDataslog[j])
+            random.shuffle(self.balancedInputDatas)
+        else:
+            self.balancedInputDatas.extend(self.inputDatasnolog)
+            self.balancedInputDatas.extend(self.inputDataslog)
+        self.inputDataslog.clear()
+        self.inputDatasnolog.clear()
+
     def __getitem__(self, index):
-            return torch.tensor(self.balancedInputDatas[index].vector), self.balancedInputDatas[index].label, -1
-            
+        return torch.tensor(self.balancedInputDatas[index].vector), self.balancedInputDatas[index].label, -1
+
     def __len__(self):
-            return len(self.balancedInputDatas)
-                
+        return len(self.balancedInputDatas)
+
     def readFile(self, filepath):
-            inputData = Code2VecPreData()
-            inputData.vector = []
-            f = open(filepath)
-            lines = f.readlines()
-            f.close()
-            
-            counter = 0
+        inputData = Code2VecPreData()
+        inputData.vector = []
+        f = open(filepath)
+        lines = f.readlines()
+        f.close()
 
-            for l in lines:
-                    if (counter == 0):
-                            inputData.funcname = l
-                            counter += 1
-                    elif (counter == 1):
-                            inputData.label = int(l)   
-                            counter += 1
-                    elif (counter == 2):
-                            l = l[1:]
-                            arr = np.array(l.split())
-                            inputData.vector.extend(arr.astype(np.float))
-                            counter += 1
-                    elif (counter == 3):
-                            if (l[-2] == ']'):
-                                    counter = 0
-                                    l = l[:-2]
-                                    arr = np.array(l.split())
-                                    inputData.vector.extend(arr.astype(np.float))
-            
-                                    if (inputData.label == 0):
-                                            self.inputDatasnolog.append(inputData)
+        counter = 0
 
-                                    else:
-                                            self.logcount += 1
-                                            self.inputDataslog.append(inputData)
+        for l in lines:
+            if (counter == 0):
+                inputData.funcname = l
+                counter += 1
+            elif (counter == 1):
+                inputData.label = int(l)
+                counter += 1
+            elif (counter == 2):
+                l = l[1:]
+                arr = np.array(l.split())
+                inputData.vector.extend(arr.astype(np.float))
+                counter += 1
+            elif (counter == 3):
+                if (l[-2] == ']'):
+                    counter = 0
+                    l = l[:-2]
+                    arr = np.array(l.split())
+                    inputData.vector.extend(arr.astype(np.float))
 
-                                    #reset
-                                    del inputData
-                                    inputData = Code2VecPreData()
-                                    inputData.vector = []
-                            else:
-                                    arr = np.array(l.split())
-                                    inputData.vector.extend(arr.astype(np.float))
+                    if (inputData.label == 0):
+                        self.inputDatasnolog.append(inputData)
 
+                    else:
+                        self.logcount += 1
+                        self.inputDataslog.append(inputData)
 
-            
-            
-    
+                    # reset
+                    del inputData
+                    inputData = Code2VecPreData()
+                    inputData.vector = []
+                else:
+                    arr = np.array(l.split())
+                    inputData.vector.extend(arr.astype(np.float))

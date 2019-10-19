@@ -1,8 +1,7 @@
-## Java Parser
+## Data Mining and Extraction
 
-Run the app.java class in src/TermExtractor to extract all functions from java classes.
-
-Run the Parser with "-Xmx4g -Xmx8g -XX:+UseG1GC" compiler options and a path to a directory containing all java classes as an argument.
+Run  the app.java class in DataPreprocessor/TermExtractor/src/ the Parser with "-Xmx4g -Xmx8g -XX:+UseG1GC" compiler options.
+Furthermore run DataMiner.py in DataPreprocessor/ and set INPUT_PATH to a directory containing all java classes as an argument.
 
 ## Training
 To run training of Neural network invoke:
@@ -26,13 +25,12 @@ tensorboard --logdir saved/
 ```
 Then open `localhost:6006` to observe learning rates and more.  
 ## Requirements
-- `pytroch`
-- `tensorflow`
-- `tensorboard`
-- `tensorboardx`
-- `progressbar2`
+- `Python >= 3.7`
+- `Java >= 8`
+- `Maven >= 2`
+- `Python libraries specified in requirements.txt`
 
-To install all of required libraries run: 
+To install all of the required libraries for Python run: 
 ```bash
 pip3 install -r requirements.txt
 ```

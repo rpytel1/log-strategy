@@ -1,0 +1,15 @@
+public void testValidGlobalSettings() throws Exception
+{    String basedir = System.getProperty("basedir", System.getProperty("user.dir"));    File globalSettingsFile = new File(basedir, "src/conf/settings.xml");    assertTrue(globalSettingsFile.getAbsolutePath(), globalSettingsFile.isFile());    try (Reader reader = new InputStreamReader(new FileInputStream(globalSettingsFile), "UTF-8")) {        new SettingsXpp3Reader().read(reader);    }}
+0
+public static boolean isSnapshot(String version)
+{    if (version != null) {        if (version.regionMatches(true, version.length() - Artifact.SNAPSHOT_VERSION.length(), Artifact.SNAPSHOT_VERSION, 0, Artifact.SNAPSHOT_VERSION.length())) {            return true;        } else if (Artifact.VERSION_FILE_PATTERN.matcher(version).matches()) {            return true;        }    }    return false;}
+0
+public static String toSnapshotVersion(String version)
+{    notBlank(version, "version can neither be null, empty nor blank");    int lastHyphen = version.lastIndexOf('-');    if (lastHyphen > 0) {        int prevHyphen = version.lastIndexOf('-', lastHyphen - 1);        if (prevHyphen > 0) {            Matcher m = Artifact.VERSION_FILE_PATTERN.matcher(version);            if (m.matches()) {                return m.group(1) + "-" + Artifact.SNAPSHOT_VERSION;            }        }    }    return version;}
+0
+public static String versionlessKey(Artifact artifact)
+{    return versionlessKey(artifact.getGroupId(), artifact.getArtifactId());}
+0
+public static String versionlessKey(String groupId, String artifactId)
+{    notBlank(groupId, "groupId can neither be null, empty nor blank");    notBlank(artifactId, "artifactId can neither be null, empty nor blank");    return groupId + ":" + artifactId;}
+0
