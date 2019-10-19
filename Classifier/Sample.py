@@ -40,11 +40,11 @@ class Sample:
         self.name = Sample.extract_name(rawData)
         self.label = Sample.extract_label(rawData)
         self.codeVector = Sample.extract_codevector(rawData)
-        if not self.valid_feature():
+        if not self.valid_sample():
             raise ValueError("Invalid input:", rawData)
 
-    def valid_feature(self) -> bool:
+    def valid_sample(self) -> bool:
         return len(self.codeVector) == 384 and (self.label == 0 or self.label == 1) and len(self.name) > 3
 
     def __str__(self):
-        return self.name + "\n" + str(self.label) + "\n" + np.array2string(np.asarray(self.codeVector)) + "\n"
+        return '\n'.join([self.name, str(self.label), np.array2string(np.asarray(self.codeVector))]) + '\n'
