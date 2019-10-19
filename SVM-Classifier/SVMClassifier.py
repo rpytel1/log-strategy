@@ -1,6 +1,6 @@
 from Evaluation import JaccardIndex, Accuracy, APrecision, Precision, Recall
 from sklearn import svm, linear_model
-import FeatureReader as fr
+import SampleReader as sr
 import time
 from Persistence import loadModel, save
 import numpy as np
@@ -9,24 +9,24 @@ from sklearn.model_selection import RandomizedSearchCV, GridSearchCV
 
 
 TRAINING_DATA_PATH = "..//result//codevectors//codevectors_labeled.txt"
-TEST_DATA_PATH = "..//result//codevectors//codevectors_labeled.txt"
+TEST_DATA_PATH = "..//result//codevectors//codevectors_labeled_test.txt"
 CLASSIFIER_SAVEPATH = "C://Users//Jan//Desktop//log-strategy//SVM-Classifier//model"
 STEP_SIZE = 6000000
 POSITIVE_RATIO = 0.2
 REAL_POSITIVE_RATIO = 0.04
 
+
 def incremental_train_svm(data_path: str, stop: int, step: int):
     feature_count = 0
     eof = False
     model = linear_model.SGDClassifier()
-
     with open(data_path, "r") as file_in:
         while not eof and feature_count < stop:
             startTime = time.time()
             features, eof = get_features(file_in, feature_count, step, stop)
             feature_count += len(features)
             if len(features) > 0:
-                codeVectors, labels = fr.extractData(features)
+                codeVectors, labels = sr.extractData(features)
                 model = model.partial_fit(codeVectors, labels, classes=np.unique(labels))
                 endTime = time.time()
                 executionTime = endTime - startTime
@@ -97,9 +97,9 @@ def train_randomforest(totalCodeVectors, totalLabels):
     return rf_random.best_estimator_
 
 def get_features(file_in, feature_count, step, stop):
-    features, eof = fr.extractFeatures(file_in, min(int(step * (POSITIVE_RATIO / REAL_POSITIVE_RATIO) * 2), int(stop * (POSITIVE_RATIO / REAL_POSITIVE_RATIO) * 2)))
-    features = fr.shuffle_data(features)
-    features = fr.rebalance_data(features, POSITIVE_RATIO, min(fr.estimateSplitCount(features, POSITIVE_RATIO), (stop - feature_count)))
+    features, eof = sr.extractFeatures(file_in, min(int(step * (POSITIVE_RATIO / REAL_POSITIVE_RATIO) * 2), int(stop * (POSITIVE_RATIO / REAL_POSITIVE_RATIO) * 2)))
+    features = sr.shuffle_data(features)
+    features = sr.rebalance_data(features, POSITIVE_RATIO, min(sr.estimateSplitCount(features, POSITIVE_RATIO), (stop - feature_count)))
     return features, eof
 
 # As other classifiers, SVC, NuSVC and LinearSVC take as input two arrays: an array X of size [n_samples, n_features] holding the training samples,
@@ -108,14 +108,13 @@ def train_classifier(data_path: str, stop: int, step: int):
     feature_count = 0
     eof = False
     totalCodeVectors, totalLabels = [], []
-
     with open(data_path, "r") as file_in:
         while not eof and feature_count < stop:
             startTime = time.time()
             features, eof = get_features(file_in, feature_count, step, stop)
             feature_count += len(features)
             if len(features) > 0:
-                codeVectors, labels = fr.extractData(features)
+                codeVectors, labels = sr.extractData(features)
                 totalCodeVectors += codeVectors
                 totalLabels += labels
                 endTime = time.time()
@@ -124,7 +123,6 @@ def train_classifier(data_path: str, stop: int, step: int):
 
     # random_forest_classifier = train_randomforest(totalCodeVectors, totalLabels)
     svm_classifier = train_svm_grid(totalCodeVectors, totalLabels)
-
     return [(svm_classifier, "svm")]
 
 def evaluate(prediction, label, description):
@@ -138,13 +136,17 @@ def evaluate(prediction, label, description):
     print('-----------------------END RESULTS-----------------------\n')
 
 if __name__ == '__main__':
-    feature_count, positive_count, negative_count = 925833, 44073, 881760
-    train_count: int = fr.estimateBalance(positive_count, negative_count, POSITIVE_RATIO)
+    with open(TEST_DATA_PATH, "r") as file_in:
+        sr.write_rebalanced_shuffled_data(file_in, "..//result//codevectors//codevectors_labeled_shuffled_test.txt", step=STEP_SIZE)
+
+    # classifier = train_classifier(DATA_PATH, train_target, STEP_SIZE)
+    # for model, descriptor in classifier:
+    #     save(model, CLASSIFIER_SAVEPATH + "_" + descriptor + "_" + str(train_target) + "_" + str(round(POSITIVE_RATIO, 2))
+    #    + ".joblib")
 
     with open(TEST_DATA_PATH, "r") as file_in:
-        test_count = 15000
-        features, eof = fr.extractFeatures(file_in, test_count)
-        test_codeVectors, test_labels = fr.extractData(features)
+        features, eof = sr.extractFeatures(file_in, STEP_SIZE, 15000)
+        test_codeVectors, test_labels = sr.extractData(features)
         print("Extracted training data set with:", len(test_codeVectors), "features.")
         classifier = [loadModel("model_svm_5000_0.2.joblib"), " svm 5000 0-2"]
         for model, descriptor in classifier:
