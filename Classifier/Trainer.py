@@ -8,7 +8,7 @@ from sklearn.model_selection import RandomizedSearchCV, GridSearchCV
 
 
 TRAINING_DATA_PATH = "..//result//codevectors//codevectors_labeled_rebalanced-0-2_shuffled.txt"
-CLASSIFIER_SAVEPATH = "C://Users//Jan//Desktop//log-strategy//Classifier//model"
+CLASSIFIER_SAVEPATH = "..//result//Classifier//classifier"
 STEP_SIZE = 6000000
 POSITIVE_RATIO = 0.2
 
