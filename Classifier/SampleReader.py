@@ -1,4 +1,5 @@
 from Sample import Sample
+from Persistence import write
 import random
 
 # read code2vec representation from txt file into samples in an iterative more RAM efficient way
@@ -123,23 +124,6 @@ def statistics_samples(samples: [Sample]):
     positive_count = conditionalCount(samples, filterPositive)
     negative_count = conditionalCount(samples, filterNegative)
     return (negative_count + positive_count), positive_count, negative_count
-
-def write(data , savepath: str):
-    data_count = len(data)
-    print("Start writing", data_count, "data elements to", savepath)
-    with open(savepath, "a+") as file:
-        write_buffer = ""
-        currentPercent = 0
-        for id, element in enumerate(data):
-            if id > 0 and id / data_count > currentPercent:
-                print("Wrote", str(round(currentPercent, 2)), "percent of", data_count, "data elements to disk.")
-                currentPercent += 0.05
-            if id > 0 and id % 1000 == 0:
-                file.write(write_buffer)
-                write_buffer = ""
-            write_buffer += str(element)
-        file.write(write_buffer)
-    print("Saved data to:", savepath)
 
 def write_rebalanced_shuffled_data(file_in, save_path: str, stop: int = -1, balance: float = -1, step: int = 60000):
     eof = False
