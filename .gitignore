@@ -8,7 +8,7 @@
 **/venv/**
 **/.idea/**
 **/codevectors/**
-result/Classifier/**
+result/Classifier/*.joblib
 **/__pycache__/**
 
 # Created by https://www.gitignore.io/api/python,intellij,jupyternotebooks
