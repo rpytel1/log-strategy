@@ -1,6 +1,6 @@
 from Evaluation import JaccardIndex, Accuracy, APrecision, Precision, Recall
 from sklearn import svm, linear_model
-import FeatureReader as  fr
+import FeatureReader as fr
 import time
 from Persistence import loadModel, save
 import numpy as np
@@ -8,10 +8,10 @@ from sklearn.ensemble import RandomForestRegressor
 from sklearn.model_selection import RandomizedSearchCV, GridSearchCV
 
 
-DATA_PATH = "..//result//codevectors//codevectors_labeled.txt"
+TRAINING_DATA_PATH = "..//result//codevectors//codevectors_labeled.txt"
+TEST_DATA_PATH = "..//result//codevectors//codevectors_labeled.txt"
 CLASSIFIER_SAVEPATH = "C://Users//Jan//Desktop//log-strategy//SVM-Classifier//model"
 STEP_SIZE = 6000000
-TEST_RATIO = 0.1
 POSITIVE_RATIO = 0.2
 REAL_POSITIVE_RATIO = 0.04
 
@@ -139,26 +139,14 @@ def evaluate(prediction, label, description):
 
 if __name__ == '__main__':
     feature_count, positive_count, negative_count = 925833, 44073, 881760
-    test_count: int = int(feature_count * TEST_RATIO)
-    train_count: int = feature_count - test_count
+    train_count: int = fr.estimateBalance(positive_count, negative_count, POSITIVE_RATIO)
 
-    with open(DATA_PATH, "r") as file_in:
-        eof = False
-        feature_target = fr.estimateBalance(positive_count, negative_count, POSITIVE_RATIO)
-        print(feature_target)
-        while not eof:
-            features, eof = get_features(file_in, 0, feature_target, feature_target)
-            fr.save(features, "..//result//codevectors//codevectors_labeled_rebalanced-0-2_shuffled.txt")
-
-    classifier = train_classifier(DATA_PATH, train_target, STEP_SIZE)
-    for model, descriptor in classifier:
-        save(model, CLASSIFIER_SAVEPATH + "_" + descriptor + "_" + str(train_target) + "_" + str(round(POSITIVE_RATIO, 2))
-             + ".joblib")
-
-    with open(DATA_PATH, "r") as file_in:
-        features, eof = fr.extractFeatures(file_in,STEP_SIZE, train_target)
+    with open(TEST_DATA_PATH, "r") as file_in:
+        test_count = 15000
+        features, eof = fr.extractFeatures(file_in, test_count)
         test_codeVectors, test_labels = fr.extractData(features)
         print("Extracted training data set with:", len(test_codeVectors), "features.")
+        classifier = [loadModel("model_svm_5000_0.2.joblib"), " svm 5000 0-2"]
         for model, descriptor in classifier:
             prediction = model.predict(test_codeVectors)
             evaluate(prediction, test_labels, str(len(features)) + descriptor)
