@@ -5,7 +5,7 @@ from SampleReader import extractSamples, extractData
 
 
 TEST_DATA_PATH = "..//result//codevectors//codevectors_labeled_shuffled_test.txt"
-CLASSIFIER_SAVEPATH = "..//result//"
+CLASSIFIER_PATH = "..//result//Classifier"
 STEP_SIZE = 6000000
 
 
@@ -49,7 +49,7 @@ def evaluate_classifier(classifier, name, test_codeVectors: [float], test_labels
     prediction = classifier.predict(test_codeVectors)
     __evaluate_prediction_formatted(prediction, test_labels,
                                   ' '.join(["Evaluation of classifier", name, "with", str(len(test_codeVectors)), "shuffled samples."]),
-                                  "..//result//Classifier//Evaluation_Statistics.txt")
+                                  "..//result//Classifier//Classifier_Evaluation_Statistics.txt")
 
 def __evaluate_prediction_formatted(prediction, label: [int], description: str, savepath: str):
     result = ''.join(['\n-----------------------RESULTS-----------------------\n',
@@ -66,5 +66,5 @@ def __evaluate_prediction_formatted(prediction, label: [int], description: str, 
 
 if __name__ == '__main__':
     sample_count_test, positive_count_test, negative_count_test = 104982, 2865, 102117
-    evaluate(CLASSIFIER_SAVEPATH, TEST_DATA_PATH)
+    evaluate(CLASSIFIER_PATH, TEST_DATA_PATH)
 

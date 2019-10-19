@@ -1,0 +1,98 @@
+-----------------------RESULTS-----------------------
+Evaluation of classifier ..//result//classifier//classifier_random-forest_220365_0.2 with 104982 shuffled samples.
+Accuracy: 0.9625840620296813
+Jaccard Index: 0.101
+Precision: 0.226172076249356
+Recall: 0.1532286212914485
+Balanced Accuracy: 0.5692600013730272
+-----------------------END RESULTS-----------------------
+
+-----------------------RESULTS-----------------------
+Evaluation of classifier ..//result//classifier//classifier_random-forest_75000_0.2 with 104982 shuffled samples.
+Accuracy: 0.9632127412318302
+Jaccard Index: 0.094
+Precision: 0.2222841225626741
+Recall: 0.13926701570680627
+Balanced Accuracy: 0.5627982110859697
+-----------------------END RESULTS-----------------------
+
+-----------------------RESULTS-----------------------
+Evaluation of classifier ..//result//classifier//classifier_svm_198228_0.2 with 104982 shuffled samples.
+Accuracy: 0.9373892667314396
+Jaccard Index: 0.135
+Precision: 0.17823672335994448
+Recall: 0.35846422338568934
+Balanced Accuracy: 0.6560479210096087
+-----------------------END RESULTS-----------------------
+
+-----------------------RESULTS-----------------------
+Evaluation of classifier ..//result//classifier//classifier_svm_50000_0.2 with 104982 shuffled samples.
+Accuracy: 0.9386466251357376
+Jaccard Index: 0.126
+Precision: 0.170475488389237
+Recall: 0.3228621291448517
+Balanced Accuracy: 0.6393926184762813
+-----------------------END RESULTS-----------------------
+
+-----------------------RESULTS-----------------------
+Evaluation of classifier ..//result//classifier//model_random-forest_2500_0.2 with 104982 shuffled samples.
+Accuracy: 0.9682421748490218
+Jaccard Index: 0.051
+Precision: 0.21644498186215236
+Recall: 0.062478184991274
+Balanced Accuracy: 0.5280662613313842
+-----------------------END RESULTS-----------------------
+
+-----------------------RESULTS-----------------------
+Evaluation of classifier ..//result//classifier//model_svm_10000_0.2 with 104982 shuffled samples.
+Accuracy: 0.9385704215960832
+Jaccard Index: 0.12
+Precision: 0.1649214659685864
+Recall: 0.3078534031413613
+Balanced Accuracy: 0.6320596275281608
+-----------------------END RESULTS-----------------------
+
+-----------------------RESULTS-----------------------
+Evaluation of classifier ..//result//classifier//model_svm_15000_0.2 with 104982 shuffled samples.
+Accuracy: 0.9032786572936313
+Jaccard Index: 0.094
+Precision: 0.1119156639335534
+Recall: 0.3668411867364747
+Balanced Accuracy: 0.6425850811616508
+-----------------------END RESULTS-----------------------
+
+-----------------------RESULTS-----------------------
+Evaluation of classifier ..//result//classifier//model_svm_5000_0.2 with 104982 shuffled samples.
+Accuracy: 0.9705568573660247
+Jaccard Index: 0.022
+Precision: 0.1912568306010929
+Recall: 0.02443280977312391
+Balanced Accuracy: 0.5107670869473354
+-----------------------END RESULTS-----------------------
+
+-----------------------RESULTS-----------------------
+Evaluation of classifier ..//result//classifier//trained_svm_200000 with 104982 shuffled samples.
+Accuracy: 0.9726619801489779
+Jaccard Index: 0.0
+Precision: 0.0
+Recall: 0.0
+Balanced Accuracy: 0.4999755182780536
+-----------------------END RESULTS-----------------------
+
+-----------------------RESULTS-----------------------
+Evaluation of classifier ..//result//classifier//trained_svm_3000 with 104982 shuffled samples.
+Accuracy: 0.9727096073612619
+Jaccard Index: 0.0
+Precision: 0.0
+Recall: 0.0
+Balanced Accuracy: 0.5
+-----------------------END RESULTS-----------------------
+
+-----------------------RESULTS-----------------------
+Evaluation of classifier ..//result//classifier//trained_svm_30000 with 104982 shuffled samples.
+Accuracy: 0.9727096073612619
+Jaccard Index: 0.0
+Precision: 0.5
+Recall: 0.00034904013961605586
+Balanced Accuracy: 0.5001696237254187
+-----------------------END RESULTS-----------------------
