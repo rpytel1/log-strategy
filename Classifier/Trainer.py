@@ -2,7 +2,7 @@ from Evaluation import JaccardIndex, Accuracy, APrecision, Precision, Recall
 from sklearn import svm
 from SampleReader import extractSamples, extractData, statistics, rebalance_data
 import time
-from Persistence import loadModel, save
+from Persistence import save
 import numpy as np
 from sklearn.ensemble import RandomForestRegressor, RandomForestClassifier
 from sklearn.model_selection import RandomizedSearchCV, GridSearchCV
@@ -116,14 +116,16 @@ def evaluate(prediction, label, description):
     print('-----------------------END RESULTS-----------------------\n')
 
 if __name__ == '__main__':
-    classifier = train_classifier(TRAINING_DATA_PATH, stop=2500, step=STEP_SIZE)
+    sample_count, positive_count, negative_count = 220365, 44073, 176292
+    sample_count_test, positive_count_test, negative_count_test = 104982, 2865, 102117
+    trained_classifier = train_classifier(TRAINING_DATA_PATH, stop=sample_count, step=STEP_SIZE)
 
     with open(TEST_DATA_PATH, "r") as file_in:
-        samples, eof = extractSamples(file_in, 5000)
+        samples, eof = extractSamples(file_in, sample_count_test)
         test_codeVectors, test_labels = extractData(samples)
         print("Extracted test data set with:", len(test_codeVectors), "samples.")
 
-    for model, descriptor in classifier:
-        save(model, CLASSIFIER_SAVEPATH + "_" + descriptor + "_" + str(2500) + "_" + str(round(POSITIVE_RATIO, 2)) + ".joblib")
-        prediction = model.predict(test_codeVectors)
+    for classifier, descriptor in trained_classifier:
+        save(classifier, CLASSIFIER_SAVEPATH + "_" + descriptor + "_" + str(sample_count_test) + "_" + str(round(POSITIVE_RATIO, 2)) + ".joblib")
+        prediction = classifier.predict(test_codeVectors)
         evaluate(prediction, test_labels, ''.join(["Test samples:", str(len(samples)), descriptor]))
