@@ -54,14 +54,16 @@ class TestRNN(nn.Module):
         X, self.hidden = self.lstm(X, self.hidden)
         # undo the packing operation
         X, _ = torch.nn.utils.rnn.pad_packed_sequence(X, batch_first=True, total_length=total_length)
-        idx = (torch.LongTensor(lengths) - 1).view(-1, 1).expand(
+        idx = (lengths-1).view(-1, 1).expand(
             len(lengths), X.size(2))
 
         time_dimension = 1
         idx = idx.unsqueeze(time_dimension)
+
         # Shape: (batch_size, rnn_hidden_dim)
         X = X.gather(
             time_dimension, Variable(idx)).squeeze(time_dimension)
+
         X = self.do(X)
         X = self.linear(X)
 
@@ -124,14 +126,13 @@ class CodeRNN(nn.Module):
         self.hidden = self.init_hidden(batch_size)
         X = self.embedding(X)
 
-        torch.as_tensor(lengths, dtype=torch.int64)
         X = torch.nn.utils.rnn.pack_padded_sequence(X, lengths, batch_first=True, enforce_sorted=False)
         # now run through LSTM
         X, self.hidden = self.lstm(X, self.hidden)
         # undo the packing operation
         X, _ = torch.nn.utils.rnn.pad_packed_sequence(X, batch_first=True, total_length=total_length)
 
-        idx = (torch.LongTensor(lengths) - 1).view(-1, 1).expand(
+        idx = (lengths - 1).view(-1, 1).expand(
             len(lengths), X.size(2))
 
         time_dimension = 1
