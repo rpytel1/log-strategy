@@ -1,10 +1,11 @@
 from py4j.java_gateway import JavaGateway, GatewayParameters
 from LogLabeler import label
 from organizeDataForCode2Vec import prepare
+from IOHelper import create_directory
 
 
-INPUT_PATH = "C://Users//Jan//Desktop//Repositories"
-METHODS_SAVE_PATH = "C://Users//Jan//Desktop//log-strategy//DataPreprocessor//data"
+INPUT_PATH = "..//..//Repositories"
+METHODS_SAVE_PATH = "..//result"
 
 
 if __name__ == '__main__':
@@ -13,6 +14,7 @@ if __name__ == '__main__':
 
     # 0.
     print("Please run the TermExtractor.App class with VM arguments: -Xmx4g -Xmx8g -XX:+UseG1GC.")
+    create_directory(METHODS_SAVE_PATH)
 
     # 1. extract java methods from git repositories
     print("Extracting java methods with JavaExtractor from", INPUT_PATH)
