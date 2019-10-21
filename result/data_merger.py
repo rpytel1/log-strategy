@@ -76,10 +76,10 @@ test_elements = []
 test_set_size = 40000
 
 for elem in elements:
-    if elem.label.strip() == "1" and positive_curr < num_positive * 0.7:
+    if elem.label.strip() == "1" and positive_curr < num_positive * 0.5:
         balanced_elements.append(elem)
         positive_curr += 1
-    elif elem.label.strip() == "0" and negative_curr < int(4 * 0.7 * num_positive):
+    elif elem.label.strip() == "0" and negative_curr < int(3 * 0.5 * num_positive):
         balanced_elements.append(elem)
         negative_curr += 1
 
@@ -116,9 +116,9 @@ for i, elem in enumerate(test_elements):
 
 save_train_file.close()
 save_test_file.close()
-
-# Size of trainset: 179141
-# Positives in trainset: 35828.200000000004
+#
+# Size of trainset: 102366
+# Positives in trainset: 20473.2
 # Size of testset: 40000
 # Positives in testset:2000
 
