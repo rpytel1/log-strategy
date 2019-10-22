@@ -1,5 +1,6 @@
 import numpy as np
 import torch
+import sys
 from torchvision.utils import make_grid
 from base import BaseTrainer
 
@@ -49,6 +50,9 @@ class Trainer(BaseTrainer):
             data, target, lengths = self.move_to_device(data, target, lengths)
 
             self.optimizer.zero_grad()
+            #print(data)
+            #print(lengths)
+            
             output = self.model(data, lengths)
             loss = self.loss(output, target)
             loss.backward()

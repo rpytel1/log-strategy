@@ -4,8 +4,8 @@
   "arch": {
     "type": "Code2Vec",
     "args": {
-      "nodes_dim": 49952,
-      "paths_dim": 39911,
+      "nodes_dim": 323360,
+      "paths_dim": 640501,
       "embedding_dim": 128,
       "output_dim":2,
       "dropout": 0.25
