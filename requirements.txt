@@ -4,4 +4,7 @@ tensorflow
 tensorboard
 tensorboardx
 progressbar2
-
+numpy
+py4j
+scikit-learn
+joblib
