@@ -96,7 +96,7 @@ class CodeWordDataset(Dataset):
             if ind % 3 == 0:
                 signature = elem
             elif ind % 3 == 1:
-                functions.append(signature + elem)
+                functions.append(signature.strip() + elem.strip())
                 lengths.append(len(word_tokenize(signature.strip() + elem.strip())))
 
             else:
