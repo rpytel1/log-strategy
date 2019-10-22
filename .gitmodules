@@ -1,3 +1,0 @@
-[submodule "code2vec"]
-	path = code2vec
-	url = https://github.com/jan-gerling/code2vec.git

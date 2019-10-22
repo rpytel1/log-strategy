@@ -8,19 +8,19 @@
             "embedding_size": 10,
             "batch_size": 30,
             "use_cuda": true,
-            "nb_lstm_units": 20,
+            "nb_lstm_units": 400,
             "nb_lstm_layers":1
         }
     },
     "data_loader": {
         "type": "CodeCharDataLoader",
         "args":{
-            "filename": "all_train_filteredRNN.txt",
+            "filename": "mini_train_filteredRNN.txt",
             "batch_size": 30,
             "shuffle": true,
             "validation_split": 0.2,
             "num_workers": 0,
-            "test_filename": "all_test_filteredRNN.txt"
+            "test_filename": "mini_test_filteredRNN.txt"
 
         }
     },

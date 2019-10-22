@@ -8,7 +8,7 @@
             "embedding_size": 20,
             "batch_size": 30,
             "use_cuda": true,
-            "nb_lstm_units": 20,
+            "nb_lstm_units": 300,
             "nb_lstm_layers":1
         }
     },
