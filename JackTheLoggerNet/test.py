@@ -36,6 +36,9 @@ def main(config, resume):
     loss_fn = getattr(module_loss, config['loss'])
     metric_fns = [getattr(module_metric, met) for met in config['metrics']]
 
+    metric_fns.append(module_metric.balanced_acc)
+    metric_fns.append(module_metric.precision)
+    
     # load state dict
     checkpoint = torch.load(resume)
     state_dict = checkpoint['state_dict']

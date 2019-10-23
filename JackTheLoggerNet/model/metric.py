@@ -34,3 +34,14 @@ def balanced_acc(output, target):
         if tn_fp == 0:
             return 0
     return (rec + (tn / max(tn_fp, tn))) / 2
+
+def precision(output, target):
+    with torch.no_grad():
+        pred = torch.argmax(output, dim=1)
+        assert pred.shape[0] == len(target)
+        tp_fp = torch.sum(pred == 1).item()
+        pred = pred[pred == target]
+        tp = torch.sum(pred == 1).item()
+        if tp_fp == 0:
+            return 0
+    return tp / max(tp_fp, tp)
