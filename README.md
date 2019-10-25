@@ -4,6 +4,8 @@
 2. Afterwards run DataMiner.py in directory DataPreprocessor and set INPUT_PATH to a directory containing all java classes as an argument.
 3. You can find the results in results directory in filteredCode2 and filteredRNN.
 
+## Already Preprocessed Data can be downloaded from
+https://drive.google.com/drive/folders/1z2A7IRtdZ6gCILysk_ai9eGGG4po6ZHa?usp=sharing
 
 ## Generate Code Vectors from Custom Trained code2vec
 
