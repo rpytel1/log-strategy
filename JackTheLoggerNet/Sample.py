@@ -50,7 +50,7 @@ class Sample:
             raise ValueError("Invalid input:", str(self))
 
     def valid_sample(self) -> bool:
-        return len(self.codeVector) == 384 and (self.label == 0 or self.label == 1) and len(self.name) > 3
+        return len(self.codeVector) == 128 and (self.label == 0 or self.label == 1) and len(self.name) > 3
 
     def __str__(self):
         return '\n'.join([self.name, str(self.label), np.array2string(np.asarray(self.codeVector))]) + '\n'

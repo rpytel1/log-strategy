@@ -1,56 +1,55 @@
 {
-    "name": "FirstLSTM",
-    "n_gpu": 1,
-
-    "arch": {
-        "type": "TestRNN",
-        "args": {
-            "batch_size": 30,
-            "use_cuda": true,
-            "nb_lstm_layers":1,
-            "nb_lstm_units": 10
-
-        }
-    },
-    "data_loader": {
-        "type": "CodeCharDataLoader",
-        "args":{
-            "filename": "testset.txt",
-            "batch_size": 30,
-            "shuffle": true,
-            "validation_split": 0.2,
-            "num_workers": 0,
-            "test_filename": "test.txt"
-        }
-    },
-    "optimizer": {
-        "type": "Adam",
-        "args":{
-            "lr": 0.01,
-            "weight_decay": 0,
-            "amsgrad": true
-        }
-    },
-    "loss": "cross_entropy_loss",
-    "metrics": ["accuracy", "recall"],
-    "lr_scheduler": {
-        "type": "StepLR",
-        "args": {
-            "step_size": 50,
-            "gamma": 0.1
-        }
-    },
-    "trainer": {
-        "epochs": 100,
-
-        "save_dir": "saved/",
-        "save_period": 1,
-        "verbosity": 2,
-
-        "monitor": "min val_loss",
-        "early_stop": 10,
-
-        "tensorboardX": true,
-        "log_dir": "saved/runs"
+  "name": "Code2Vec",
+  "n_gpu": 1,
+  "arch": {
+    "type": "Code2Vec",
+    "args": {
+      "nodes_dim": 49952,
+      "paths_dim": 39911,
+      "embedding_dim": 128,
+      "output_dim":2,
+      "dropout": 0.25
     }
+  },
+  "data_loader": {
+    "type": "Code2VecDataLoader",
+    "args": {
+      "filename": "preprocessed_code.train.c2v",
+      "batch_size": 1024,
+      "shuffle": true,
+      "validation_split": 0.2,
+      "num_workers": 0,
+      "test_filename": "preprocessed_code.test.c2v"
+    }
+  },
+  "optimizer": {
+    "type": "Adam",
+    "args": {
+      "lr": 0.01,
+      "weight_decay": 0,
+      "amsgrad": true
+    }
+  },
+  "loss": "cross_entropy_loss",
+  "metrics": [
+    "accuracy",
+    "recall"
+  ],
+  "lr_scheduler": {
+    "type": "StepLR",
+    "args": {
+      "step_size": 50,
+      "gamma": 0.1
+    }
+  },
+  "trainer": {
+    "epochs": 100,
+    "save_dir": "saved/",
+    "save_period": 1,
+    "verbosity": 2,
+    "monitor": "min val_loss",
+    "early_stop": 10,
+    "tensorboardX": true,
+    "log_dir": "saved/runs"
+  }
 }

@@ -190,6 +190,7 @@ class Code2VecDataset(Dataset):
 
         for k, v in target2idx.items():
             idx2target[v] = k
+        print(idx2target)
 
         print("Node dim: " + str(len(node2idx)))
         print("Path dim: " + str(len(path2idx)))
@@ -205,7 +206,6 @@ class Code2VecDataset(Dataset):
 
             examples.append((example_name, example_body, example_length))
             if len(examples) >= (self.BATCH_SIZE * self.CHUNKS):
-
                 random.shuffle(examples)
 
                 # tensor_lab is a
@@ -217,6 +217,7 @@ class Code2VecDataset(Dataset):
                         self.labels.append(tensor_lab[i])
 
                 examples = []
+        print(len(self.data))
 
     def __getitem__(self, index):
         return self.data[index], self.labels[index], "CODE2VEC"
