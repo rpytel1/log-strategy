@@ -2,7 +2,12 @@
 
 Run  the app.java class in DataPreprocessor/TermExtractor/src/ the Parser with "-Xmx4g -Xmx8g -XX:+UseG1GC" compiler options. Wait for py4j to open a gateway.
 Afterwards run DataMiner.py in directory DataPreprocessor and set INPUT_PATH to a directory containing all java classes as an argument.
-You can find the results in results directory in filteredCode2 and filteredRNN.
+You can find the results in results directory in filteredCode2Vec and filteredRNN.
+
+## code2vec Pretrained Codevectors
+To generate the codevectors with code2vec run the following code2vec.py with these arguments:\n",
+          "--load C:/PATH-TO-REPO/log-strategy/code2vec/models/java14_model/saved_model_iter8.release\n" 
+          "--inputData C:/PATH-TO-REPO/log-strategy/DataPreprocessor/data/filteredCode2Vec/ --representation
 
 ## Training
 To run training of Neural network invoke:
