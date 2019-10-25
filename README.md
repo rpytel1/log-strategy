@@ -4,6 +4,7 @@
 2. Afterwards run DataMiner.py in directory DataPreprocessor and set INPUT_PATH to a directory containing all java classes as an argument.
 3. You can find the results in results directory in filteredCode2 and filteredRNN.
 
+
 ## Generate Code Vectors from Custom Trained code2vec
 
 1. Preprocess your data as described in section "Data Extraction and Preprocessing"
@@ -11,6 +12,7 @@
 3. Move the split data to directory /code2vec into folders train, test and val
 4. Go to code2vec/JavaExtractor/JPredict/src/main/java/JavaExtractor and run App.java. Wait for py4j to open a gateway.
 5. Go to code2vec/preprocess.sh and run it.
+
 
 ## Train RNN
 
@@ -26,6 +28,7 @@ Available configurations:
 - word-based approach `word_config.json`
 - code2vec approach  `code2vec.json`
 
+
 ## Train SVM and RFC
 
 1. Extract the methods first and preprocess it, as explained in "Data Extraction and Preprocessing" section
@@ -40,6 +43,7 @@ Available configurations:
    1. The evaluation will contain accuracy, jaccard index, precision, recall and balanced accuracy
    2. The evaluation results are saved to "/result/Classifier/Classifier_Evaluation_Statistics.txt"
 
+   
 ## Visualization
 
 To observe how learning rate is changing while training you have to open tensorboard. If training is happening 
@@ -48,7 +52,10 @@ on the cloud you need to open another session to the machine tunneling on 6006 p
 tensorboard --logdir saved/
 ```
 Then open `localhost:6006` to observe learning rates and more.  
+
+
 ## Requirements
+
 - `Python >= 3.7`
 - `Java >= 8`
 - `Maven >= 2`
