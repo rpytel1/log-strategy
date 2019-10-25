@@ -7,9 +7,9 @@ You can find the results in results directory in filteredCode2 and filteredRNN.
 ## Download preprocessed data for training embeddings
 
 ## To preprocess your own data
-- 'start the java extractor app'
-- 'set the balanced training, validation and test datasets into directories train, val and test respectively.'
-- 'run preprocess.sh'
+- `start the java extractor app`
+- `set the balanced training, validation and test datasets into directories train, val and test respectively.`
+- `run preprocess.sh`
 
 ## Training
 To run training of Neural network invoke:
