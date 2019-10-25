@@ -2,8 +2,9 @@ from py4j.java_gateway import JavaGateway, GatewayParameters
 from LogLabeler import label
 from organizeDataForCode2Vec import prepare
 
-
+#Change to the folder with your repositories
 INPUT_PATH = "C://Users//Jan//Desktop//Repositories"
+#Change to your preferred output path
 METHODS_SAVE_PATH = "C://Users//Jan//Desktop//log-strategy//DataPreprocessor//data"
 
 
@@ -28,5 +29,5 @@ if __name__ == '__main__':
 
     #4.
     print("To generate the codevectors with code2vec run the following code2vec.py with these arguments:\n",
-          "--load C:/Users/Jan/Desktop/log-strategy/code2vec/models/java14_model/saved_model_iter8.release\n" 
-          "--inputData C:/Users/Jan/Desktop/log-strategy/DataPreprocessor/data/filteredCode2Vec/ --representation")
+          "--load C:/PATH-TO-REPO/log-strategy/code2vec/models/java14_model/saved_model_iter8.release\n" 
+          "--inputData C:/PATH-TO-REPO/log-strategy/DataPreprocessor/data/filteredCode2Vec/ --representation")
