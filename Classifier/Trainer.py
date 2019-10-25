@@ -100,13 +100,12 @@ def train_classifier(data_path: str, stop: int = -1, step: int = 60000):
                 executionTime = endTime - startTime
                 print("Extracting and rebalancing data with", len(samples), "features took:", round(executionTime, 2), 'seconds, current total:', sample_count)
     random_forest_classifier = train_randomforest(totalCodeVectors, totalLabels)
-    # svm_classifier = train_svm(totalCodeVectors, totalLabels)
-    return [(random_forest_classifier, "random-forest")]
+    svm_classifier = train_svm(totalCodeVectors, totalLabels)
+    return [(random_forest_classifier, "random-forest"), (svm_classifier, "svm_classifier")]
 
 
 if __name__ == '__main__':
-    sample_count, positive_count, negative_count = 220365, 44073, 176292
-    trained_classifier = train_classifier(TRAINING_DATA_PATH, stop=sample_count, step=STEP_SIZE)
+    trained_classifier = train_classifier(TRAINING_DATA_PATH, step=STEP_SIZE)
     for classifier, descriptor in trained_classifier:
         write_model(classifier, CLASSIFIER_SAVEPATH + "_" + descriptor + "_" + str(sample_count) + "_" + str(round(POSITIVE_RATIO, 2)) + ".joblib")
 
