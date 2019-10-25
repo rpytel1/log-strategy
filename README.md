@@ -5,9 +5,9 @@ Afterwards run DataMiner.py in directory DataPreprocessor and set INPUT_PATH to 
 You can find the results in results directory in filteredCode2Vec and filteredRNN.
 
 ## code2vec Pretrained Codevectors
-To generate the codevectors with code2vec run the following code2vec.py with these arguments:\n",
-          "--load C:/PATH-TO-REPO/log-strategy/code2vec/models/java14_model/saved_model_iter8.release\n" 
-          "--inputData C:/PATH-TO-REPO/log-strategy/DataPreprocessor/data/filteredCode2Vec/ --representation
+To generate the codevectors with code2vec run code2vec.py in the code2vec folder with these arguments:\n",
+          "--load PATH-TO-REPO/log-strategy/code2vec/models/java14_model/saved_model_iter8.release\n" 
+          "--inputData PATH-TO-REPO/log-strategy/DataPreprocessor/data/filteredCode2Vec/ --representation
 
 ## Training
 To run training of Neural network invoke:
