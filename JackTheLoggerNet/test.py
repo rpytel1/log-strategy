@@ -15,7 +15,7 @@ def main(config, resume):
     # setup data_loader instances
     data_loader = getattr(module_data, config['data_loader']['type'])(
         config['data_loader']['args']['test_filename'],
-        batch_size=512,
+        batch_size=config['data_loader']['args']['batch_size'],
         shuffle=False,
         validation_split=0.0,
         training=False,
@@ -31,14 +31,14 @@ def main(config, resume):
     model_parameters = filter(lambda p: p.requires_grad, model.parameters())
     params = sum([np.prod(p.size()) for p in model_parameters])
     print("Number of trainable parameters:" + str(params))
-    
+
     # get function handles of loss and metrics
     loss_fn = getattr(module_loss, config['loss'])
     metric_fns = [getattr(module_metric, met) for met in config['metrics']]
 
     metric_fns.append(module_metric.balanced_acc)
     metric_fns.append(module_metric.precision)
-    
+
     # load state dict
     checkpoint = torch.load(resume)
     state_dict = checkpoint['state_dict']
@@ -56,11 +56,8 @@ def main(config, resume):
 
     with torch.no_grad():
         for (data, target, lengths) in tqdm(data_loader):
-            
-            data[0] = data[0].to(device)
-            data[1] = data[1].to(device)
-            data[2] = data[2].to(device)
-            target = target.to(device)
+
+            data, target, lengths = move_to_device(data, target, lengths, device)
             output = model(data, lengths)
             #
             # save sample images, or do something with output here
@@ -77,6 +74,15 @@ def main(config, resume):
     log = {'loss': total_loss / n_samples}
     log.update({met.__name__: total_metrics[i].item() / n_samples for i, met in enumerate(metric_fns)})
     print(log)
+
+
+def move_to_device(data, target, lengths, device):
+    if str(lengths[0]) == "CODE2VEC":
+        tensor_l, tensor_p, tensor_r = data
+        return (tensor_l.to(device), tensor_p.to(device), tensor_r.to(device)), target.to(
+            device), ""
+    else:
+        return data.to(device), target.to(device), lengths.to(device)
 
 
 if __name__ == '__main__':
