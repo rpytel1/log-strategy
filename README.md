@@ -1,7 +1,8 @@
 ## Data Mining and Extraction
 
-Run  the app.java class in DataPreprocessor/TermExtractor/src/ the Parser with "-Xmx4g -Xmx8g -XX:+UseG1GC" compiler options.
-Furthermore run DataMiner.py in DataPreprocessor/ and set INPUT_PATH to a directory containing all java classes as an argument.
+Run  the app.java class in DataPreprocessor/TermExtractor/src/ the Parser with "-Xmx4g -Xmx8g -XX:+UseG1GC" compiler options. Wait for py4j to open a gateway.
+Afterwards run DataMiner.py in directory DataPreprocessor and set INPUT_PATH to a directory containing all java classes as an argument.
+You can find the results in results directory in filteredCode2 and filteredRNN.
 
 ## Training
 To run training of Neural network invoke:
