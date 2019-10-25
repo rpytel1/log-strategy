@@ -14,11 +14,22 @@ https://drive.google.com/drive/folders/1z2A7IRtdZ6gCILysk_ai9eGGG4po6ZHa?usp=sha
 3. Move the split data to directory /code2vec into folders train, test and val
 4. Go to code2vec/JavaExtractor/JPredict/src/main/java/JavaExtractor and run App.java. Wait for py4j to open a gateway.
 5. Go to code2vec/preprocess.sh and run it.
+6. Move produced files from data/preprocessed_code to JackTheLoggerNet/data/preprocessed_code/ (Be sure that preprocessed_code.dict.c2v is a dictionary on which model was trained)
+7. Run
+```bash
+python3 extract_code_vectors.py --resume PATH_TO_MODEL --file my_dataset.train.c2v   
+```
+Code vectors will be in jan_train.txt
 
+## code2vec Pretrained Codevectors
+To generate the codevectors with code2vec run
+ ```bash
+    python3 code2vec.py --load PATH-TO-REPO/log-strategy/code2vec/models/java14_model/saved_model_iter8.release\
+         --inputData PATH-TO-REPO/log-strategy/DataPreprocessor/data/filteredCode2Vec/ --representation
+```
 
-## Train RNN
-
-To run training of Neural network invoke:
+## Training the neural networks
+To run training of Neural network navigate to JackTheLoggerNet and invoke:
 
 ```bash
 python3 train.py -c config/config_test.json
@@ -26,9 +37,11 @@ python3 train.py -c config/config_test.json
 ```
 
 Available configurations:
-- char-based approach `char_config.json`
-- word-based approach `word_config.json`
-- code2vec approach  `code2vec.json`
+- char-based approaches are in `config/char_based/`
+- word-based approach are in `config/word_config/`
+- code2vec approach is in  `config/code_2_vec/`
+- for single layer NN using pretrained vectors use `config/config_singlenn.json`
+
 
 
 ## Train SVM and RFC
