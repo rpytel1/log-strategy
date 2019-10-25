@@ -4,7 +4,7 @@
 2. Afterwards run DataMiner.py in directory DataPreprocessor and set INPUT_PATH to a directory containing all java classes as an argument.
 3. You can find the results in results directory in filteredCode2 and filteredRNN.
 
-## Already Preprocessed Data can be downloaded from
+## Already Custom Preprocessed Data can be downloaded from
 https://drive.google.com/drive/folders/1z2A7IRtdZ6gCILysk_ai9eGGG4po6ZHa?usp=sharing
 
 ## Generate Code Vectors from Custom Trained code2vec
@@ -22,14 +22,22 @@ python3 extract_code_vectors.py --resume PATH_TO_MODEL --file my_dataset.train.c
 Code vectors will be in jan_train.txt
 
 ## code2vec Pretrained Codevectors
-To generate the codevectors with code2vec run
+To generate the codevectors with code2vec run code2vec.py in the code2vec folder with these arguments
  ```bash
     python3 code2vec.py --load PATH-TO-REPO/log-strategy/code2vec/models/java14_model/saved_model_iter8.release\
          --inputData PATH-TO-REPO/log-strategy/DataPreprocessor/data/filteredCode2Vec/ --representation
 ```
+This creates a single .txt file which can be used as a training or testing set.
+Files that are inside the --inputData path are included in the .txt file.
 
-## Training the neural networks
-To run training of Neural network navigate to JackTheLoggerNet and invoke:
+To balance the data use the 
+
+**Alternatively, you can download the pretrained code2vec train and test sets used in the paper from
+the links stated in the issues**
+
+## Training (NN)
+Adjust the path to the training and testing set, whether you want to use a gpu, and other factors in the config files.
+To run training of neural network approaches navigate to JackTheLoggerNet and invoke:
 
 ```bash
 python3 train.py -c config/config_test.json
@@ -39,7 +47,7 @@ python3 train.py -c config/config_test.json
 Available configurations:
 - char-based approaches are in `config/char_based/`
 - word-based approach are in `config/word_config/`
-- code2vec approach is in  `config/code_2_vec/`
+- code2vec (custom) approach is in  `config/code_2_vec/`
 - for single layer NN using pretrained vectors use `config/config_singlenn.json`
 
 
@@ -59,7 +67,7 @@ Available configurations:
    2. The evaluation results are saved to "/result/Classifier/Classifier_Evaluation_Statistics.txt"
 
    
-## Visualization
+## Visualization (NN)
 
 To observe how learning rate is changing while training you have to open tensorboard. If training is happening 
 on the cloud you need to open another session to the machine tunneling on 6006 port and invoke command:
@@ -68,10 +76,24 @@ tensorboard --logdir saved/
 ```
 Then open `localhost:6006` to observe learning rates and more.  
 
+## Testing (NN)
+To run testing of neural network approaches invoke:
+
+```bash
+python3 test.py -r saved/MODELNAME/RUNTIMESTAMP/model_best.pth
+
+```
+Where MODELNAME = the name of the model you trained (see config)
+
+and RUNTIMESTAMP = a timestamp in the form: 1016_174555 for the 16th of october
+17:45:55
+
+The results will be printed on screen.
+
 
 ## Requirements
 
-- `Python >= 3.7`
+- `Python >= 3.6`
 - `Java >= 8`
 - `Maven >= 2`
 - `Python libraries specified in requirements.txt`
